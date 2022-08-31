@@ -8,15 +8,15 @@ export default function FirstAccess() {
     const [username, setUsername] = useState('');
 
     return(
-        <View styles={global.content}>
+        <View styles={global.containerInitial}>
             <Text>Como podemos chamar você?</Text>
             <TextInput placeholder="Digite um nome"
-            onChangeText={(username) => setUsername(username)}
-            value={this.state.username}/>
+            onChangeText={username => setUsername(username)}
+            value={username}/>
             
             {username.value != null ?
-               <Button styles={style.buttonAccess}>Confirmar</Button> : 
-               <Button styles={style.buttonBlocked}>Confirmar</Button>
+               <Button styles={style.buttonAccess} title = "Confirmar 1"></Button> : 
+               <Button styles={style.buttonBlocked} title = "Confirmar 2"></Button>
 
                //ao confirmar ir para o componente de firstAccessConcluded
             }

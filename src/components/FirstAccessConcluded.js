@@ -4,7 +4,7 @@ import logo from '../assets/icons/logo_icon.png'
 
 export default function FirstAccessConcluded(){
     return(
-        <View style={styles.container}>
+        <View style={styles.containerInitial}>
             <Image source={logo}  style={styles.logo}/>
             <Text>Prontinho</Text>
             <Text style={styles.buttonAccess}>Agora vamos cuidar dos seus animaizinhos!</Text>
