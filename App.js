@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, SafeAreaView } from 'react-native';
 
 import global from './global';
 
@@ -7,8 +7,10 @@ import Initial from './src/screens/Initial';
 
 export default function App() {
   return (
+    <SafeAreaView style={global.container}>
+      <Initial></Initial>
+    </SafeAreaView>
     
-    <Initial></Initial>
 
   /*<View style={global.container}>
       <Text>Hello World!</Text>
