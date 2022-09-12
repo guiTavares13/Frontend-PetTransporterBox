@@ -3,9 +3,10 @@ import { View, Text, Image, StyleSheet } from "react-native";
 //import global from './global';
 import logo from '../assets/icons/logo_icon.png'
 
-export default function Splash() {
+export default props =>  {
     return(
         <View style={styles.container}>
+            {props.children}
             <Image source={logo}  style={styles.logo}/>
             <Text>Caixa Pet</Text>
         </View>
@@ -23,6 +24,5 @@ const styles = StyleSheet.create({
     logo: {
         width: 300,
         height: 300,
-        borderWidth: 2,
     }
 })
