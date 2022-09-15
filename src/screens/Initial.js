@@ -1,16 +1,16 @@
 import { Text, SafeAreaView } from "react-native";
 
 import global from "../../global";
+import FirstAccess from '../components/FirstAccess'
 
+export default props =>{
 
-
-export default function Initial(){
-
-const firstAccess = true;
-
-    return(
-        <SafeAreaView style={global.container}>
-          
-    </SafeAreaView>
-    )
-}
+    const firstAccess = true;
+        return(
+            <SafeAreaView style={global.container}>
+              {firstAccess ? 
+                <FirstAccess {...props}/> : false}
+              
+            </SafeAreaView>
+        )
+    }

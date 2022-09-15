@@ -3,12 +3,11 @@ import { Text, TextInput, View, Button, StyleSheet, setState } from "react-nativ
 
 import global from '../../global.js';
 
-export default function FirstAccess() {
+export default props => {
 
     const [username, setUsername] = useState('');
-
     return(
-        <View styles={global.containerInitial}>
+        <View styles={global.container}>
             <Text>Como podemos chamar você?</Text>
             <TextInput placeholder="Digite um nome"
             onChangeText={username => setUsername(username)}
@@ -16,9 +15,7 @@ export default function FirstAccess() {
             
             {username.value != null ?
                <Button styles={style.buttonAccess} title = "Confirmar 1"></Button> : 
-               <Button styles={style.buttonBlocked} title = "Confirmar 2"></Button>
-
-               //ao confirmar ir para o componente de firstAccessConcluded
+               <Button styles={style.buttonBlocked} title = "Confirmar 2" onPress={() => {props.navigation.navigate('FirstAccessConcluded')}}></Button>
             }
             
         </View>

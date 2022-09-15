@@ -1,15 +1,19 @@
+
+import React from "react";
 import { View, Text, StyleSheet, Button } from "react-native";
 
-import logo from '../assets/icons/logo_icon.png'
+import global from '../../global'
 
-export default function FirstAccessConcluded(){
+export default props => {
     return(
-        <View style={styles.containerInitial}>
-            <Image source={logo}  style={styles.logo}/>
+        <View style={global.container}>
+            
             <Text>Prontinho</Text>
             <Text style={styles.buttonAccess}>Agora vamos cuidar dos seus animaizinhos!</Text>
-            <Button>Começar</Button>
-            /*Ao concluir, acessar a tela de menu inicial*/
+            <Button title="Começar" onPress={() => {
+                props.navigation.navigate('Menu')
+            }}>Começar</Button>
+           
         </View> 
     );
 }
