@@ -22,5 +22,11 @@
   "devDependencies": {
     "@babel/core": "^7.12.9"
   },
-  "private": true
+  "private": true,
+  "expo": {
+    "splash": {
+      "image": "./src/assets/icons/logo_icon.png",
+      "backgroundColor": "#FEF9B0"
+    }
+  }
 }
