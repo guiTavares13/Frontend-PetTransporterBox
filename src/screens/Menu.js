@@ -1,9 +1,37 @@
-import { View, Text, Image, SafeAreaView, StyleSheet, TouchableOpacity } from "react-native";
+import React , { useState, useEffect } from "react";
+import { View, Text, Image, SafeAreaView, StyleSheet, Pressable, TouchableHighlight } from "react-native";
+import styled from 'styled-components';
 
 import global from "../../global";
 import logo from '../assets/icons/logo_icon.png'
 
+import Monitor from '../components/Monitor'
+
 export default function Menu(){
+
+    var clickedMonitor, clickedRegis, clickedHitoric;
+    
+    function execComp(props) {
+        console.log(typeof(props))
+        const styleButtonClicked = StyleSheet.create({
+            buttonClicked: {
+                backgroundColor: '#32B768',
+                borderRadius: 10,
+                paddingLeft: 10,
+                paddingRight: 10,
+                paddingTop: 10,
+                paddingBottom: 10
+            }, 
+        });
+
+        if(props == 'historic'){
+            return styleButtonClicked, <Monitor/>
+        }
+
+        return styleButtonClicked;
+
+    }
+
     return(
         <>
         <SafeAreaView style={styles.container}>
@@ -23,25 +51,28 @@ export default function Menu(){
             </View>
             <SafeAreaView style={styles.buttoms}>
                 <View>
-                    <TouchableOpacity 
-                            title="Button Access" 
-                            style={styles.buttonNonClicked}>
+                    <TouchableHighlight
+                             title="Button Access" 
+                             style={styles.buttonClicked}
+                             onPress={execComp}>
                                 <Text>Monitorar</Text>
-                    </TouchableOpacity> 
+                    </TouchableHighlight> 
                 </View>
                 <View>
-                    <TouchableOpacity 
+                    <TouchableHighlight 
                             title="Button Access" 
-                            style={styles.buttonNonClicked}>
+                            style={styles.buttonNonClicked}
+                            onPress={execComp}>
                                 <Text>Cadastros</Text>
-                    </TouchableOpacity> 
+                    </TouchableHighlight> 
                 </View>
                 <View>
-                    <TouchableOpacity 
+                    <TouchableHighlight 
                             title="Button Access" 
-                            style={styles.buttonNonClicked}>
+                            style={styles.buttonNonClicked}
+                            onPress={execComp('historic')}>
                                 <Text>Historicos</Text>
-                    </TouchableOpacity> 
+                    </TouchableHighlight> 
                 </View>
             </SafeAreaView>
         </SafeAreaView>
@@ -85,5 +116,17 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         alignItems: 'stretch',
         margin: 40,
+    }
+})
+
+
+const stylebuttonsMenu = StyleSheet.create({
+    buttom: {
+        backgroundColor: '#F5FAF7',
+        borderRadius: 10,
+        paddingLeft: 10,
+        paddingRight: 10,
+        paddingTop: 10,
+        paddingBottom: 10
     }
 })
