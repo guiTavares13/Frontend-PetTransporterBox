@@ -10,15 +10,18 @@ export default props => {
         'Jost-Regular': require('../../assets/fonts/Jost-Regular.ttf')
     });
 
-    const [username, setUsername] = useState('');
+    state = {
+        name: ''
+    }
+    
     return(
         <SafeAreaView style={global.container}>
             <Text style={styles.text}>Como podemos  {'\n'} {' '} chamar você?</Text>
-            <TextInput style={styles.input}  placeholder="Digite um nome"
-            onChangeText={username => setUsername(username)}
-            value={username}/>
+            <TextInput style={styles.input}  placeholder="Digite um nome" value={this.state.name}
+            onChangeText={name => this.setState({name})}
+            />
             
-            {username.valueOf("") != "" ?
+            {state.name.count == 0 ?
             <TouchableOpacity 
                 title="Button Access" 
                 style={styles.buttonBloqued}><Text>Confirmar

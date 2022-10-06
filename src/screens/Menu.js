@@ -9,27 +9,10 @@ import Monitor from '../components/Monitor'
 
 export default function Menu(){
 
-    var clickedMonitor, clickedRegis, clickedHitoric;
+    var clickedMonitor = false;
     
-    function execComp(props) {
-        console.log(typeof(props))
-        const styleButtonClicked = StyleSheet.create({
-            buttonClicked: {
-                backgroundColor: '#32B768',
-                borderRadius: 10,
-                paddingLeft: 10,
-                paddingRight: 10,
-                paddingTop: 10,
-                paddingBottom: 10
-            }, 
-        });
-
-        if(props == 'historic'){
-            return styleButtonClicked, <Monitor/>
-        }
-
-        return styleButtonClicked;
-
+    function execComp() {
+        clickedMonitor = true;
     }
 
     return(
@@ -61,7 +44,7 @@ export default function Menu(){
                 <View>
                     <TouchableHighlight 
                             title="Button Access" 
-                            style={styles.buttonNonClicked}
+                            style={styles.buttonClicked}
                             onPress={execComp}>
                                 <Text>Cadastros</Text>
                     </TouchableHighlight> 
@@ -69,8 +52,8 @@ export default function Menu(){
                 <View>
                     <TouchableHighlight 
                             title="Button Access" 
-                            style={styles.buttonNonClicked}
-                            onPress={execComp('historic')}>
+                            style={styles.buttonClicked}
+                            onPress={execComp}>
                                 <Text>Historicos</Text>
                     </TouchableHighlight> 
                 </View>
@@ -96,7 +79,7 @@ const styles = StyleSheet.create({
         alignItems: "flex-start"
     }, 
     buttonClicked: {
-        backgroundColor: '#32B768',
+        backgroundColor: clickedMonitor == true ? '#32B768' :  '#F5FAF7',
         borderRadius: 10,
         paddingLeft: 10,
         paddingRight: 10,
