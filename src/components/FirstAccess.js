@@ -1,18 +1,23 @@
-import React, { useEffect, useState } from "react";
-import { Text, TextInput, StyleSheet, setState, TouchableOpacity, SafeAreaView } from "react-native";
+import React from "react";
+import { Text, TextInput, StyleSheet, TouchableOpacity, SafeAreaView } from "react-native";
 import { useFonts } from 'expo-font';
+import { useState, setState } from "react";
 import global from '../../global';
+
+
 
 export default props => {
 
-    const [fontsLoaded] = useFonts({
-        'Jost-BoldItalic': require('../../assets/fonts/Jost-BoldItalic.ttf'),
-        'Jost-Regular': require('../../assets/fonts/Jost-Regular.ttf')
-    });
 
     state = {
         name: ''
     }
+    
+    
+    const [fontsLoaded] = useFonts({
+        'Jost-BoldItalic': require('../../assets/fonts/Jost-BoldItalic.ttf'),
+        'Jost-Regular': require('../../assets/fonts/Jost-Regular.ttf')
+    });
     
     return(
         <SafeAreaView style={global.container}>

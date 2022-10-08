@@ -9,10 +9,10 @@ import Monitor from '../components/Monitor'
 
 export default function Menu(){
 
-    var clickedMonitor = false;
+    //var clickedMonitor = false;
     
     function execComp() {
-        clickedMonitor = true;
+        //clickedMonitor = true;
     }
 
     return(
@@ -79,7 +79,7 @@ const styles = StyleSheet.create({
         alignItems: "flex-start"
     }, 
     buttonClicked: {
-        backgroundColor: clickedMonitor == true ? '#32B768' :  '#F5FAF7',
+        //backgroundColor: clickedMonitor == true ? '#32B768' :  '#F5FAF7',
         borderRadius: 10,
         paddingLeft: 10,
         paddingRight: 10,
