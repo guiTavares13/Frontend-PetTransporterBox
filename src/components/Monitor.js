@@ -1,8 +1,9 @@
 import React from "react";
-import { Text } from "react-native";
+import { Alert, Text } from "react-native";
 
 export default function Monitor() {
     return(
-        <Text>Monitor</Text>
+        <Text style={{paddingTop: 120}}>Monitor {Alert.alert('Voce esta no monitor')}</Text>
     )
 }
+
