@@ -73,7 +73,8 @@ export default function Menu() {
                 </SafeAreaView>
             </SafeAreaView>
             <SafeAreaView style={styles.container2}>
-                {this.cadastro ? <Cadastros/> : <Monitor/> || this.historico ? <Historics/> : <Monitor/>}
+                {/*this.cadastro ? <Cadastros/> : <Monitor/> || this.historico ? <Historics/> : <Monitor/>*/}
+                    <Cadastros/>
             </SafeAreaView>
             
         </>

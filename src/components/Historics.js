@@ -1,18 +1,18 @@
 import React from "react";
 import { SafeAreaView, StyleSheet, TouchableOpacity, Image, View, Text } from "react-native";
 
-import logo from '../assets/icons/cadastro2.png'
-import logoTravel from '../assets/icons/travel_create_icon.png'
+import logoTravel from '../assets/icons/travel_icon.png'
+import logoHistorico from '../assets/icons/historico.png'
 
 export default function Historics() {
     return(
         <SafeAreaView>
             <View style={styles.buttons}>
                 <TouchableOpacity style={styles.buttom}>
-                    <Image style={{width:150, height:150}} source={logo}/>
+                    <Image style={{width:150, height:150}} source={logoTravel}/>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.buttom}>
-                    <Image style={{width:150, height:150}} source={logoTravel}/>
+                    <Image style={{width:120, height:120}} source={logoHistorico}/>
                 </TouchableOpacity>
             </View>
         </SafeAreaView>
