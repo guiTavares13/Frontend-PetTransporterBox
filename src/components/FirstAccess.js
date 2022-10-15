@@ -1,28 +1,50 @@
 import React from "react";
 import { Text, TextInput, StyleSheet, TouchableOpacity, SafeAreaView, View } from "react-native";
 import { useFonts } from 'expo-font';
-import { useState, setState } from "react";
+import { useState } from "react";
 import global from '../../global';
 
 import { server, showError, showSucess } from "../common";
 
 export default props => {
+    
+    /*const [date, setDate] = useState(null);
+    useEffect(() => {
+        let today = new Date();
+        let date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+        setDate(date);
+    }, []);*/
 
-    var [state = {
+    var [initialState = {
         name: '',
         lastName: '',
         email: '',
         documento: '',
         phone: '',
+        nascimento:  new Date(),
         password: '',
         stageNew: false
     }, setState] = useState()
-
+    
+    var [state = {
+        ...initialState
+    }, setState] = useState()
 
     const [fontsLoaded] = useFonts({
         'Jost-BoldItalic': require('../../assets/fonts/Jost-BoldItalic.ttf'),
         'Jost-Regular': require('../../assets/fonts/Jost-Regular.ttf')
     });
+
+
+    var dataNasc = new Date('1998','05', '18');
+
+    signinOrSignup = () => {
+        if (state.stageNew){
+            signup()
+        } else {
+            signin()
+        }
+    }
 
     signup = () => {
         try{
@@ -34,6 +56,28 @@ export default props => {
                 lastName: state.lastName,
                 email: state.email,
                 phone: state.phone,
+                nascimento: dataNasc,
+                password: state.password,
+                userStatus: 1
+            }),
+            headers: {
+                'Content-type': 'application/json; charset=UTF-8',
+            },
+            })
+            .then((response) => response.json())
+            .then((json) => console.log(json));
+            setState({...initialState})
+        } catch(err){
+            showError(err)
+        }
+    }
+
+   signin = () => {
+    try {
+        fetch(`${server}/user/login`, {
+            method: 'POST',
+            body: JSON.stringify({
+                email: state.email,
                 password: state.password
             }),
             headers: {
@@ -42,39 +86,12 @@ export default props => {
             })
             .then((response) => response.json())
             .then((json) => console.log(json));
-            showSucess('Deu bom!')
-        } catch(err){
-            showError(err)
-        }
+            localStorage.setItem(ACCESS_TOKEN, response.value.jwt);
+            props.navigation.navigate('Menu');
+    } catch(err){
+        showError(err)
     }
-    
-   
-
-  /*  signup = async () => {
-        try {
-            await axios.post(`${server}/user`, {
-                name: state.name,
-                lastName: state.lastName,
-                email: state.email,
-                cpf: state.cpf,
-                celular: state.celular,
-                password: state.password
-            });
-
-            showSucess('Usuário cadastrado!')
-        } catch(err){
-            showError(err)
-        }
-        
-    }*/
-
-   /* signinOrSignup = () => {
-        if(this.state.stageNew){
-            Alert.alert('Sucesso!', 'Criar conta')
-        } else {
-            Alert.alert('Sucesso!', 'Logar')
-        }
-    }*/
+   }
     
     return(
         <SafeAreaView style={global.container}>
@@ -104,7 +121,8 @@ export default props => {
                     <TextInput style={styles.input}  placeholder="Celular" value={state.phone}
                     onChangeText={cCelular => setState(prevState=>({...prevState,phone:cCelular}))}
                     />
-                }
+                } 
+               
                 <TextInput style={styles.input}  placeholder="Senha"  secureTextEntry={true} value={state.password}
                 onChangeText={cPassword => setState(prevState=>({...prevState,password:cPassword}))}
                 />
@@ -120,7 +138,7 @@ export default props => {
            <TouchableOpacity 
                     title="Button Access" 
                     style={styles.buttonAccess}
-                    onPress={signup}><Text style={styles.textButtonAccess}>
+                    onPress={signinOrSignup}><Text style={styles.textButtonAccess}>
                         {state.stageNew ? 'Registrar' : 'Entrar'}
                     </Text>
             </TouchableOpacity> 
@@ -157,5 +175,8 @@ const styles = StyleSheet.create({
     },
     textButtonAccess: {
         
+    },
+    dateComponent: {
+        width: 350
     }
 })
