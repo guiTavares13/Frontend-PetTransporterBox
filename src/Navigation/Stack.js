@@ -10,7 +10,7 @@ import Welcome from "../components/Welcome";
 const Stack = createNativeStackNavigator()
 
 export default props => (
-    <Stack.Navigator initialRouteName="Initial"
+    <Stack.Navigator initialRouteName="Menu"
         screenOptions={{headerShown: false}}>
         <Stack.Screen name="Initial" component={Initial}/>
         <Stack.Screen name="Welcome" component={Welcome}/>

@@ -9,72 +9,123 @@ import logo from '../assets/icons/logo_icon.png'
 
 export default function Menu() {
 
-   var [state = {
+   var [initialState = {
         name: '',
         monitor: true,
         cadastro: false,
         historico: false
     }, setState] = useState()
 
+    var [state = {
+        ...initialState
+    }, setState] = useState()
+
+    var subtitle = defineSubtitle();
+
     toggleMonitor = () => {
-       setState({monitor: this.state.monitor})
+       setState({monitor: !state.monitor})
     }
 
     toggleCadastro = () => {
-        setState({cadastro: !this.state.cadastro})
+        setState({cadastro: !state.cadastro})
     }
 
     toggleHistorico = () => {
-        setState({cadastro: !this.state.historico})
+        setState({historico: !state.historico})
+    }
+
+    function defineSubtitle() {
+        if(state.monitor){
+            return 'Deseja monitorar seu pet?'
+        } else if(state.cadastro) {
+            return 'Deseja cadastrar um pet novo ou uma viagem?'
+        } else if(state.historico) {
+            return 'Deseja consultar algum histórico?'
+        }
+    }
+
+    function defineRoute() {
+        if(state.monitor){
+            return <Monitor/>
+        } else if(state.cadastro) {
+            return <Cadastros/>
+        } else if(state.historico) {
+            return <Historics/>
+        }
     }
         return (
             <>
             <SafeAreaView style={styles.container}>
                 <View style={styles.header}>
-                    <View style={{height: 100, backgroundColor: 'steelblue'}}>
-                        <Text>Olá,</Text>
-                        <Text>Fernando</Text>
+                    <View style={styles.titleBar}>
+                        <Text style={styles.title}>Olá, {'\nFernando'}</Text>
                     </View>
-                    <View style={{height: 100, backgroundColor: 'steelblue'}}>
+                    <View style={styles.titleImage}>
                         <Image style={{width:50, height:50}} source={logo}/>
                     </View>
                 </View>
                 <View style={styles.subititle}>
-                    <Text>Vamos <Text>monitorar</Text> seu anumalzinho {'\n'}
-                    ou <Text>cadastrar</Text> algo?
-                    </Text>
+                    <Text>{subtitle}</Text>
                 </View>
                 <SafeAreaView style={styles.buttoms}>
                     <View>
-                        <TouchableHighlight
-                                 title="Button Access" 
-                                 style={styles.buttonClicked}
-                                 onPress={toggleMonitor}>
+                        {state.monitor ? 
+                            <TouchableHighlight
+                                title="Button Access" 
+                                style={styles.buttonClicked}
+                                onPress={toggleMonitor}>
                                     <Text>Monitorar</Text>
-                        </TouchableHighlight> 
+                            </TouchableHighlight> 
+                            :
+                            <TouchableHighlight
+                                title="Button Access" 
+                                style={styles.buttonNonClicked}
+                                onPress={toggleMonitor}>
+                                    <Text>Monitorar</Text>
+                            </TouchableHighlight> 
+                        }
                     </View>
                     <View>
-                        <TouchableHighlight 
+                        {state.cadastro ?
+                            <TouchableHighlight 
                                 title="Button Access" 
                                 style={styles.buttonClicked}
                                 onPress={toggleCadastro}>
                                     <Text>Cadastros</Text>
-                                    
+                            </TouchableHighlight> 
+                            :
+                            <TouchableHighlight 
+                            title="Button Access" 
+                            style={styles.buttonNonClicked}
+                            onPress={toggleCadastro}>
+                                <Text>Cadastros</Text>
                         </TouchableHighlight> 
+                        }
                     </View>
                     <View>
-                        <TouchableHighlight 
+                        {state.historico ?
+                            <TouchableHighlight 
                                 title="Button Access" 
                                 style={styles.buttonClicked}
                                 onPress={toggleHistorico}>
                                     <Text>Historicos</Text>
-                        </TouchableHighlight> 
+                            </TouchableHighlight> 
+                            :
+                            <TouchableHighlight 
+                                title="Button Access" 
+                                style={styles.buttonNonClicked}
+                                onPress={toggleHistorico}>
+                                    <Text>Historicos</Text>
+                            </TouchableHighlight> 
+                        }
+                        
                     </View>
                 </SafeAreaView>
             </SafeAreaView>
             <SafeAreaView style={styles.container2}>
-                {/*this.cadastro ? <Cadastros/> : <Monitor/> || this.historico ? <Historics/> : <Monitor/>*/}
-                    <Cadastros/>
+                {
+                    defineRoute()
+                }
             </SafeAreaView>
             
         </>
@@ -91,11 +142,15 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         alignItems: 'stretch',
     },
+    title: {
+        fontSize: 30,
+    },
     subititle: {
-        alignItems: "flex-start"
+        alignItems: "flex-start",
+        padding: 20
     }, 
     buttonClicked: {
-        //backgroundColor: clickedMonitor == true ? '#32B768' :  '#F5FAF7',
+        backgroundColor: '#32B768',
         borderRadius: 10,
         paddingLeft: 10,
         paddingRight: 10,
@@ -119,5 +174,21 @@ const styles = StyleSheet.create({
     container2: {
         flex: 1,
         backgroundColor: '#fff'
+    },
+    titleBar: {
+        flex: 2,
+        justifyContent: 'flex-end',
+        padding: 30,
+        marginTop: 20,
+        borderWidth: 1,
+        borderColor: 'black'
+    }, 
+    titleImage : {
+        flex: 2,
+        borderWidth: 1,
+        padding: 30,
+        marginTop: 20,
+        borderColor: 'black',
+        alignItems: "flex-end"
     }
 })
