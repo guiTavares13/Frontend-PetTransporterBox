@@ -4,7 +4,7 @@ import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
 import { useFonts } from 'expo-font';
 import global from '../../global'
 
-import logo from '../assets/icons/logo_icon.png'
+import logo from '../assets/icons/logo.png'
 
 export default props => {
 

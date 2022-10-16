@@ -1,18 +1,18 @@
 import React from "react";
 import { SafeAreaView, StyleSheet, TouchableOpacity, Image, View, Text } from "react-native";
 
-import logoCadastro from '../assets/icons/cadastro2.png'
-import logoTravel from '../assets/icons/travel_create_icon.png'
+import petRegistery from '../assets/icons/petRegistery.png.png'
+import travelCreatePet from '../assets/icons/travelCreatePet.png'
 
 export default function Register() {
     return(
         <SafeAreaView>
             <View style={styles.buttons}>
                 <TouchableOpacity style={styles.buttom}>
-                    <Image style={{width:150, height:150}} source={logoCadastro}/>
+                    <Image style={{width:150, height:150}} source={petRegistery}/>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.buttom}>
-                    <Image style={{width:120, height:120}} source={logoTravel}/>
+                    <Image style={{width:120, height:120}} source={travelCreatePet}/>
                 </TouchableOpacity>
             </View>
         </SafeAreaView>
@@ -26,15 +26,15 @@ const styles = StyleSheet.create({
     buttons: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        alignItems: 'stretch',
-        paddingTop: 80,
-        margin: 20
+        paddingHorizontal: 30,
+        paddingVertical: 15
     }, 
     buttom: {
+        justifyContent: "center",
+        alignItems: "center",
         backgroundColor: '#F5FAF7',
         borderRadius: 10,
-        marginHorizontal: 10,
-        padding: 10
-        
+        width: 160,
+        height: 160,
     }
 })

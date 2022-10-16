@@ -7,6 +7,12 @@ import global from '../../global';
 import { server, showError, showSucess } from "../common";
 
 export default props => {
+
+    const [fontsLoaded] = useFonts({
+        'Jost-BoldItalic': require('../../assets/fonts/Jost-BoldItalic.ttf'),
+        'Jost-Regular': require('../../assets/fonts/Jost-Regular.ttf')
+    });
+
     
     /*const [date, setDate] = useState(null);
     useEffect(() => {
@@ -29,12 +35,6 @@ export default props => {
     var [state = {
         ...initialState
     }, setState] = useState()
-
-    const [fontsLoaded] = useFonts({
-        'Jost-BoldItalic': require('../../assets/fonts/Jost-BoldItalic.ttf'),
-        'Jost-Regular': require('../../assets/fonts/Jost-Regular.ttf')
-    });
-
 
     var dataNasc = new Date('1998','05', '18');
 

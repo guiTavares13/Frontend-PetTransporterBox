@@ -3,8 +3,8 @@ import { useFonts } from 'expo-font';
 
 import global from "../../global";
 
-import logo from '../assets/icons/logo_icon.png'
-import avancar from '../assets/icons/btnWelcome.png'
+import logo from '../assets/icons/logo.png'
+import buttonInitial from '../assets/icons/buttonInitial.png'
 
 export default props => {
     
@@ -28,7 +28,7 @@ export default props => {
                     style={styles.btnAvancar}
                     onPress={() => {props.navigation.navigate('FirstAccess', {...props})}}>
                         <Image 
-                            source={avancar}/>
+                            source={buttonInitial}/>
                     </TouchableOpacity>
                 </View>
                 

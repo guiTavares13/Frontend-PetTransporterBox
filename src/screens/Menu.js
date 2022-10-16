@@ -2,8 +2,8 @@ import React , { useState, useEffect, Component, setState } from "react";
 import { View, Text, Image, SafeAreaView, StyleSheet, Pressable, TouchableHighlight, Alert } from "react-native";
 
 import Monitor from '../components/Monitor'
-import Historics from '../components/Historics'
-import Cadastros from "../components/Registers";
+import Registration from "../components/Registers"
+import Historic from '../components/Historics'
 
 import logo from '../assets/icons/logo_icon.png'
 
@@ -12,8 +12,8 @@ export default function Menu() {
    var [initialState = {
         name: '',
         monitor: true,
-        cadastro: false,
-        historico: false
+        registration: false,
+        historic: false
     }, setState] = useState()
 
     var [state = {
@@ -26,20 +26,20 @@ export default function Menu() {
        setState({monitor: !state.monitor})
     }
 
-    toggleCadastro = () => {
-        setState({cadastro: !state.cadastro})
+    toggleRegistration = () => {
+        setState({registration: !state.registration})
     }
 
-    toggleHistorico = () => {
-        setState({historico: !state.historico})
+    toggleHistoric = () => {
+        setState({historic: !state.historic})
     }
 
     function defineSubtitle() {
         if(state.monitor){
             return 'Deseja monitorar seu pet?'
-        } else if(state.cadastro) {
+        } else if(state.registration) {
             return 'Deseja cadastrar um pet novo ou uma viagem?'
-        } else if(state.historico) {
+        } else if(state.historic) {
             return 'Deseja consultar algum histórico?'
         }
     }
@@ -47,10 +47,10 @@ export default function Menu() {
     function defineRoute() {
         if(state.monitor){
             return <Monitor/>
-        } else if(state.cadastro) {
-            return <Cadastros/>
-        } else if(state.historico) {
-            return <Historics/>
+        } else if(state.registration) {
+            return <Registration/>
+        } else if(state.historic) {
+            return <Historic/>
         }
     }
         return (
@@ -67,7 +67,7 @@ export default function Menu() {
                 <View style={styles.subititle}>
                     <Text>{subtitle}</Text>
                 </View>
-                <SafeAreaView style={styles.buttoms}>
+                <SafeAreaView style={styles.buttonsBar}>
                     <View>
                         {state.monitor ? 
                             <TouchableHighlight
@@ -86,35 +86,35 @@ export default function Menu() {
                         }
                     </View>
                     <View>
-                        {state.cadastro ?
+                        {state.registration ?
                             <TouchableHighlight 
                                 title="Button Access" 
                                 style={styles.buttonClicked}
-                                onPress={toggleCadastro}>
+                                onPress={toggleRegistration}>
                                     <Text>Cadastros</Text>
                             </TouchableHighlight> 
                             :
                             <TouchableHighlight 
                             title="Button Access" 
                             style={styles.buttonNonClicked}
-                            onPress={toggleCadastro}>
+                            onPress={toggleRegistration}>
                                 <Text>Cadastros</Text>
                         </TouchableHighlight> 
                         }
                     </View>
                     <View>
-                        {state.historico ?
+                        {state.historic ?
                             <TouchableHighlight 
                                 title="Button Access" 
                                 style={styles.buttonClicked}
-                                onPress={toggleHistorico}>
+                                onPress={toggleHistoric}>
                                     <Text>Historicos</Text>
                             </TouchableHighlight> 
                             :
                             <TouchableHighlight 
                                 title="Button Access" 
                                 style={styles.buttonNonClicked}
-                                onPress={toggleHistorico}>
+                                onPress={toggleHistoric}>
                                     <Text>Historicos</Text>
                             </TouchableHighlight> 
                         }
@@ -122,7 +122,7 @@ export default function Menu() {
                     </View>
                 </SafeAreaView>
             </SafeAreaView>
-            <SafeAreaView style={styles.container2}>
+            <SafeAreaView style={styles.containerRoute}>
                 {
                     defineRoute()
                 }
@@ -142,6 +142,22 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         alignItems: 'stretch',
     },
+    titleBar: {
+        flex: 2,
+        justifyContent: 'flex-end',
+        padding: 30,
+        marginTop: 20,
+        borderWidth: 1,
+        borderColor: 'black'
+    }, 
+    titleImage : {
+        flex: 2,
+        borderWidth: 1,
+        padding: 30,
+        marginTop: 20,
+        borderColor: 'black',
+        alignItems: "flex-end"
+    },
     title: {
         fontSize: 30,
     },
@@ -149,6 +165,12 @@ const styles = StyleSheet.create({
         alignItems: "flex-start",
         padding: 20
     }, 
+    buttonsBar: {
+        flexDirection: "row",
+        justifyContent: 'space-between',
+        alignItems: 'stretch',
+        margin: 40,
+    },
     buttonClicked: {
         backgroundColor: '#32B768',
         borderRadius: 10,
@@ -165,30 +187,8 @@ const styles = StyleSheet.create({
         paddingTop: 10,
         paddingBottom: 10
     },
-    buttoms: {
-        flexDirection: "row",
-        justifyContent: 'space-between',
-        alignItems: 'stretch',
-        margin: 40,
-    },
-    container2: {
+    containerRoute: {
         flex: 1,
         backgroundColor: '#fff'
     },
-    titleBar: {
-        flex: 2,
-        justifyContent: 'flex-end',
-        padding: 30,
-        marginTop: 20,
-        borderWidth: 1,
-        borderColor: 'black'
-    }, 
-    titleImage : {
-        flex: 2,
-        borderWidth: 1,
-        padding: 30,
-        marginTop: 20,
-        borderColor: 'black',
-        alignItems: "flex-end"
-    }
 })
