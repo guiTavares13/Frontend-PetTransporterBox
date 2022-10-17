@@ -7,8 +7,6 @@ import logo from '../assets/icons/logo.png'
 import buttonInitial from '../assets/icons/buttonInitial.png'
 
 export default props => {
-    
-    const firstAccess = true;
 
     const [fontsLoaded] = useFonts({
         'Jost-BoldItalic': require('../../assets/fonts/Jost-BoldItalic.ttf'),

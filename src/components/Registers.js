@@ -1,7 +1,7 @@
 import React from "react";
 import { SafeAreaView, StyleSheet, TouchableOpacity, Image, View, Text } from "react-native";
 
-import petRegistery from '../assets/icons/petRegistery.png.png'
+import petRegistery from '../assets/icons/petRegistery.png'
 import travelCreatePet from '../assets/icons/travelCreatePet.png'
 
 export default function Register() {

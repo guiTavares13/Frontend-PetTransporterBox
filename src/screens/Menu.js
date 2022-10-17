@@ -4,10 +4,11 @@ import { View, Text, Image, SafeAreaView, StyleSheet, Pressable, TouchableHighli
 import Monitor from '../components/Monitor'
 import Registration from "../components/Registers"
 import Historic from '../components/Historics'
+import Footer from '../components/Footer'
 
-import logo from '../assets/icons/logo_icon.png'
+import logo from '../assets/icons/logo.png'
 
-export default function Menu() {
+export default props => {
 
    var [initialState = {
         name: '',
@@ -91,14 +92,14 @@ export default function Menu() {
                                 title="Button Access" 
                                 style={styles.buttonClicked}
                                 onPress={toggleRegistration}>
-                                    <Text>Cadastros</Text>
+                                    <Text>Cadastrar</Text>
                             </TouchableHighlight> 
                             :
                             <TouchableHighlight 
                             title="Button Access" 
                             style={styles.buttonNonClicked}
                             onPress={toggleRegistration}>
-                                <Text>Cadastros</Text>
+                                <Text>Cadastrar</Text>
                         </TouchableHighlight> 
                         }
                     </View>
@@ -128,6 +129,8 @@ export default function Menu() {
                 }
             </SafeAreaView>
             
+            <Footer {...props}/>
+            
         </>
         )
 }
@@ -147,15 +150,11 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-end',
         padding: 30,
         marginTop: 20,
-        borderWidth: 1,
-        borderColor: 'black'
     }, 
     titleImage : {
         flex: 2,
-        borderWidth: 1,
         padding: 30,
         marginTop: 20,
-        borderColor: 'black',
         alignItems: "flex-end"
     },
     title: {

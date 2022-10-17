@@ -4,7 +4,7 @@ import { useFonts } from 'expo-font';
 import { useState } from "react";
 import global from '../../global';
 
-import { server, showError, showSucess } from "../common";
+import { server, showError } from "../common";
 
 export default props => {
 
@@ -87,7 +87,7 @@ export default props => {
             .then((response) => response.json())
             .then((json) => console.log(json));
             localStorage.setItem(ACCESS_TOKEN, response.value.jwt);
-            props.navigation.navigate('Menu');
+            props.navigation.navigate('Menu', {...props});
     } catch(err){
         showError(err)
     }
