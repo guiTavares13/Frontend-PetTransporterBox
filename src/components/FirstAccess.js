@@ -85,8 +85,11 @@ export default props => {
             },
             })
             .then((response) => response.json())
-            .then((json) => console.log(json));
-            localStorage.setItem(ACCESS_TOKEN, response.value.jwt);
+            .then((json) => {
+                console.log(json)
+                let inMemoryToken = response.token;
+                localStorage.setItem('user', JSON.stringify(inMemoryToken));
+            });
             props.navigation.navigate('Menu', {...props});
     } catch(err){
         showError(err)
