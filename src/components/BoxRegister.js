@@ -8,9 +8,7 @@ export default props => {
 
     var [initialState ={
         name: '',
-        age: 0,
-        breed: '',
-        type: '',
+        idModel: '',
     }, setState] = useState()
 
 
@@ -21,14 +19,11 @@ export default props => {
 
     register = () => {
         try {
-            fetch(`${server}/pet`, {
+            fetch(`${server}/caixa`, {
                 method: 'POST',
                 body: JSON.stringify({
-                    id: "2",
-                    name: state.name,
-                    age: state.age,
-                    breed: state.breed,
-                    category: state.type
+                    nome: state.name,
+                    idModelo: state.age,
                 }),
                 headers: {
                     'Content-type': 'application/json; charset=UTF-8',
@@ -45,17 +40,13 @@ export default props => {
     return (
         <SafeAreaView style={global.container}>
             <View style={styles.title}>
-                <Text>Cadastrar Pet</Text>
+                <Text>Cadastrar Caixa</Text>
             </View>
             <View>
-                <TextInput placeholder="Nome do pet" value={state.name}
+                <TextInput placeholder="Nome da caixa" value={state.name}
                 onChangeText={cName => setState(prevState =>({...prevState, name: cName}))}/>
-                <TextInput placeholder="Idade" value={state.age}
-                onChangeText={cAge => setState(prevState =>({...prevState, age: cAge}))}/>
-                <TextInput placeholder="Raça" value={state.breed}
-                onChangeText={cBreed => setState(prevState =>({...prevState, breed: cBreed}))}/>
-                <TextInput placeholder="Tipo" value={state.type}
-                onChangeText={cType => setState(prevState =>({...prevState, type: cType}))}/>
+                <TextInput placeholder="Id Modelo" value={state.idModel}
+                onChangeText={cIdModel => setState(prevState =>({...prevState, idModel: cIdModel}))}/>
             </View>
 
             <TouchableOpacity 

@@ -87,10 +87,10 @@ export default props => {
             .then((response) => response.json())
             .then((json) => {
                 console.log(json)
-                let inMemoryToken = response.token;
-                localStorage.setItem('user', JSON.stringify(inMemoryToken));
+               // let inMemoryToken = response.token;
+               // localStorage.setItem('user', JSON.stringify(inMemoryToken));
             });
-            props.navigation.navigate('Menu', {...props});
+            //props.navigation.navigate('Menu', {...props});
     } catch(err){
         showError(err)
     }

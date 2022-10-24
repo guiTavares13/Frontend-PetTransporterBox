@@ -47,11 +47,11 @@ export default props => {
 
     function defineRoute() {
         if(state.monitor){
-            return <Monitor/>
+            return <Monitor {...props}/>
         } else if(state.registration) {
-            return <Registration/>
+            return <Registration {...props}/>
         } else if(state.historic) {
-            return <Historic/>
+            return <Historic {...props}/>
         }
     }
         return (

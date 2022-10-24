@@ -5,11 +5,11 @@ import petLocation from '../assets/icons/location.png'
 import petMonitor from '../assets/icons/petMonitor.png'
 import mapHeat from '../assets/icons/mapHeat.png'
 
-export default function Monitor() {
+export default props => {
     return(
         <SafeAreaView>
             <View style={styles.buttons}>
-                <TouchableOpacity style={styles.buttom}>
+                <TouchableOpacity style={styles.buttom} onPress={() => props.navigation.navigate('LocationPet', {...props})}>
                     <Image style={{width:110, height:111}} source={petLocation}/>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.buttom}>

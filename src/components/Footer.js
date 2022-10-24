@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, Image } from "react-native";
+import { View, Text, StyleSheet, Image  } from "react-native";
 
 import petListLogo from '../assets/icons/listIcon.png'
 import newPetIcon from '../assets/icons/plus-circle.png'

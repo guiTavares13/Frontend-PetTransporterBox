@@ -1,11 +1,14 @@
 import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { StyleSheet, SafeAreaView} from "react-native";
+
+import Pet from './Pet';
 
 export default props => {
+
     return(
-        <View style={styles.container}>
-            <Text>PetList</Text>
-        </View>
+        <SafeAreaView style={styles.container}>
+            <Pet/>
+        </SafeAreaView>
     );
 }
 

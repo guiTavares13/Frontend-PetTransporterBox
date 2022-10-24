@@ -7,10 +7,9 @@ import {server, showError} from '../../src/common'
 export default props => {
 
     var [initialState ={
-        name: '',
-        age: 0,
-        breed: '',
-        type: '',
+        petId: '',
+        boxId: '',
+        date: '',
     }, setState] = useState()
 
 
@@ -24,11 +23,9 @@ export default props => {
             fetch(`${server}/pet`, {
                 method: 'POST',
                 body: JSON.stringify({
-                    id: "2",
-                    name: state.name,
-                    age: state.age,
-                    breed: state.breed,
-                    category: state.type
+                    petId: state.petId,
+                    caixaID: state.name,
+                    date: state.date
                 }),
                 headers: {
                     'Content-type': 'application/json; charset=UTF-8',
@@ -45,17 +42,15 @@ export default props => {
     return (
         <SafeAreaView style={global.container}>
             <View style={styles.title}>
-                <Text>Cadastrar Pet</Text>
+                <Text>Cadastrar Viagem</Text>
             </View>
             <View>
-                <TextInput placeholder="Nome do pet" value={state.name}
-                onChangeText={cName => setState(prevState =>({...prevState, name: cName}))}/>
-                <TextInput placeholder="Idade" value={state.age}
-                onChangeText={cAge => setState(prevState =>({...prevState, age: cAge}))}/>
-                <TextInput placeholder="Raça" value={state.breed}
-                onChangeText={cBreed => setState(prevState =>({...prevState, breed: cBreed}))}/>
-                <TextInput placeholder="Tipo" value={state.type}
-                onChangeText={cType => setState(prevState =>({...prevState, type: cType}))}/>
+                <TextInput placeholder="IdPet" value={state.petId}
+                onChangeText={cName => setState(prevState =>({...prevState, petId: cName}))}/>
+                <TextInput placeholder="IdCaixa" value={state.caixaID}
+                onChangeText={cAge => setState(prevState =>({...prevState, caixaID: cAge}))}/>
+                <TextInput placeholder="Data" value={state.date}
+                onChangeText={cBreed => setState(prevState =>({...prevState, date: cBreed}))}/>
             </View>
 
             <TouchableOpacity 

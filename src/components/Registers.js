@@ -3,16 +3,22 @@ import { SafeAreaView, StyleSheet, TouchableOpacity, Image, View, Text } from "r
 
 import petRegistery from '../assets/icons/petRegistery.png'
 import travelCreatePet from '../assets/icons/travelCreatePet.png'
+import petboxIcon from '../assets/icons/petbox-icon.png'
 
-export default function Register() {
+export default props => {
     return(
         <SafeAreaView>
             <View style={styles.buttons}>
-                <TouchableOpacity style={styles.buttom}>
+                <TouchableOpacity style={styles.buttom} onPress={() => props.navigation.navigate('PetRegister', {...props})}>
                     <Image style={{width:150, height:150}} source={petRegistery}/>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.buttom}>
+                <TouchableOpacity style={styles.buttom} onPress={() => props.navigation.navigate('TripRegister', {...props})}>
                     <Image style={{width:120, height:120}} source={travelCreatePet}/>
+                </TouchableOpacity>
+            </View>
+            <View style={styles.buttons}>
+                <TouchableOpacity style={styles.buttom} onPress={() => props.navigation.navigate('BoxRegister', {...props})}>
+                        <Image style={{width:130, height:130}} source={petboxIcon}/>
                 </TouchableOpacity>
             </View>
         </SafeAreaView>
