@@ -7,12 +7,7 @@ import global from '../../global'
 import logo from '../assets/icons/logo.png'
 
 export default props => {
-
-    const [fontsLoaded] = useFonts({
-        'Jost-BoldItalic': require('../../assets/fonts/Jost-BoldItalic.ttf'),
-        'Jost-Regular': require('../../assets/fonts/Jost-Regular.ttf')
-    });
-
+    
     return(
         <View style={global.container}>
             <Image style={styles.logo} source={logo}/>

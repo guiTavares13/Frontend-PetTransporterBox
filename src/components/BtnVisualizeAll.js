@@ -19,6 +19,7 @@ export default props => {
 const styles = StyleSheet.create({
     container: {
         flexDirection: "column",
+        
         flexGrow: 0.2
         
     },

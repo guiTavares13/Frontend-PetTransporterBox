@@ -15,7 +15,7 @@ import LocationPet from "../components/LocationPet";
 const Stack = createNativeStackNavigator()
 
 export default props => (
-    <Stack.Navigator initialRouteName="Menu"
+    <Stack.Navigator initialRouteName="Initial"
         screenOptions={{headerShown: false}}>
         <Stack.Screen name="Initial" component={Initial}/>
         <Stack.Screen name="Welcome" component={Welcome}/>

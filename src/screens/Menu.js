@@ -5,6 +5,7 @@ import Monitor from '../components/Monitor'
 import Registration from "../components/Registers"
 import Historic from '../components/Historics'
 import Footer from '../components/Footer'
+import { server, showError } from "../common";
 
 import logo from '../assets/icons/logo.png'
 
@@ -54,12 +55,37 @@ export default props => {
             return <Historic {...props}/>
         }
     }
+
+
+    // fetch(`${server}/user/:1`)
+    // .then((resp) => resp.json())
+    // .then(function(data){
+    //     let user = data.results;
+    //     console.log(user);
+    // }) 
+
+    var _retrieveData = async () => {
+        try {
+          const value = await AsyncStorage.getItem('nome');
+          if(value != null) {
+            console.log(value);
+            return value;
+          } else {
+            return null;
+          }
+            
+        } catch (error) {
+          // Error retrieving data
+        }
+      };
+
+
         return (
             <>
             <SafeAreaView style={styles.container}>
                 <View style={styles.header}>
-                    <View style={styles.titleBar}>
-                        <Text style={styles.title}>Olá, {'\nFernando'}</Text>
+                    <View style={styles.titleBar} >
+                        <Text style={styles.title}>Olá, {_retrieveData.nome}</Text>
                     </View>
                     <View style={styles.titleImage}>
                         <Image style={{width:50, height:50}} source={logo}/>

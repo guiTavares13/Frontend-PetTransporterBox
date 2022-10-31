@@ -7,12 +7,6 @@ import global from '../../global';
 import { server, showError } from "../common";
 
 export default props => {
-
-    const [fontsLoaded] = useFonts({
-        'Jost-BoldItalic': require('../../assets/fonts/Jost-BoldItalic.ttf'),
-        'Jost-Regular': require('../../assets/fonts/Jost-Regular.ttf')
-    });
-
     
     /*const [date, setDate] = useState(null);
     useEffect(() => {
@@ -28,7 +22,7 @@ export default props => {
         documento: '',
         phone: '',
         nascimento:  new Date(),
-        password: '',
+        senha: '',
         stageNew: false
     }, setState] = useState()
     
@@ -57,7 +51,7 @@ export default props => {
                 email: state.email,
                 phone: state.phone,
                 nascimento: dataNasc,
-                password: state.password,
+                senha: state.password,
                 userStatus: 1
             }),
             headers: {
@@ -78,7 +72,7 @@ export default props => {
             method: 'POST',
             body: JSON.stringify({
                 email: state.email,
-                password: state.password
+                senha: state.senha,
             }),
             headers: {
                 'Content-type': 'application/json; charset=UTF-8',
@@ -87,10 +81,18 @@ export default props => {
             .then((response) => response.json())
             .then((json) => {
                 console.log(json)
-               // let inMemoryToken = response.token;
-               // localStorage.setItem('user', JSON.stringify(inMemoryToken));
+                let inMemoryToken = response.token;
+                localStorage.setItem('user', JSON.stringify(inMemoryToken));
+
+                if(localStorage.length != null){
+                    props.navigation.navigate('Menu', {...props});
+                } else {
+                    showError(json);
+                }
             });
-            //props.navigation.navigate('Menu', {...props});
+
+           
+            
     } catch(err){
         showError(err)
     }
@@ -124,15 +126,15 @@ export default props => {
                     <TextInput style={styles.input}  placeholder="Celular" value={state.phone}
                     onChangeText={cCelular => setState(prevState=>({...prevState,phone:cCelular}))}
                     />
-                } 
+                }
                
-                <TextInput style={styles.input}  placeholder="Senha"  secureTextEntry={true} value={state.password}
-                onChangeText={cPassword => setState(prevState=>({...prevState,password:cPassword}))}
+                <TextInput style={styles.input}  placeholder="Senha"  secureTextEntry={true} value={state.senha}
+                onChangeText={cPassword => setState(prevState=>({...prevState,senha:cPassword}))}
                 />
-                {state.stageNew &&
+                {/* {state.stageNew &&
                     <TextInput style={styles.input}  placeholder="Confirmar senha" secureTextEntry={true}
                     />
-                }
+                } */}
                 
             </View>
             <TouchableOpacity onPress={() => setState({stageNew: !state.stageNew})} style={{padding: 10}}>
@@ -168,7 +170,6 @@ const styles = StyleSheet.create({
         marginBottom: 50,
         color: '#52665A',
         position: 'relative',
-        fontStyle: 'Jost-Regular',
         fontSize: 24
     },
     input: {

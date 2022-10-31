@@ -1,4 +1,4 @@
-import { SafeAreaView, Image, TouchableOpacity, StyleSheet, Text, View } from "react-native";
+import { SafeAreaView, Image, TouchableOpacity, StyleSheet, Text, View, LogBox } from "react-native";
 import { useFonts } from 'expo-font';
 
 import global from "../../global";
@@ -8,10 +8,14 @@ import buttonInitial from '../assets/icons/buttonInitial.png'
 
 export default props => {
 
-    const [fontsLoaded] = useFonts({
-        'Jost-BoldItalic': require('../../assets/fonts/Jost-BoldItalic.ttf'),
-        'Jost-Regular': require('../../assets/fonts/Jost-Regular.ttf')
-    });
+    // const [fontsLoaded] = useFonts({
+    //     'Jost-BoldItalic': require('../../assets/fonts/Jost-BoldItalic.ttf'),
+    //     'Jost-Regular': require('../../assets/fonts/Jost-Regular.ttf')
+    // });
+
+    LogBox.ignoreLogs([
+        'Non-serializable values were found in the navigation state',
+      ]);
     
         return(
             <SafeAreaView style={global.container}>
@@ -43,12 +47,10 @@ const styles = StyleSheet.create({
     }, 
     avancar: {
         alignItems: 'center',
-        paddingTop: 100,
-        fontFamily: 'Jost-Regular'
+        paddingTop: 100
     },
     title: {
         marginTop: 20,
-        fontFamily: "Jost-BoldItalic",
         fontSize: 30
     },
     subtitle: {
