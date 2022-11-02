@@ -44,17 +44,17 @@ export default props => {
 
     return (
         <SafeAreaView style={global.container}>
-            <View style={styles.title}>
-                <Text>Cadastrar Pet</Text>
+            <View>
+                <Text style={styles.title}>Cadastrar Pet</Text>
             </View>
             <View>
-                <TextInput placeholder="Nome do pet" value={state.name}
+                <TextInput style={styles.input} placeholder="Nome do pet" value={state.name}
                 onChangeText={cName => setState(prevState =>({...prevState, name: cName}))}/>
-                <TextInput placeholder="Idade" value={state.age}
+                <TextInput style={styles.input} placeholder="Idade" value={state.age}
                 onChangeText={cAge => setState(prevState =>({...prevState, age: cAge}))}/>
-                <TextInput placeholder="Raça" value={state.breed}
+                <TextInput style={styles.input} placeholder="Raça" value={state.breed}
                 onChangeText={cBreed => setState(prevState =>({...prevState, breed: cBreed}))}/>
-                <TextInput placeholder="Tipo" value={state.type}
+                <TextInput style={styles.input} placeholder="Tipo" value={state.type}
                 onChangeText={cType => setState(prevState =>({...prevState, type: cType}))}/>
             </View>
 
@@ -73,13 +73,21 @@ export default props => {
 const styles = StyleSheet.create({
     title: {
         fontSize: 30,
+        margin: 30
     }, 
     button:{
+        margin:30,
         backgroundColor: '#2F80ED',
         borderRadius: 10,
         paddingLeft: 70,
         paddingRight: 70,
         paddingTop: 15,
         paddingBottom: 15
+    },
+    input: {
+        marginBottom: 1,
+        borderBottomWidth: 0.7,
+        borderBottomColor: "wite",
+        height: 40
     }
 })

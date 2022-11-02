@@ -2,7 +2,8 @@ import React from "react";
 import { Text, TextInput, StyleSheet, TouchableOpacity, SafeAreaView, View } from "react-native";
 import { useFonts } from 'expo-font';
 import { useState } from "react";
-import global from '../../global';
+import global from '../../global'
+import 'sessionstorage';
 
 import { server, showError } from "../common";
 
@@ -18,11 +19,11 @@ export default props => {
     var [initialState = {
         name: '',
         lastName: '',
-        email: '',
+        email: 'gui@teste.com',
         documento: '',
         phone: '',
         nascimento:  new Date(),
-        senha: '',
+        senha: '123',
         stageNew: false
     }, setState] = useState()
     
@@ -81,18 +82,15 @@ export default props => {
             .then((response) => response.json())
             .then((json) => {
                 console.log(json)
-                let inMemoryToken = response.token;
-                localStorage.setItem('user', JSON.stringify(inMemoryToken));
+                var sessionstorage = require('sessionstorage');
+                sessionstorage.setItem('token', JSON.stringify(json));
 
-                if(localStorage.length != null){
-                    props.navigation.navigate('Menu', {...props});
+                if(sessionstorage.getItem('token')){
+                    props.navigation.navigate('Menu', json.user);
                 } else {
                     showError(json);
                 }
-            });
-
-           
-            
+            });            
     } catch(err){
         showError(err)
     }
@@ -175,7 +173,7 @@ const styles = StyleSheet.create({
     input: {
         marginBottom: 50,
         borderBottomWidth: 0.5,
-        borderBottomColor: "wite",
+        borderBottomColor: "black",
     },
     textButtonAccess: {
         

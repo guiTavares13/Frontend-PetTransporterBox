@@ -129,7 +129,7 @@ const styles = StyleSheet.create({
         alignItems: 'stretch',
         borderRadius: 20,
         backgroundColor: '#FFFFFF',
-        margin: 10
+        margin: 5
     }, 
     itensPetBar: {
         position: "relative",
