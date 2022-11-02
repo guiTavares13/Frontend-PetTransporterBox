@@ -41,8 +41,8 @@ export default props => {
 
     return (
         <SafeAreaView style={global.container}>
-            <View style={styles.title}>
-                <Text>Cadastrar Viagem</Text>
+            <View>
+                <Text style={styles.title}>Cadastrar Viagem</Text>
             </View>
             <View>
                 <TextInput placeholder="IdPet" value={state.petId}
@@ -68,6 +68,7 @@ export default props => {
 const styles = StyleSheet.create({
     title: {
         fontSize: 30,
+        margin: 30
     }, 
     button:{
         backgroundColor: '#2F80ED',
@@ -75,6 +76,8 @@ const styles = StyleSheet.create({
         paddingLeft: 70,
         paddingRight: 70,
         paddingTop: 15,
-        paddingBottom: 15
-    }
+        paddingBottom: 15,
+        margin: 30
+    },
+    
 })

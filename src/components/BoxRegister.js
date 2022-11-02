@@ -7,8 +7,9 @@ import {server, showError} from '../../src/common'
 export default props => {
 
     var [initialState ={
-        name: '',
-        idModel: '',
+        nome: '',
+        altura: '',
+        largura: ''
     }, setState] = useState()
 
 
@@ -22,8 +23,9 @@ export default props => {
             fetch(`${server}/caixa`, {
                 method: 'POST',
                 body: JSON.stringify({
-                    nome: state.name,
-                    idModelo: state.age,
+                    nome: state.nome,
+                    altura: state.altura,
+                    largura: state.largura
                 }),
                 headers: {
                     'Content-type': 'application/json; charset=UTF-8',
@@ -39,14 +41,16 @@ export default props => {
 
     return (
         <SafeAreaView style={global.container}>
-            <View style={styles.title}>
-                <Text>Cadastrar Caixa</Text>
+            <View>
+                <Text style={styles.title}>Cadastrar Caixa</Text>
             </View>
             <View>
-                <TextInput placeholder="Nome da caixa" value={state.name}
-                onChangeText={cName => setState(prevState =>({...prevState, name: cName}))}/>
-                <TextInput placeholder="Id Modelo" value={state.idModel}
-                onChangeText={cIdModel => setState(prevState =>({...prevState, idModel: cIdModel}))}/>
+                <TextInput style={styles.input} placeholder="Nome da caixa" value={state.nome}
+                onChangeText={cName => setState(prevState =>({...prevState, nome: cName}))}/>
+                <TextInput style={styles.input} placeholder="Altura" value={state.altura}
+                onChangeText={cAltura => setState(prevState =>({...prevState, altura: cAltura}))}/>
+                <TextInput style={styles.input} placeholder="Largura" value={state.largura}
+                onChangeText={cLargura => setState(prevState =>({...prevState, largura: cLargura}))}/>
             </View>
 
             <TouchableOpacity 
@@ -64,6 +68,7 @@ export default props => {
 const styles = StyleSheet.create({
     title: {
         fontSize: 30,
+        margin: 30
     }, 
     button:{
         backgroundColor: '#2F80ED',
@@ -71,6 +76,13 @@ const styles = StyleSheet.create({
         paddingLeft: 70,
         paddingRight: 70,
         paddingTop: 15,
-        paddingBottom: 15
+        paddingBottom: 15,
+        margin: 30
+    },
+    input: {
+        marginBottom: 1,
+        borderBottomWidth: 0.7,
+        borderBottomColor: "wite",
+        height: 40
     }
 })
