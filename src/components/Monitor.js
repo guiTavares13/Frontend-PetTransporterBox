@@ -1,24 +1,24 @@
 import React from "react";
 import { SafeAreaView, StyleSheet, TouchableOpacity, Image, View, Text } from "react-native";
 
-import location from '../assets/icons/location.png'
-import logoTravel from '../assets/icons/img_pet_icon.png'
-import calor from '../assets/icons/calor.png'
+import petLocation from '../assets/icons/location.png'
+import petMonitor from '../assets/icons/petMonitor.png'
+import mapHeat from '../assets/icons/mapHeat.png'
 
-export default function Monitor() {
+export default props => {
     return(
         <SafeAreaView>
             <View style={styles.buttons}>
-                <TouchableOpacity style={styles.buttom}>
-                    <Image style={{width:150, height:150}} source={location}/>
+                <TouchableOpacity style={styles.buttom} onPress={() => props.navigation.navigate('LocationPet', {...props})}>
+                    <Image style={{width:110, height:111}} source={petLocation}/>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.buttom}>
-                    <Image style={{width:150, height:150}} source={logoTravel}/>
+                    <Image style={{width:110, height:110}} source={petMonitor}/>
                 </TouchableOpacity>
             </View>
             <View style={styles.buttons}>
                 <TouchableOpacity style={styles.buttom}>
-                    <Image style={{width:150, height:150}} source={calor}/>
+                    <Image style={{width:110, height:110}} source={mapHeat}/>
                 </TouchableOpacity>
             </View>
         </SafeAreaView>
@@ -32,15 +32,15 @@ const styles = StyleSheet.create({
     buttons: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        alignItems: 'stretch',
-        paddingTop: 80,
-        margin: 20
+        paddingHorizontal: 30,
+        paddingVertical: 15
     }, 
     buttom: {
+        justifyContent: "center",
+        alignItems: "center",
         backgroundColor: '#F5FAF7',
         borderRadius: 10,
-        marginHorizontal: 10,
-        padding: 10
-        
+        width: 160,
+        height: 160,
     }
 })

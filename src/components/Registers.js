@@ -1,18 +1,24 @@
 import React from "react";
 import { SafeAreaView, StyleSheet, TouchableOpacity, Image, View, Text } from "react-native";
 
-import logoCadastro from '../assets/icons/cadastro2.png'
-import logoTravel from '../assets/icons/travel_create_icon.png'
+import petRegistery from '../assets/icons/petRegistery.png'
+import travelCreatePet from '../assets/icons/travelCreatePet.png'
+import petboxIcon from '../assets/icons/petbox-icon.png'
 
-export default function Register() {
+export default props => {
     return(
         <SafeAreaView>
             <View style={styles.buttons}>
-                <TouchableOpacity style={styles.buttom}>
-                    <Image style={{width:150, height:150}} source={logoCadastro}/>
+                <TouchableOpacity style={styles.buttom} onPress={() => props.navigation.navigate('PetRegister', {...props})}>
+                    <Image style={{width:150, height:150}} source={petRegistery}/>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.buttom}>
-                    <Image style={{width:120, height:120}} source={logoTravel}/>
+                <TouchableOpacity style={styles.buttom} onPress={() => props.navigation.navigate('TripRegister', {...props})}>
+                    <Image style={{width:120, height:120}} source={travelCreatePet}/>
+                </TouchableOpacity>
+            </View>
+            <View style={styles.buttons}>
+                <TouchableOpacity style={styles.buttom} onPress={() => props.navigation.navigate('BoxRegister', {...props})}>
+                        <Image style={{width:130, height:130}} source={petboxIcon}/>
                 </TouchableOpacity>
             </View>
         </SafeAreaView>
@@ -26,15 +32,15 @@ const styles = StyleSheet.create({
     buttons: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        alignItems: 'stretch',
-        paddingTop: 80,
-        margin: 20
+        paddingHorizontal: 30,
+        paddingVertical: 15
     }, 
     buttom: {
+        justifyContent: "center",
+        alignItems: "center",
         backgroundColor: '#F5FAF7',
         borderRadius: 10,
-        marginHorizontal: 10,
-        padding: 10
-        
+        width: 160,
+        height: 160,
     }
 })
