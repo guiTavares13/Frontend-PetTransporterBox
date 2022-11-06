@@ -85,7 +85,5 @@ const styles = StyleSheet.create({
         borderBottomColor: "wite",
         height: 40
     },
-    dropDown: {
-        width: '70%',
-    }
+   
 })

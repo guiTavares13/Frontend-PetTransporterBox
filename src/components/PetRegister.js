@@ -119,6 +119,7 @@ export default props => {
                     mode="BADGE"
                     placeholder="Tipo"
                     badgeDotColors={["#e76f51", "#00b4d8", "#e9c46a", "#e76f51", "#8ac926", "#00b4d8", "#e9c46a"]} />
+               
                 <View style={styles.dateBirthBar}>
                     <TouchableOpacity 
                         title="" onPress={showDatepicker}
