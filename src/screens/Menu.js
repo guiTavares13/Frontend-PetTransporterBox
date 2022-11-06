@@ -2,80 +2,161 @@ import React , { useState, useEffect, Component, setState } from "react";
 import { View, Text, Image, SafeAreaView, StyleSheet, Pressable, TouchableHighlight, Alert } from "react-native";
 
 import Monitor from '../components/Monitor'
-import Historics from '../components/Historics'
-import Cadastros from "../components/Registers";
+import Registration from "../components/Registers"
+import Historic from '../components/Historics'
+import Footer from '../components/Footer'
+import { server, showError } from "../common";
 
-import logo from '../assets/icons/logo_icon.png'
+import logo from '../assets/icons/logo.png'
 
-export default function Menu() {
+export default props => {
 
-   var [state = {
+    console.log(props)
+
+   var [initialState = {
         name: '',
         monitor: true,
-        cadastro: false,
-        historico: false
+        registration: false,
+        historic: false
     }, setState] = useState()
 
+    var [state = {
+        ...initialState
+    }, setState] = useState()
+
+    var subtitle = defineSubtitle();
+
     toggleMonitor = () => {
-       setState({monitor: this.state.monitor})
+       setState({monitor: !state.monitor})
     }
 
-    toggleCadastro = () => {
-        setState({cadastro: !this.state.cadastro})
+    toggleRegistration = () => {
+        setState({registration: !state.registration})
     }
 
-    toggleHistorico = () => {
-        setState({cadastro: !this.state.historico})
+    toggleHistoric = () => {
+        setState({historic: !state.historic})
     }
+
+    function defineSubtitle() {
+        if(state.monitor){
+            return 'Deseja monitorar seu pet?'
+        } else if(state.registration) {
+            return 'Deseja cadastrar um pet novo ou uma viagem?'
+        } else if(state.historic) {
+            return 'Deseja consultar algum histórico?'
+        }
+    }
+
+    function defineRoute() {
+        if(state.monitor){
+            return <Monitor {...props}/>
+        } else if(state.registration) {
+            return <Registration {...props}/>
+        } else if(state.historic) {
+            return <Historic {...props}/>
+        }
+    }
+
+
+    // fetch(`${server}/user/:1`)
+    // .then((resp) => resp.json())
+    // .then(function(data){
+    //     let user = data.results;
+    //     console.log(user);
+    // }) 
+
+    var _retrieveData = async () => {
+        try {
+          const value = await AsyncStorage.getItem('nome');
+          if(value != null) {
+            console.log(value);
+            return value;
+          } else {
+            return null;
+          }
+            
+        } catch (error) {
+          // Error retrieving data
+        }
+      };
+
         return (
             <>
             <SafeAreaView style={styles.container}>
                 <View style={styles.header}>
-                    <View style={{height: 100, backgroundColor: 'steelblue'}}>
-                        <Text>Olá,</Text>
-                        <Text>Fernando</Text>
+                    <View style={styles.titleBar} >
+                        <Text style={styles.title}>Olá, {/*props.route.params.usuario_nome*/}</Text>
                     </View>
-                    <View style={{height: 100, backgroundColor: 'steelblue'}}>
+                    <View style={styles.titleImage}>
                         <Image style={{width:50, height:50}} source={logo}/>
                     </View>
                 </View>
                 <View style={styles.subititle}>
-                    <Text>Vamos <Text>monitorar</Text> seu anumalzinho {'\n'}
-                    ou <Text>cadastrar</Text> algo?
-                    </Text>
+                    <Text>{subtitle}</Text>
                 </View>
-                <SafeAreaView style={styles.buttoms}>
+                <SafeAreaView style={styles.buttonsBar}>
                     <View>
-                        <TouchableHighlight
-                                 title="Button Access" 
-                                 style={styles.buttonClicked}
-                                 onPress={toggleMonitor}>
+                        {state.monitor ? 
+                            <TouchableHighlight
+                                title="Button Access" 
+                                style={styles.buttonClicked}
+                                onPress={toggleMonitor}>
                                     <Text>Monitorar</Text>
-                        </TouchableHighlight> 
+                            </TouchableHighlight> 
+                            :
+                            <TouchableHighlight
+                                title="Button Access" 
+                                style={styles.buttonNonClicked}
+                                onPress={toggleMonitor}>
+                                    <Text>Monitorar</Text>
+                            </TouchableHighlight> 
+                        }
                     </View>
                     <View>
-                        <TouchableHighlight 
+                        {state.registration ?
+                            <TouchableHighlight 
                                 title="Button Access" 
                                 style={styles.buttonClicked}
-                                onPress={toggleCadastro}>
-                                    <Text>Cadastros</Text>
-                                    
+                                onPress={toggleRegistration}>
+                                    <Text>Cadastrar</Text>
+                            </TouchableHighlight> 
+                            :
+                            <TouchableHighlight 
+                            title="Button Access" 
+                            style={styles.buttonNonClicked}
+                            onPress={toggleRegistration}>
+                                <Text>Cadastrar</Text>
                         </TouchableHighlight> 
+                        }
                     </View>
                     <View>
-                        <TouchableHighlight 
+                        {state.historic ?
+                            <TouchableHighlight 
                                 title="Button Access" 
                                 style={styles.buttonClicked}
-                                onPress={toggleHistorico}>
+                                onPress={toggleHistoric}>
                                     <Text>Historicos</Text>
-                        </TouchableHighlight> 
+                            </TouchableHighlight> 
+                            :
+                            <TouchableHighlight 
+                                title="Button Access" 
+                                style={styles.buttonNonClicked}
+                                onPress={toggleHistoric}>
+                                    <Text>Historicos</Text>
+                            </TouchableHighlight> 
+                        }
+                        
                     </View>
                 </SafeAreaView>
             </SafeAreaView>
-            <SafeAreaView style={styles.container2}>
-                {/*this.cadastro ? <Cadastros/> : <Monitor/> || this.historico ? <Historics/> : <Monitor/>*/}
-                    <Cadastros/>
+            <SafeAreaView style={styles.containerRoute}>
+                {
+                    defineRoute()
+                }
             </SafeAreaView>
+            
+            <Footer {...props}/>
             
         </>
         )
@@ -91,11 +172,33 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         alignItems: 'stretch',
     },
-    subititle: {
-        alignItems: "flex-start"
+    titleBar: {
+        flex: 2,
+        justifyContent: 'flex-end',
+        padding: 30,
+        marginTop: 20,
     }, 
+    titleImage : {
+        flex: 2,
+        padding: 30,
+        marginTop: 20,
+        alignItems: "flex-end"
+    },
+    title: {
+        fontSize: 30,
+    },
+    subititle: {
+        alignItems: "flex-start",
+        padding: 20
+    }, 
+    buttonsBar: {
+        flexDirection: "row",
+        justifyContent: 'space-between',
+        alignItems: 'stretch',
+        margin: 40,
+    },
     buttonClicked: {
-        //backgroundColor: clickedMonitor == true ? '#32B768' :  '#F5FAF7',
+        backgroundColor: '#32B768',
         borderRadius: 10,
         paddingLeft: 10,
         paddingRight: 10,
@@ -110,14 +213,8 @@ const styles = StyleSheet.create({
         paddingTop: 10,
         paddingBottom: 10
     },
-    buttoms: {
-        flexDirection: "row",
-        justifyContent: 'space-between',
-        alignItems: 'stretch',
-        margin: 40,
-    },
-    container2: {
+    containerRoute: {
         flex: 1,
         backgroundColor: '#fff'
-    }
+    },
 })
