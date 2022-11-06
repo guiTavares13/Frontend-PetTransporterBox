@@ -11,11 +11,12 @@ import PetRegister from '../components/PetRegister'
 import BoxRegister from '../components/BoxRegister'
 import TripRegister from '../components/TripRegister'
 import LocationPet from "../components/LocationPet";
+import BoxType from "../components/BoxTypeRegister";
 
 const Stack = createNativeStackNavigator()
 
 export default props => (
-    <Stack.Navigator initialRouteName="Initial"
+    <Stack.Navigator initialRouteName="Menu"
         screenOptions={{headerShown: false}}>
         <Stack.Screen name="Initial" component={Initial}/>
         <Stack.Screen name="Welcome" component={Welcome}/>
@@ -27,5 +28,6 @@ export default props => (
         <Stack.Screen name="BoxRegister" component={BoxRegister}/>
         <Stack.Screen name="TripRegister" component={TripRegister}/>
         <Stack.Screen name="LocationPet" component={LocationPet}/>
+        <Stack.Screen name="BoxType" component={BoxType} />
     </Stack.Navigator>
 )

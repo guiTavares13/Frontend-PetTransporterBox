@@ -4,12 +4,21 @@ import { useState } from "react";
 import global from '../../global'
 import {server, showError} from '../../src/common'
 import DateTimePicker, { DateTimePickerAndroid } from '@react-native-community/datetimepicker';
-
+import DropDownPicker from 'react-native-dropdown-picker';
 import calendarIcon from '../assets/icons/calendar.png'
 
 export default props => {
 
-    
+    const [open, setOpen] = useState(false);
+    const [value, setValue] = useState(['italy', 'spain', 'barcelona', 'finland']);
+    const [items, setItems] = useState([
+    // {label: 'Spain', value: 'spain'},
+    // {label: 'Madrid', value: 'madrid', parent: 'spain'},
+    // {label: 'Barcelona', value: 'barcelona', parent: 'spain'},
+    // {label: 'Italy', value: 'italy'},
+    // {label: 'Rome', value: 'rome', parent: 'italy'},
+    // {label: 'Finland', value: 'finland'}
+  ]);
 
     var [initialState ={
         name: '',
@@ -49,7 +58,6 @@ export default props => {
         showMode('date');
       };
 
-
     register = () => {
         try {
             fetch(`${server}/pet`, {
@@ -83,11 +91,34 @@ export default props => {
                 onChangeText={cName => setState(prevState =>({...prevState, name: cName}))}/>
                 <TextInput style={styles.input} placeholder="Idade" value={state.age}
                 onChangeText={cAge => setState(prevState =>({...prevState, age: cAge}))}/>
-                <TextInput style={styles.input} placeholder="Raça" value={state.breed}
-                onChangeText={cBreed => setState(prevState =>({...prevState, breed: cBreed}))}/>
-                <TextInput style={styles.input} placeholder="Tipo" value={state.type}
-                onChangeText={cType => setState(prevState =>({...prevState, type: cType}))}/>
 
+                <DropDownPicker
+                    style={styles.dropDown}
+                    open={open}
+                    value={value}
+                    items={items}
+                    setOpen={setOpen}
+                    setValue={setValue}
+                    setItems={setItems}
+                    theme="DARK"
+                    multiple={true}
+                    mode="BADGE"
+                    placeholder="Raça"
+                    badgeDotColors={["#e76f51", "#00b4d8", "#e9c46a", "#e76f51", "#8ac926", "#00b4d8", "#e9c46a"]}/>
+
+                <DropDownPicker
+                    style={styles.dropDown}
+                    open={open}
+                    value={value}
+                    items={items}
+                    setOpen={setOpen}
+                    setValue={setValue}
+                    setItems={setItems}
+                    theme="DARK"
+                    multiple={true}
+                    mode="BADGE"
+                    placeholder="Tipo"
+                    badgeDotColors={["#e76f51", "#00b4d8", "#e9c46a", "#e76f51", "#8ac926", "#00b4d8", "#e9c46a"]} />
                 <View style={styles.dateBirthBar}>
                     <TouchableOpacity 
                         title="" onPress={showDatepicker}
@@ -99,9 +130,7 @@ export default props => {
                     {state.dateTimeShow &&
                         <DateTimePicker value={date} title="Show date picker!" />
                     }
-                    
                 </View>
-                
             </View>
         </SafeAreaView>
     );
@@ -130,5 +159,9 @@ const styles = StyleSheet.create({
     dateBirthBar: {
         flexDirection: "row",
         alignItems: 'stretch',
+    }, 
+    dropDown: {
+        width: '70%',
+        margin: 10
     }
 })

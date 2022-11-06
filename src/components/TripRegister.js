@@ -1,8 +1,11 @@
 import React from "react";
-import { SafeAreaView, TouchableOpacity, Text, View, TextInput, StyleSheet} from 'react-native'
+import { SafeAreaView, TouchableOpacity, Text, View, Image, TextInput, StyleSheet, Platform} from 'react-native'
 import { useState } from "react";
 import global from '../../global'
 import {server, showError} from '../../src/common'
+import DateTimePicker, { DateTimePickerAndroid } from '@react-native-community/datetimepicker';
+import DropDownPicker from 'react-native-dropdown-picker';
+import calendarIcon from '../assets/icons/calendar.png'
 
 export default props => {
 
@@ -17,6 +20,41 @@ export default props => {
         ...initialState
     }, setState] = useState()
 
+    const [open, setOpen] = useState(false);
+    const [value, setValue] = useState(['italy', 'spain', 'barcelona', 'finland']);
+    const [items, setItems] = useState([
+        // {label: 'Spain', value: 'spain'},
+        // {label: 'Madrid', value: 'madrid', parent: 'spain'},
+        // {label: 'Barcelona', value: 'barcelona', parent: 'spain'},
+        // {label: 'Italy', value: 'italy'},
+        // {label: 'Rome', value: 'rome', parent: 'italy'},
+        // {label: 'Finland', value: 'finland'}
+    ]);
+
+
+    const onChange = (event, selectedDate) => {
+    const currentDate = selectedDate || date;
+    setShow(Platform.OS === 'ios');
+    setDate(currentDate);
+
+    let tempDate = new Date(currentDate);
+    let fDate = tempDate.getDate() + '/' + (tempDate.getMonth() + 1) + '/' + tempDate.getFullYear();
+    setState({dataNascimento: fDate})
+    };
+
+    const showMode = (currentMode) => {
+    DateTimePickerAndroid.open({
+        value: date,
+        onChange,
+        mode: currentMode,
+        is24Hour: true,
+    });};
+
+    const showDatepicker = () => {
+    setState({dateTimeShow: !state.dateTimeShow});
+    showMode('date');
+    };
+    
 
     register = () => {
         try {
@@ -45,12 +83,46 @@ export default props => {
                 <Text style={styles.title}>Cadastrar Viagem</Text>
             </View>
             <View>
-                <TextInput placeholder="IdPet" value={state.petId}
-                onChangeText={cName => setState(prevState =>({...prevState, petId: cName}))}/>
-                <TextInput placeholder="IdCaixa" value={state.caixaID}
-                onChangeText={cAge => setState(prevState =>({...prevState, caixaID: cAge}))}/>
-                <TextInput placeholder="Data" value={state.date}
-                onChangeText={cBreed => setState(prevState =>({...prevState, date: cBreed}))}/>
+                <DropDownPicker
+                    style={styles.dropDown}
+                    open={open}
+                    value={value}
+                    items={items}
+                    setOpen={setOpen}
+                    setValue={setValue}
+                    setItems={setItems}
+                    theme="DARK"
+                    multiple={true}
+                    mode="BADGE"
+                    placeholder="Selecione o pet"
+                    badgeDotColors={["#e76f51", "#00b4d8", "#e9c46a", "#e76f51", "#8ac926", "#00b4d8", "#e9c46a"]}/>
+
+                <DropDownPicker
+                    style={styles.dropDown}
+                    open={open}
+                    value={value}
+                    items={items}
+                    setOpen={setOpen}
+                    setValue={setValue}
+                    setItems={setItems}
+                    theme="DARK"
+                    multiple={true}
+                    mode="BADGE"
+                    placeholder="Selecione a caixa"
+                    badgeDotColors={["#e76f51", "#00b4d8", "#e9c46a", "#e76f51", "#8ac926", "#00b4d8", "#e9c46a"]}/>
+
+                <View style={styles.dateBirthBar}>
+                <Text>{state.dataNascimento}</Text>
+                    <TouchableOpacity 
+                        title="" onPress={showDatepicker}
+                        style={styles.btnAvancar}>
+                        <Image style={{width:30, height:30}}
+                            source={calendarIcon}/>
+                    </TouchableOpacity> 
+                    {state.dateTimeShow &&
+                        <DateTimePicker value={date} title="Show date picker!" />
+                    }
+                </View>
             </View>
 
             <TouchableOpacity 
@@ -79,5 +151,13 @@ const styles = StyleSheet.create({
         paddingBottom: 15,
         margin: 30
     },
+    dropDown: {
+        width: '70%',
+        margin: 10
+    },
+    dateBirthBar: {
+        flexDirection: "row",
+        alignItems: 'stretch',
+    }, 
     
 })

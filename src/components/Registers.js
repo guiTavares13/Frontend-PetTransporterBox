@@ -4,6 +4,7 @@ import { SafeAreaView, StyleSheet, TouchableOpacity, Image, View, Text } from "r
 import petRegistery from '../assets/icons/petRegistery.png'
 import travelCreatePet from '../assets/icons/travelCreatePet.png'
 import petboxIcon from '../assets/icons/petbox-icon.png'
+import modelBox from '../assets/icons/model-box.png'
 
 export default props => {
     return(
@@ -19,6 +20,9 @@ export default props => {
             <View style={styles.buttons}>
                 <TouchableOpacity style={styles.buttom} onPress={() => props.navigation.navigate('BoxRegister', {...props})}>
                         <Image style={{width:130, height:130}} source={petboxIcon}/>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.buttom} onPress={() => props.navigation.navigate('BoxType', {...props})}>
+                        <Image style={{width:130, height:130}} source={modelBox}/>
                 </TouchableOpacity>
             </View>
         </SafeAreaView>

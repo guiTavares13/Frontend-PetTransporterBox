@@ -2,21 +2,9 @@ import React from "react";
 import { SafeAreaView, TouchableOpacity, Text, View, TextInput, StyleSheet} from 'react-native'
 import { useState } from "react";
 import global from '../../global'
-import {server, showError} from '../../src/common'
-import DropDownPicker from 'react-native-dropdown-picker';
+import {server, showError} from '../common'
 
 export default props => {
-
-    const [open, setOpen] = useState(false);
-    const [value, setValue] = useState(['italy', 'spain', 'barcelona', 'finland']);
-    const [items, setItems] = useState([
-    // {label: 'Spain', value: 'spain'},
-    // {label: 'Madrid', value: 'madrid', parent: 'spain'},
-    // {label: 'Barcelona', value: 'barcelona', parent: 'spain'},
-    // {label: 'Italy', value: 'italy'},
-    // {label: 'Rome', value: 'rome', parent: 'italy'},
-    // {label: 'Finland', value: 'finland'}
-  ]);
 
     var [initialState ={
         nome: '',
@@ -54,25 +42,15 @@ export default props => {
     return (
         <SafeAreaView style={global.container}>
             <View>
-                <Text style={styles.title}>Cadastrar Caixa</Text>
+                <Text style={styles.title}>Cadastrar Modelo de Caixa</Text>
             </View>
             <View>
-                <TextInput style={styles.input} placeholder="Nome da caixa" value={state.nome}
+                <TextInput style={styles.input} placeholder="Nome do modelo" value={state.nome}
                 onChangeText={cName => setState(prevState =>({...prevState, nome: cName}))}/>
-                <DropDownPicker
-                    style={styles.dropDown}
-                    open={open}
-                    value={value}
-                    items={items}
-                    setOpen={setOpen}
-                    setValue={setValue}
-                    setItems={setItems}
-                    theme="DARK"
-                    multiple={true}
-                    mode="BADGE"
-                    placeholder="Modelos"
-                    badgeDotColors={["#e76f51", "#00b4d8", "#e9c46a", "#e76f51", "#8ac926", "#00b4d8", "#e9c46a"]}
-            />
+                <TextInput style={styles.input} placeholder="Altura" value={state.altura}
+                onChangeText={cAltura => setState(prevState =>({...prevState, altura: cAltura}))}/>
+                <TextInput style={styles.input} placeholder="Largura" value={state.largura}
+                onChangeText={cLargura => setState(prevState =>({...prevState, largura: cLargura}))}/>
             </View>
 
             <TouchableOpacity 
@@ -106,7 +84,7 @@ const styles = StyleSheet.create({
         borderBottomWidth: 0.7,
         borderBottomColor: "wite",
         height: 40
-    }, 
+    },
     dropDown: {
         width: '70%',
     }
