@@ -1,19 +1,21 @@
-import { SafeAreaView, Image, TouchableOpacity, StyleSheet, Text, View } from "react-native";
+import { SafeAreaView, Image, TouchableOpacity, StyleSheet, Text, View, LogBox } from "react-native";
 import { useFonts } from 'expo-font';
 
 import global from "../../global";
 
-import logo from '../assets/icons/logo_icon.png'
-import avancar from '../assets/icons/btnWelcome.png'
+import logo from '../assets/icons/logo.png'
+import buttonInitial from '../assets/icons/buttonInitial.png'
 
 export default props => {
-    
-    const firstAccess = true;
 
-    const [fontsLoaded] = useFonts({
-        'Jost-BoldItalic': require('../../assets/fonts/Jost-BoldItalic.ttf'),
-        'Jost-Regular': require('../../assets/fonts/Jost-Regular.ttf')
-    });
+    // const [fontsLoaded] = useFonts({
+    //     'Jost-BoldItalic': require('../../assets/fonts/Jost-BoldItalic.ttf'),
+    //     'Jost-Regular': require('../../assets/fonts/Jost-Regular.ttf')
+    // });
+
+    LogBox.ignoreLogs([
+        'Non-serializable values were found in the navigation state',
+      ]);
     
         return(
             <SafeAreaView style={global.container}>
@@ -28,7 +30,7 @@ export default props => {
                     style={styles.btnAvancar}
                     onPress={() => {props.navigation.navigate('FirstAccess', {...props})}}>
                         <Image 
-                            source={avancar}/>
+                            source={buttonInitial}/>
                     </TouchableOpacity>
                 </View>
                 
@@ -45,12 +47,10 @@ const styles = StyleSheet.create({
     }, 
     avancar: {
         alignItems: 'center',
-        paddingTop: 100,
-        fontFamily: 'Jost-Regular'
+        paddingTop: 100
     },
     title: {
         marginTop: 20,
-        fontFamily: "Jost-BoldItalic",
         fontSize: 30
     },
     subtitle: {
