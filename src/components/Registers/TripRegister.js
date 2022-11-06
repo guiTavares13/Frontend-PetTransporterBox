@@ -1,11 +1,11 @@
 import React from "react";
 import { SafeAreaView, TouchableOpacity, Text, View, Image, TextInput, StyleSheet, Platform} from 'react-native'
 import { useState } from "react";
-import global from '../../global'
-import {server, showError} from '../../src/common'
+import global from '../../../global'
+import {server, showError} from '../../common'
 import DateTimePicker, { DateTimePickerAndroid } from '@react-native-community/datetimepicker';
 import DropDownPicker from 'react-native-dropdown-picker';
-import calendarIcon from '../assets/icons/calendar.png'
+import calendarIcon from '../../assets/icons/calendar.png'
 
 export default props => {
 

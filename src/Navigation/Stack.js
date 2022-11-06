@@ -3,20 +3,20 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
 import Initial from '../screens/Initial'
 import Menu from '../screens/Menu'
-import FirstAccess from "../components/FirstAccess";
-import FirstAccessConcluded from '../components/FirstAccessConcluded'
-import Welcome from "../components/Welcome";
+import FirstAccess from "../components/Auth/FirstAccess";
+import FirstAccessConcluded from '../components/Auth/FirstAccessConcluded'
+import Welcome from "../components/Auth/Welcome";
 import PetList from '../components/PetList'
-import PetRegister from '../components/PetRegister'
-import BoxRegister from '../components/BoxRegister'
-import TripRegister from '../components/TripRegister'
-import LocationPet from "../components/LocationPet";
-import BoxType from "../components/BoxTypeRegister";
+import PetRegister from '../components/Registers/PetRegister'
+import BoxRegister from '../components/Registers/BoxRegister'
+import TripRegister from '../components/Registers/TripRegister'
+import LocationPet from "../components/Monitors/LocationPet";
+import BoxType from "../components/Registers/BoxTypeRegister";
 
 const Stack = createNativeStackNavigator()
 
 export default props => (
-    <Stack.Navigator initialRouteName="Menu"
+    <Stack.Navigator initialRouteName="Initial"
         screenOptions={{headerShown: false}}>
         <Stack.Screen name="Initial" component={Initial}/>
         <Stack.Screen name="Welcome" component={Welcome}/>

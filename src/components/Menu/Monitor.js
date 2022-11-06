@@ -1,9 +1,9 @@
 import React from "react";
 import { SafeAreaView, StyleSheet, TouchableOpacity, Image, View, Text } from "react-native";
 
-import petLocation from '../assets/icons/location.png'
-import petMonitor from '../assets/icons/petMonitor.png'
-import mapHeat from '../assets/icons/mapHeat.png'
+import petLocation from '../../assets/icons/location.png'
+import petMonitor from '../../assets/icons/petMonitor.png'
+import mapHeat from '../../assets/icons/mapHeat.png'
 
 export default props => {
     return(

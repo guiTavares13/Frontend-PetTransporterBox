@@ -1,19 +1,22 @@
 import React from "react";
-import { Text, TextInput, StyleSheet, TouchableOpacity, SafeAreaView, View, Image, Platform } from "react-native";
+import { Text, StyleSheet, TouchableOpacity, SafeAreaView, View, Keyboard, Platform } from "react-native";
 import DateTimePicker, { DateTimePickerAndroid } from '@react-native-community/datetimepicker';
-import { useState } from "react";
-import global from '../../global'
+import { useState, useRef } from "react";
+import global from '../../../global'
 import 'sessionstorage';
+import AuthInput from "./AuthInput";
 
-import calendarIcon from '../assets/icons/calendar.png'
+import calendarIcon from '../../assets/icons/calendar.png'
 
-import { server, showError } from "../common";
+import { server, showError } from "../../common";
 
 export default props => {
 
-    const [date, setDate] = useState(new Date(1598051730000));
-    const [mode, setMode] = useState('date');
+    //const [mode, setMode] = useState('date');
+    const [date, setDate] = useState(new Date());
     const [show, setShow] = useState(false);
+    const [dateTimeShow, setShowDate] = useState(false);
+    const senhaRef = useRef();
 
     var [initialState = {
         name: '',
@@ -24,7 +27,6 @@ export default props => {
         nascimento:  '',
         senha: '123',
         stageNew: false,
-        dateTimeShow: false
     }, setState] = useState()
     
     var [state = {
@@ -37,7 +39,7 @@ export default props => {
         setDate(currentDate);
         let tempDate = new Date(currentDate);
         let fDate = tempDate.getDate() + '/' + (tempDate.getMonth() + 1) + '/' + tempDate.getFullYear();
-        setState({nascimento: fDate})
+        useState({...prevState,nascimento: fDate})
       };
     
       const showMode = (currentMode) => {
@@ -50,9 +52,14 @@ export default props => {
       };
     
       const showDatepicker = () => {
-        setState({dateTimeShow: !state.dateTimeShow});
-        showMode('date');
+        setShowDate({dateTimeShow: !dateTimeShow});
+
+        if(dateTimeShow) {
+            showMode('date');
+        }
       };
+
+      
 
 
     signinOrSignup = () => {
@@ -121,52 +128,58 @@ export default props => {
     return(
         <SafeAreaView style={global.container}>
             <Text style={styles.text}>Caixa Pet</Text>
-            <Text>{state.stageNew ? 'Crie sua conta': 'Informe seus dados'}</Text>
-            <View>
+            <View style={styles.formContainer}>
+                <Text style={styles.subtitle}>{state.stageNew ? 'Crie sua conta': 'Informe seus dados'}</Text>
                 {state.stageNew && 
-                    <TextInput style={styles.input}  placeholder="Primeiro nome" value={state.name}
+                    <AuthInput icon='user' style={styles.input}  placeholder="Primeiro nome" value={state.name}
                     onChangeText={cName => setState(prevState=>({...prevState,nome:cName}))}
                     />
                 }
                 {state.stageNew && 
-                   <TextInput style={styles.input}  placeholder="Último nome" value={state.lastName}
+                   <AuthInput icon='user' style={styles.input}  placeholder="Último nome" value={state.lastName}
                    onChangeText={cLastName => setState(prevState=>({...prevState,lastName:cLastName}))}
                    />
                 }
-                
-                <TextInput style={styles.input}  placeholder="E-mail" value={state.email}
+                <AuthInput icon='at' style={styles.input}  placeholder="E-mail" value={state.email}
                 onChangeText={cEmail => setState(prevState=>({...prevState,email:cEmail}))}
                 />
                 {state.stageNew && 
-                    <TextInput style={styles.input}  placeholder="CPF" value={state.documento}
+                    <AuthInput icon='id-card-o' style={styles.input}  placeholder="CPF" value={state.documento}
                     onChangeText={cDocumento => setState(prevState=>({...prevState,documento:cDocumento}))}
                     />
                 }
                 {state.stageNew &&
-                    <TextInput style={styles.input}  placeholder="Celular" value={state.phone}
+                    <AuthInput icon='phone' style={styles.input}  placeholder="Celular" value={state.phone}
                     onChangeText={cCelular => setState(prevState=>({...prevState,phone:cCelular}))}
                     />
                 }
                 {state.stageNew &&
-                    <View style={styles.dateBirthBar}>
-                        <TouchableOpacity 
-                            title="" onPress={showDatepicker}
-                            style={styles.btnAvancar}>
-                            <Image style={{width:30, height:30}}
-                                source={calendarIcon}/>
-                        </TouchableOpacity> 
-                        <Text>{state.nascimento}</Text>
-                        {state.dateTimeShow &&
-                            <DateTimePicker value={date} title="Show date picker!" />
-                        }
-                    </View>
+                    // <View style={styles.dateBirthBar}>
+                    //     <TouchableOpacity 
+                    //         title="" onPress={showDatepicker}
+                    //         style={styles.btnAvancar}>
+                    //         <Image style={{width:30, height:30}}
+                    //             source={calendarIcon}/>
+                    //     </TouchableOpacity> 
+                    //     <Text>{state.nascimento}</Text>
+                    //     {state.dateTimeShow &&
+                    //         <DateTimePicker value={date} title="Show date picker!" />
+                    //     }
+                    // </View>
+                    <AuthInput icon='calendar' style={styles.input}  placeholder="Data de Nascimento" value={state.nascimento}
+                        onFocus={showDatepicker} onSubmitEditing={() => {lastNameRef.current.focus();}} showSoftInputOnFocus={false}>
+                            {dateTimeShow &&
+                                <DateTimePicker returnKeyType="next" blurOnSubmit={false} onSubmitEditing={() => {senhaRef.current.focus();}}
+                                 value={date} title="Show date picker!" />
+                            }
+                    </AuthInput>
                 }
                
-                <TextInput style={styles.input}  placeholder="Senha"  secureTextEntry={true} value={state.senha}
+               <AuthInput icon='lock' style={styles.input} ref={senhaRef} placeholder="Senha"  secureTextEntry={true} value={state.senha}
                 onChangeText={cPassword => setState(prevState=>({...prevState,senha:cPassword}))}
                 />
                 {/* {state.stageNew &&
-                    <TextInput style={styles.input}  placeholder="Confirmar senha" secureTextEntry={true}
+                    <AuthInput icon='asterisk' style={styles.input}  placeholder="Confirmar senha" secureTextEntry={true}
                     />
                 } */}
                 
@@ -191,6 +204,12 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center'
     },
+    formContainer: {
+        backgroundColor: 'rgba(0,0,0, 0.8)',
+        padding: 20,
+        width: '90%',
+        borderRadius: 10
+    },
     buttonAccess:{
         backgroundColor: '#2F80ED',
         borderRadius: 10,
@@ -198,6 +217,9 @@ const styles = StyleSheet.create({
         paddingRight: 70,
         paddingTop: 15,
         paddingBottom: 15
+    },
+    subtitle: {
+        color: '#fff'
     },
     text: {
         fontStyle: 'bold',
@@ -207,12 +229,9 @@ const styles = StyleSheet.create({
         fontSize: 24
     },
     input: {
-        marginBottom: 50,
-        borderBottomWidth: 0.5,
-        borderBottomColor: "wite",
-    },
-    textButtonAccess: {
-        
+        marginTop: 10,
+        backgroundColor: '#FFF',
+        borderRadius: 10
     },
     dateBirthBar: {
         flexDirection: "row",

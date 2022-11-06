@@ -1,17 +1,12 @@
 import { SafeAreaView, Image, TouchableOpacity, StyleSheet, Text, View, LogBox } from "react-native";
 import { useFonts } from 'expo-font';
 
-import global from "../../global";
+import global from "../../../global";
 
-import logo from '../assets/icons/logo.png'
-import buttonInitial from '../assets/icons/buttonInitial.png'
+import logo from '../../assets/icons/logo.png'
+import buttonInitial from '../../assets/icons/buttonInitial.png'
 
 export default props => {
-
-    // const [fontsLoaded] = useFonts({
-    //     'Jost-BoldItalic': require('../../assets/fonts/Jost-BoldItalic.ttf'),
-    //     'Jost-Regular': require('../../assets/fonts/Jost-Regular.ttf')
-    // });
 
     LogBox.ignoreLogs([
         'Non-serializable values were found in the navigation state',

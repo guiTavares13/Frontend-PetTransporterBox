@@ -1,9 +1,9 @@
 import React , { useState, useEffect, Component, setState } from "react";
 import { View, Text, Image, SafeAreaView, StyleSheet, Pressable, TouchableHighlight, Alert } from "react-native";
 
-import Monitor from '../components/Monitor'
-import Registration from "../components/Registers"
-import Historic from '../components/Historics'
+import Monitor from '../components/Menu/Monitor'
+import Registration from "../components/Menu/Registers"
+import Historic from '../components/Menu/Historics'
 import Footer from '../components/Footer'
 import { server, showError } from "../common";
 

@@ -1,10 +1,10 @@
 import React from "react";
 import { SafeAreaView, StyleSheet, TouchableOpacity, Image, View, Text } from "react-native";
 
-import petRegistery from '../assets/icons/petRegistery.png'
-import travelCreatePet from '../assets/icons/travelCreatePet.png'
-import petboxIcon from '../assets/icons/petbox-icon.png'
-import modelBox from '../assets/icons/model-box.png'
+import petRegistery from '../../assets/icons/petRegistery.png'
+import travelCreatePet from '../../assets/icons/travelCreatePet.png'
+import petboxIcon from '../../assets/icons/petbox-icon.png'
+import modelBox from '../../assets/icons/model-box.png'
 
 export default props => {
     return(
