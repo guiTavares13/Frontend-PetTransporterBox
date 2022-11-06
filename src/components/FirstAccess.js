@@ -1,20 +1,19 @@
 import React from "react";
-import { Text, TextInput, StyleSheet, TouchableOpacity, SafeAreaView, View } from "react-native";
-import { useFonts } from 'expo-font';
+import { Text, TextInput, StyleSheet, TouchableOpacity, SafeAreaView, View, Image, Platform } from "react-native";
+import DateTimePicker, { DateTimePickerAndroid } from '@react-native-community/datetimepicker';
 import { useState } from "react";
 import global from '../../global'
 import 'sessionstorage';
 
+import calendarIcon from '../assets/icons/calendar.png'
+
 import { server, showError } from "../common";
 
 export default props => {
-    
-    /*const [date, setDate] = useState(null);
-    useEffect(() => {
-        let today = new Date();
-        let date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
-        setDate(date);
-    }, []);*/
+
+    const [date, setDate] = useState(new Date(1598051730000));
+    const [mode, setMode] = useState('date');
+    const [show, setShow] = useState(false);
 
     var [initialState = {
         name: '',
@@ -22,16 +21,39 @@ export default props => {
         email: 'gui@teste.com',
         documento: '',
         phone: '',
-        nascimento:  new Date(),
+        nascimento:  '',
         senha: '123',
-        stageNew: false
+        stageNew: false,
+        dateTimeShow: false
     }, setState] = useState()
     
     var [state = {
         ...initialState
     }, setState] = useState()
 
-    var dataNasc = new Date('1998','05', '18');
+    const onChange = (event, selectedDate) => {
+        const currentDate = selectedDate || date;
+        setShow(Platform.OS === 'ios');
+        setDate(currentDate);
+        let tempDate = new Date(currentDate);
+        let fDate = tempDate.getDate() + '/' + (tempDate.getMonth() + 1) + '/' + tempDate.getFullYear();
+        setState({nascimento: fDate})
+      };
+    
+      const showMode = (currentMode) => {
+        DateTimePickerAndroid.open({
+          value: date,
+          onChange,
+          mode: currentMode,
+          is24Hour: true,
+        });
+      };
+    
+      const showDatepicker = () => {
+        setState({dateTimeShow: !state.dateTimeShow});
+        showMode('date');
+      };
+
 
     signinOrSignup = () => {
         if (state.stageNew){
@@ -51,7 +73,7 @@ export default props => {
                 lastName: state.lastName,
                 email: state.email,
                 phone: state.phone,
-                nascimento: dataNasc,
+                nascimento: state.nascimento,
                 senha: state.password,
                 userStatus: 1
             }),
@@ -125,6 +147,20 @@ export default props => {
                     onChangeText={cCelular => setState(prevState=>({...prevState,phone:cCelular}))}
                     />
                 }
+                {state.stageNew &&
+                    <View style={styles.dateBirthBar}>
+                        <TouchableOpacity 
+                            title="" onPress={showDatepicker}
+                            style={styles.btnAvancar}>
+                            <Image style={{width:30, height:30}}
+                                source={calendarIcon}/>
+                        </TouchableOpacity> 
+                        <Text>{state.nascimento}</Text>
+                        {state.dateTimeShow &&
+                            <DateTimePicker value={date} title="Show date picker!" />
+                        }
+                    </View>
+                }
                
                 <TextInput style={styles.input}  placeholder="Senha"  secureTextEntry={true} value={state.senha}
                 onChangeText={cPassword => setState(prevState=>({...prevState,senha:cPassword}))}
@@ -173,12 +209,13 @@ const styles = StyleSheet.create({
     input: {
         marginBottom: 50,
         borderBottomWidth: 0.5,
-        borderBottomColor: "black",
+        borderBottomColor: "wite",
     },
     textButtonAccess: {
         
     },
-    dateComponent: {
-        width: 350
+    dateBirthBar: {
+        flexDirection: "row",
+        alignItems: 'stretch',
     }
 })

@@ -1,22 +1,53 @@
 import React from "react";
-import { SafeAreaView, TouchableOpacity, Text, View, TextInput, StyleSheet} from 'react-native'
+import { SafeAreaView, TouchableOpacity, Text, View, TextInput, StyleSheet, Image, Platform} from 'react-native'
 import { useState } from "react";
 import global from '../../global'
 import {server, showError} from '../../src/common'
+import DateTimePicker, { DateTimePickerAndroid } from '@react-native-community/datetimepicker';
+
+import calendarIcon from '../assets/icons/calendar.png'
 
 export default props => {
+
+    
 
     var [initialState ={
         name: '',
         age: 0,
         breed: '',
         type: '',
+        dataNascimento: '',
+        dateTimeShow: false
     }, setState] = useState()
 
 
     var [state = {
         ...initialState
     }, setState] = useState()
+
+    const onChange = (event, selectedDate) => {
+        const currentDate = selectedDate || date;
+        setShow(Platform.OS === 'ios');
+        setDate(currentDate);
+
+        let tempDate = new Date(currentDate);
+        let fDate = tempDate.getDate() + '/' + (tempDate.getMonth() + 1) + '/' + tempDate.getFullYear();
+        setState({dataNascimento: fDate})
+      };
+    
+      const showMode = (currentMode) => {
+        DateTimePickerAndroid.open({
+          value: date,
+          onChange,
+          mode: currentMode,
+          is24Hour: true,
+        });
+      };
+    
+      const showDatepicker = () => {
+        setState({dateTimeShow: !state.dateTimeShow});
+        showMode('date');
+      };
 
 
     register = () => {
@@ -56,16 +87,22 @@ export default props => {
                 onChangeText={cBreed => setState(prevState =>({...prevState, breed: cBreed}))}/>
                 <TextInput style={styles.input} placeholder="Tipo" value={state.type}
                 onChangeText={cType => setState(prevState =>({...prevState, type: cType}))}/>
-            </View>
 
-            <TouchableOpacity 
-                    title="Salvar" 
-                    style={styles.button}
-                    onPress={register}>
-                    <Text style={styles.textButton}>
-                        Salvar
-                    </Text>
-            </TouchableOpacity>
+                <View style={styles.dateBirthBar}>
+                    <TouchableOpacity 
+                        title="" onPress={showDatepicker}
+                        style={styles.btnAvancar}>
+                        <Image style={{width:30, height:30}}
+                            source={calendarIcon}/>
+                    </TouchableOpacity> 
+                    <Text>{state.dataNascimento}</Text>
+                    {state.dateTimeShow &&
+                        <DateTimePicker value={date} title="Show date picker!" />
+                    }
+                    
+                </View>
+                
+            </View>
         </SafeAreaView>
     );
 }
@@ -89,5 +126,9 @@ const styles = StyleSheet.create({
         borderBottomWidth: 0.7,
         borderBottomColor: "wite",
         height: 40
+    },
+    dateBirthBar: {
+        flexDirection: "row",
+        alignItems: 'stretch',
     }
 })

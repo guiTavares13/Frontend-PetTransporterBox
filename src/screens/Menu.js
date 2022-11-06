@@ -86,7 +86,7 @@ export default props => {
             <SafeAreaView style={styles.container}>
                 <View style={styles.header}>
                     <View style={styles.titleBar} >
-                        <Text style={styles.title}>Olá, {props.route.params.usuario_nome}</Text>
+                        <Text style={styles.title}>Olá, {/*props.route.params.usuario_nome*/}</Text>
                     </View>
                     <View style={styles.titleImage}>
                         <Image style={{width:50, height:50}} source={logo}/>
