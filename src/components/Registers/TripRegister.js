@@ -5,7 +5,7 @@ import global from '../../../global'
 import {server, showError} from '../../common'
 import DateTimePicker, { DateTimePickerAndroid } from '@react-native-community/datetimepicker';
 import DropDownPicker from 'react-native-dropdown-picker';
-import calendarIcon from '../../assets/icons/calendar.png'
+import AuthInput from "../Auth/AuthInput";
 
 export default props => {
 
@@ -30,31 +30,6 @@ export default props => {
         // {label: 'Rome', value: 'rome', parent: 'italy'},
         // {label: 'Finland', value: 'finland'}
     ]);
-
-
-    const onChange = (event, selectedDate) => {
-    const currentDate = selectedDate || date;
-    setShow(Platform.OS === 'ios');
-    setDate(currentDate);
-
-    let tempDate = new Date(currentDate);
-    let fDate = tempDate.getDate() + '/' + (tempDate.getMonth() + 1) + '/' + tempDate.getFullYear();
-    setState({dataNascimento: fDate})
-    };
-
-    const showMode = (currentMode) => {
-    DateTimePickerAndroid.open({
-        value: date,
-        onChange,
-        mode: currentMode,
-        is24Hour: true,
-    });};
-
-    const showDatepicker = () => {
-    setState({dateTimeShow: !state.dateTimeShow});
-    showMode('date');
-    };
-    
 
     register = () => {
         try {
@@ -82,9 +57,9 @@ export default props => {
             <View>
                 <Text style={styles.title}>Cadastrar Viagem</Text>
             </View>
-            <View>
+            <View style={styles.formContainer}>
+            <View style={styles.dropDown}>
                 <DropDownPicker
-                    style={styles.dropDown}
                     open={open}
                     value={value}
                     items={items}
@@ -95,10 +70,11 @@ export default props => {
                     multiple={true}
                     mode="BADGE"
                     placeholder="Selecione o pet"
-                    badgeDotColors={["#e76f51", "#00b4d8", "#e9c46a", "#e76f51", "#8ac926", "#00b4d8", "#e9c46a"]}/>
-
+                    badgeDotColors={["#e76f51", "#00b4d8", "#e9c46a", "#e76f51", "#8ac926", "#00b4d8", "#e9c46a"]}
+                    />
+            </View>
+            <View style={styles.dropDown}>
                 <DropDownPicker
-                    style={styles.dropDown}
                     open={open}
                     value={value}
                     items={items}
@@ -109,20 +85,12 @@ export default props => {
                     multiple={true}
                     mode="BADGE"
                     placeholder="Selecione a caixa"
-                    badgeDotColors={["#e76f51", "#00b4d8", "#e9c46a", "#e76f51", "#8ac926", "#00b4d8", "#e9c46a"]}/>
-
-                <View style={styles.dateBirthBar}>
-                <Text>{state.dataNascimento}</Text>
-                    <TouchableOpacity 
-                        title="" onPress={showDatepicker}
-                        style={styles.btnAvancar}>
-                        <Image style={{width:30, height:30}}
-                            source={calendarIcon}/>
-                    </TouchableOpacity> 
-                    {state.dateTimeShow &&
-                        <DateTimePicker value={date} title="Show date picker!" />
-                    }
-                </View>
+                    badgeDotColors={["#e76f51", "#00b4d8", "#e9c46a", "#e76f51", "#8ac926", "#00b4d8", "#e9c46a"]}
+                    />
+            </View>
+                
+                <AuthInput icon='calendar'  style={styles.input}  placeholder="Data da viagem" value={state.date}
+                    onChangeText={cNascimento => setState(prevState=>({...prevState,date:cNascimento}))}/>
             </View>
 
             <TouchableOpacity 
@@ -130,7 +98,7 @@ export default props => {
                     style={styles.button}
                     onPress={register}>
                     <Text style={styles.textButton}>
-                        Salvar
+                        Cadastrar
                     </Text>
             </TouchableOpacity>
         </SafeAreaView>
@@ -142,6 +110,18 @@ const styles = StyleSheet.create({
         fontSize: 30,
         margin: 30
     }, 
+    formContainer: {
+        backgroundColor: 'rgba(0,0,0, 0.8)',
+        padding: 20,
+        width: '90%',
+        borderRadius: 10
+    },
+    input: {
+        marginTop: 10,
+        backgroundColor: '#FFF',
+        borderRadius: 10,
+        height: 40,
+    },
     button:{
         backgroundColor: '#2F80ED',
         borderRadius: 10,
@@ -151,13 +131,12 @@ const styles = StyleSheet.create({
         paddingBottom: 15,
         margin: 30
     },
-    dropDown: {
-        width: '70%',
-        margin: 10
-    },
     dateBirthBar: {
         flexDirection: "row",
         alignItems: 'stretch',
     }, 
+    dropDown: {
+        marginTop: 10
+     }
     
 })

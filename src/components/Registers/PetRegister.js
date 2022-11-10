@@ -3,30 +3,36 @@ import { SafeAreaView, TouchableOpacity, Text, View, TextInput, StyleSheet, Imag
 import { useState } from "react";
 import global from '../../../global'
 import {server, showError} from '../../common'
-import DateTimePicker, { DateTimePickerAndroid } from '@react-native-community/datetimepicker';
+import AuthInput from "../Auth/AuthInput";
 import DropDownPicker from 'react-native-dropdown-picker';
-import calendarIcon from '../../assets/icons/calendar.png'
 
 export default props => {
 
-    const [open, setOpen] = useState(false);
-    const [value, setValue] = useState(['italy', 'spain', 'barcelona', 'finland']);
-    const [items, setItems] = useState([
-    // {label: 'Spain', value: 'spain'},
-    // {label: 'Madrid', value: 'madrid', parent: 'spain'},
-    // {label: 'Barcelona', value: 'barcelona', parent: 'spain'},
-    // {label: 'Italy', value: 'italy'},
-    // {label: 'Rome', value: 'rome', parent: 'italy'},
-    // {label: 'Finland', value: 'finland'}
+    console.log(props)
+
+    const [openBreed, setOpenBreed] = useState(false);
+    const [valuesBreed, setValueBreed] = useState();
+    const [itemsBreed, setItemsBreed] = useState([
+    {label: 'Spain', value: 'spain'},
+    {label: 'Madrid', value: 'madrid'},
+    {label: 'Barcelona', value: 'barcelona'},
+    {label: 'Italy', value: 'italy'},
+    {label: 'Rome', value: 'rome'},
+    {label: 'Finland', value: 'finland'}
   ]);
 
-    var [initialState ={
-        name: '',
-        age: 0,
-        breed: '',
-        type: '',
-        dataNascimento: '',
-        dateTimeShow: false
+    const [openTypes, setOpenTypes] = useState(false);
+    const [valueTypes, setValueTypes] = useState();
+    const [itemsType, setItemsType] = useState([
+    {label: 'Cachorro', value: 'cachorro'},
+    {label: 'Gato', value: 'gato'}
+  ]);
+
+    var [initialState = {
+        name: 'Tobias',
+        //age: 12,
+        breed: 'Caramelo',
+        type: 'Cachorro',
     }, setState] = useState()
 
 
@@ -34,39 +40,15 @@ export default props => {
         ...initialState
     }, setState] = useState()
 
-    const onChange = (event, selectedDate) => {
-        const currentDate = selectedDate || date;
-        setShow(Platform.OS === 'ios');
-        setDate(currentDate);
-
-        let tempDate = new Date(currentDate);
-        let fDate = tempDate.getDate() + '/' + (tempDate.getMonth() + 1) + '/' + tempDate.getFullYear();
-        setState({dataNascimento: fDate})
-      };
-    
-      const showMode = (currentMode) => {
-        DateTimePickerAndroid.open({
-          value: date,
-          onChange,
-          mode: currentMode,
-          is24Hour: true,
-        });
-      };
-    
-      const showDatepicker = () => {
-        setState({dateTimeShow: !state.dateTimeShow});
-        showMode('date');
-      };
-
     register = () => {
         try {
             fetch(`${server}/pet`, {
                 method: 'POST',
                 body: JSON.stringify({
-                    id: "2",
+                    id: props,
                     name: state.name,
                     age: state.age,
-                    breed: state.breed,
+                    breed: 'Caramelo',
                     category: state.type
                 }),
                 headers: {
@@ -81,58 +63,62 @@ export default props => {
         }
     }
 
+    function handleListItemPress(props){
+        props.onPress(props);
+    }
+
+
     return (
         <SafeAreaView style={global.container}>
             <View>
                 <Text style={styles.title}>Cadastrar Pet</Text>
             </View>
-            <View>
-                <TextInput style={styles.input} placeholder="Nome do pet" value={state.name}
+            <View style={styles.formContainer}>
+                <AuthInput icon='paw' style={styles.input} placeholder="Nome do pet" value={state.name}
                 onChangeText={cName => setState(prevState =>({...prevState, name: cName}))}/>
-                <TextInput style={styles.input} placeholder="Idade" value={state.age}
-                onChangeText={cAge => setState(prevState =>({...prevState, age: cAge}))}/>
+                <AuthInput icon='recycle' style={styles.input} placeholder="Idade" value={state.age}
+                onChangeText={cAge => setState(prevState =>({...prevState, breed: cAge}))}/>
 
-                <DropDownPicker
-                    style={styles.dropDown}
-                    open={open}
-                    value={value}
-                    items={items}
-                    setOpen={setOpen}
-                    setValue={setValue}
-                    setItems={setItems}
-                    theme="DARK"
-                    multiple={true}
-                    mode="BADGE"
-                    placeholder="Raça"
-                    badgeDotColors={["#e76f51", "#00b4d8", "#e9c46a", "#e76f51", "#8ac926", "#00b4d8", "#e9c46a"]}/>
+                <View style={styles.dropDown}>
+                    <DropDownPicker
+                        open={openTypes}
+                        value={valueTypes}
+                        items={itemsType}
+                        setOpen={setOpenTypes}
+                        setValue={setValueTypes}
+                        setItems={setItemsType}
+                        theme="LIGHT"
+                        multiple={true}
+                        mode="BADGE"
+                        placeholder="Tipo"
+                        badgeDotColors={["#e76f51", "#00b4d8", "#e9c46a", "#e76f51", "#8ac926", "#00b4d8", "#e9c46a"]} 
+                        />
+                </View>
 
-                <DropDownPicker
-                    style={styles.dropDown}
-                    open={open}
-                    value={value}
-                    items={items}
-                    setOpen={setOpen}
-                    setValue={setValue}
-                    setItems={setItems}
-                    theme="DARK"
-                    multiple={true}
-                    mode="BADGE"
-                    placeholder="Tipo"
-                    badgeDotColors={["#e76f51", "#00b4d8", "#e9c46a", "#e76f51", "#8ac926", "#00b4d8", "#e9c46a"]} />
-               
-                <View style={styles.dateBirthBar}>
-                    <TouchableOpacity 
-                        title="" onPress={showDatepicker}
-                        style={styles.btnAvancar}>
-                        <Image style={{width:30, height:30}}
-                            source={calendarIcon}/>
-                    </TouchableOpacity> 
-                    <Text>{state.dataNascimento}</Text>
-                    {state.dateTimeShow &&
-                        <DateTimePicker value={date} title="Show date picker!" />
-                    }
+                <View style={styles.dropDown}>
+                    <DropDownPicker
+                        style={{paddingBottom: 10}}
+                        open={openBreed}
+                        value={valuesBreed}
+                        items={itemsBreed}
+                        setOpen={setOpenBreed}
+                        setValue={setValueBreed}
+                        setItems={setItemsBreed}
+                        theme="LIGHT"
+                        multiple={true}
+                        mode="BADGE"
+                        placeholder="Raça"
+                        badgeDotColors={["#e76f51", "#00b4d8", "#e9c46a", "#e76f51", "#8ac926", "#00b4d8", "#e9c46a"]}
+                    />
                 </View>
             </View>
+            <TouchableOpacity 
+                    title="Button Access" 
+                    style={styles.buttonRegister}
+                    onPress={register}><Text style={styles.textButtonAccess}>
+                        Cadastrar
+                    </Text>
+            </TouchableOpacity> 
         </SafeAreaView>
     );
 }
@@ -142,6 +128,21 @@ const styles = StyleSheet.create({
         fontSize: 30,
         margin: 30
     }, 
+    buttonRegister: {
+        backgroundColor: '#2F80ED',
+        borderRadius: 10,
+        paddingLeft: 70,
+        paddingRight: 70,
+        paddingTop: 15,
+        paddingBottom: 15,
+        margin: 10
+    },
+    formContainer: {
+        backgroundColor: 'rgba(0,0,0, 0.8)',
+        padding: 20,
+        width: '90%',
+        borderRadius: 10
+    },
     button:{
         margin:30,
         backgroundColor: '#2F80ED',
@@ -152,17 +153,16 @@ const styles = StyleSheet.create({
         paddingBottom: 15
     },
     input: {
-        marginBottom: 1,
-        borderBottomWidth: 0.7,
-        borderBottomColor: "wite",
-        height: 40
+        marginTop: 10,
+        backgroundColor: '#FFF',
+        borderRadius: 10,
+        height: 40,
     },
     dateBirthBar: {
         flexDirection: "row",
         alignItems: 'stretch',
     }, 
     dropDown: {
-        width: '70%',
-        margin: 10
+       marginTop: 10
     }
 })

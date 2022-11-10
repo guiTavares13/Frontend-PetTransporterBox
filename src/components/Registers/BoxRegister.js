@@ -4,6 +4,7 @@ import { useState } from "react";
 import global from '../../../global'
 import {server, showError} from '../../common'
 import DropDownPicker from 'react-native-dropdown-picker';
+import AuthInput from "../Auth/AuthInput";
 
 export default props => {
 
@@ -20,8 +21,7 @@ export default props => {
 
     var [initialState ={
         nome: '',
-        altura: '',
-        largura: ''
+        modelo: ''
     }, setState] = useState()
 
 
@@ -29,15 +29,13 @@ export default props => {
         ...initialState
     }, setState] = useState()
 
-
     register = () => {
         try {
             fetch(`${server}/caixa`, {
                 method: 'POST',
                 body: JSON.stringify({
                     nome: state.nome,
-                    altura: state.altura,
-                    largura: state.largura
+                    modelo: state.modelo
                 }),
                 headers: {
                     'Content-type': 'application/json; charset=UTF-8',
@@ -56,23 +54,26 @@ export default props => {
             <View>
                 <Text style={styles.title}>Cadastrar Caixa</Text>
             </View>
-            <View>
-                <TextInput style={styles.input} placeholder="Nome da caixa" value={state.nome}
+            <View style={styles.formContainer}>
+                <AuthInput icon='box'  style={styles.input} placeholder="Nome da caixa" value={state.nome}
                 onChangeText={cName => setState(prevState =>({...prevState, nome: cName}))}/>
-                <DropDownPicker
-                    style={styles.dropDown}
-                    open={open}
-                    value={value}
-                    items={items}
-                    setOpen={setOpen}
-                    setValue={setValue}
-                    setItems={setItems}
-                    theme="DARK"
-                    multiple={true}
-                    mode="BADGE"
-                    placeholder="Modelos"
-                    badgeDotColors={["#e76f51", "#00b4d8", "#e9c46a", "#e76f51", "#8ac926", "#00b4d8", "#e9c46a"]}
-            />
+
+                <View style={styles.dropDown}>
+                    <DropDownPicker
+                        open={open}
+                        value={value}
+                        items={items}
+                        setOpen={setOpen}
+                        setValue={setValue}
+                        setItems={setItems}
+                        theme="DARK"
+                        multiple={true}
+                        mode="BADGE"
+                        placeholder="Modelos"
+                        badgeDotColors={["#e76f51", "#00b4d8", "#e9c46a", "#e76f51", "#8ac926", "#00b4d8", "#e9c46a"]}
+                    />
+                </View>
+                
             </View>
 
             <TouchableOpacity 
@@ -80,7 +81,7 @@ export default props => {
                     style={styles.button}
                     onPress={register}>
                     <Text style={styles.textButton}>
-                        Salvar
+                        Cadastrar
                     </Text>
             </TouchableOpacity>
         </SafeAreaView>
@@ -92,6 +93,12 @@ const styles = StyleSheet.create({
         fontSize: 30,
         margin: 30
     }, 
+    formContainer: {
+        backgroundColor: 'rgba(0,0,0, 0.8)',
+        padding: 20,
+        width: '90%',
+        borderRadius: 10
+    },
     button:{
         backgroundColor: '#2F80ED',
         borderRadius: 10,
@@ -102,12 +109,12 @@ const styles = StyleSheet.create({
         margin: 30
     },
     input: {
-        marginBottom: 1,
-        borderBottomWidth: 0.7,
-        borderBottomColor: "wite",
-        height: 40
+        marginTop: 10,
+        backgroundColor: '#FFF',
+        borderRadius: 10,
+        height: 40,
     }, 
     dropDown: {
-        width: '70%',
-    }
+        marginTop: 10
+     }
 })

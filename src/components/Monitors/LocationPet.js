@@ -1,6 +1,6 @@
 import React from "react";
-import { Text, View, StyleSheet } from 'react-native'
-import MapView from 'react-native-maps';
+import { Text, View, StyleSheet, Dimensions } from 'react-native'
+import MapView, { Callout, Marker } from 'react-native-maps';
 
 export default props => {
     return(
@@ -12,7 +12,19 @@ export default props => {
                 longitude: -122.4324,
                 latitudeDelta: 0.0922,
                 longitudeDelta: 0.0421,
-              }}/>
+              }}>
+                <Marker
+                coordinate={{
+                    latitude: 37.78825,
+                    longitude: -122.4324
+                }}
+                pinColor='black'
+                />
+              </MapView>
+
+            <Callout>
+                <Text>Aqui</Text>
+            </Callout>
         </View>
     )
 }
@@ -24,7 +36,7 @@ const styles = StyleSheet.create({
         alignItems: "center"
     },
     map: {
-        width: '50%',
-        height: '50%'
-    }
+        width: Dimensions.get('window').width,
+        height: Dimensions.get('window').height,
+    }, 
 })

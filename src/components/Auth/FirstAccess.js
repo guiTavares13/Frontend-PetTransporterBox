@@ -5,9 +5,7 @@ import { useState, useRef } from "react";
 import global from '../../../global'
 import 'sessionstorage';
 import AuthInput from "./AuthInput";
-
-import calendarIcon from '../../assets/icons/calendar.png'
-
+import Regex from '../regex/Regex'
 import { server, showError } from "../../common";
 
 export default props => {
@@ -16,7 +14,6 @@ export default props => {
     const [date, setDate] = useState(new Date());
     const [show, setShow] = useState(false);
     const [dateTimeShow, setShowDate] = useState(false);
-    const senhaRef = useRef();
 
     var [initialState = {
         name: '',
@@ -25,7 +22,7 @@ export default props => {
         documento: '',
         phone: '',
         nascimento:  '',
-        senha: '123',
+        password: '123',
         stageNew: false,
     }, setState] = useState()
     
@@ -59,9 +56,6 @@ export default props => {
         }
       };
 
-      
-
-
     signinOrSignup = () => {
         if (state.stageNew){
             signup()
@@ -78,10 +72,10 @@ export default props => {
                 nome: state.nome,
                 documento: state.documento,
                 lastName: state.lastName,
-                email: state.email,
+                email: state.email.toLocaleLowerCase(),
                 phone: state.phone,
                 nascimento: state.nascimento,
-                senha: state.password,
+                password: state.password,
                 userStatus: 1
             }),
             headers: {
@@ -89,8 +83,12 @@ export default props => {
             },
             })
             .then((response) => response.json())
-            .then((json) => console.log(json));
-            setState({...initialState})
+            .then((json) => console.log(json),
+                setState({...initialState})
+            )
+            .catch(json => {
+                showError(json);
+            })
         } catch(err){
             showError(err)
         }
@@ -102,7 +100,7 @@ export default props => {
             method: 'POST',
             body: JSON.stringify({
                 email: state.email,
-                senha: state.senha,
+                senha: state.password,
             }),
             headers: {
                 'Content-type': 'application/json; charset=UTF-8',
@@ -110,10 +108,8 @@ export default props => {
             })
             .then((response) => response.json())
             .then((json) => {
-                console.log(json)
                 var sessionstorage = require('sessionstorage');
                 sessionstorage.setItem('token', JSON.stringify(json));
-
                 if(sessionstorage.getItem('token')){
                     props.navigation.navigate('Menu', json.user);
                 } else {
@@ -123,7 +119,7 @@ export default props => {
     } catch(err){
         showError(err)
     }
-   }
+   }  
     
     return(
         <SafeAreaView style={global.container}>
@@ -144,7 +140,7 @@ export default props => {
                 onChangeText={cEmail => setState(prevState=>({...prevState,email:cEmail}))}
                 />
                 {state.stageNew && 
-                    <AuthInput icon='id-card-o' style={styles.input}  placeholder="CPF" value={state.documento}
+                    <AuthInput icon='id-card-o' style={styles.input} placeholder="CPF" value={state.documento}
                     onChangeText={cDocumento => setState(prevState=>({...prevState,documento:cDocumento}))}
                     />
                 }
@@ -153,6 +149,11 @@ export default props => {
                     onChangeText={cCelular => setState(prevState=>({...prevState,phone:cCelular}))}
                     />
                 }
+                {/* <View style={styles.container}>
+                    <Icon name="phone" size={20} style={styles.icon} />
+                    <TextInputMask icon='phone' type="datetime" style={styles.input} options={{maskType: 'BRL', withDDD: true, dddMask: '(99)'}}/>
+                </View> */}
+                
                 {state.stageNew &&
                     // <View style={styles.dateBirthBar}>
                     //     <TouchableOpacity 
@@ -166,17 +167,17 @@ export default props => {
                     //         <DateTimePicker value={date} title="Show date picker!" />
                     //     }
                     // </View>
-                    <AuthInput icon='calendar' style={styles.input}  placeholder="Data de Nascimento" value={state.nascimento}
-                        onFocus={showDatepicker} onSubmitEditing={() => {lastNameRef.current.focus();}} showSoftInputOnFocus={false}>
-                            {dateTimeShow &&
+                    <AuthInput icon='calendar'  style={styles.input}  placeholder="Data de Nascimento" value={state.nascimento}
+                    onChangeText={cNascimento => setState(prevState=>({...prevState,nascimento:cNascimento}))}>
+                            {/* {dateTimeShow &
                                 <DateTimePicker returnKeyType="next" blurOnSubmit={false} onSubmitEditing={() => {senhaRef.current.focus();}}
                                  value={date} title="Show date picker!" />
-                            }
+                            } */}
                     </AuthInput>
                 }
                
-               <AuthInput icon='lock' style={styles.input} ref={senhaRef} placeholder="Senha"  secureTextEntry={true} value={state.senha}
-                onChangeText={cPassword => setState(prevState=>({...prevState,senha:cPassword}))}
+               <AuthInput icon='lock' style={styles.input} placeholder="Senha" secureTextEntry={true} value={state.password}
+                onChangeText={cPassword => setState(prevState=>({...prevState,password:cPassword}))}
                 />
                 {/* {state.stageNew &&
                     <AuthInput icon='asterisk' style={styles.input}  placeholder="Confirmar senha" secureTextEntry={true}
@@ -203,6 +204,18 @@ const styles = StyleSheet.create({
         flexGrow: 1,
         alignItems: 'center',
         justifyContent: 'center'
+    },
+    container: {
+        width: '100%',
+        height: 40,
+        backgroundColor: '#EEE',
+        borderRadius: 20,
+        flexDirection: 'row',
+        alignItems: "center"
+    },
+    icon: {
+        color: '#333',
+        marginLeft: 20
     },
     formContainer: {
         backgroundColor: 'rgba(0,0,0, 0.8)',
@@ -231,7 +244,8 @@ const styles = StyleSheet.create({
     input: {
         marginTop: 10,
         backgroundColor: '#FFF',
-        borderRadius: 10
+        borderRadius: 10,
+        height: 40,
     },
     dateBirthBar: {
         flexDirection: "row",

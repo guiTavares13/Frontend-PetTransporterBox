@@ -7,10 +7,11 @@ import petboxIcon from '../../assets/icons/petbox-icon.png'
 import modelBox from '../../assets/icons/model-box.png'
 
 export default props => {
+    console.log(props.route.params.usuario_id)
     return(
         <SafeAreaView>
             <View style={styles.buttons}>
-                <TouchableOpacity style={styles.buttom} onPress={() => props.navigation.navigate('PetRegister', {...props})}>
+                <TouchableOpacity style={styles.buttom} onPress={() => props.navigation.navigate('PetRegister', [{...props}, props.route.params.usuario_id])}>
                     <Image style={{width:150, height:150}} source={petRegistery}/>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.buttom} onPress={() => props.navigation.navigate('TripRegister', {...props})}>

@@ -3,6 +3,7 @@ import { SafeAreaView, TouchableOpacity, Text, View, TextInput, StyleSheet} from
 import { useState } from "react";
 import global from '../../../global'
 import {server, showError} from '../../common'
+import AuthInput from "../Auth/AuthInput";
 
 export default props => {
 
@@ -44,12 +45,12 @@ export default props => {
             <View>
                 <Text style={styles.title}>Cadastrar Modelo de Caixa</Text>
             </View>
-            <View>
-                <TextInput style={styles.input} placeholder="Nome do modelo" value={state.nome}
+            <View style={styles.formContainer}>
+                <AuthInput icon='name' style={styles.input} placeholder="Nome do modelo" value={state.nome}
                 onChangeText={cName => setState(prevState =>({...prevState, nome: cName}))}/>
-                <TextInput style={styles.input} placeholder="Altura" value={state.altura}
+                <AuthInput icon='height' style={styles.input} placeholder="Altura" value={state.altura}
                 onChangeText={cAltura => setState(prevState =>({...prevState, altura: cAltura}))}/>
-                <TextInput style={styles.input} placeholder="Largura" value={state.largura}
+                <AuthInput icon='width' style={styles.input} placeholder="Largura" value={state.largura}
                 onChangeText={cLargura => setState(prevState =>({...prevState, largura: cLargura}))}/>
             </View>
 
@@ -58,7 +59,7 @@ export default props => {
                     style={styles.button}
                     onPress={register}>
                     <Text style={styles.textButton}>
-                        Salvar
+                        Cadastrar
                     </Text>
             </TouchableOpacity>
         </SafeAreaView>
@@ -70,6 +71,12 @@ const styles = StyleSheet.create({
         fontSize: 30,
         margin: 30
     }, 
+    formContainer: {
+        backgroundColor: 'rgba(0,0,0, 0.8)',
+        padding: 20,
+        width: '90%',
+        borderRadius: 10
+    },
     button:{
         backgroundColor: '#2F80ED',
         borderRadius: 10,
@@ -80,10 +87,10 @@ const styles = StyleSheet.create({
         margin: 30
     },
     input: {
-        marginBottom: 1,
-        borderBottomWidth: 0.7,
-        borderBottomColor: "wite",
-        height: 40
+        marginTop: 10,
+        backgroundColor: '#FFF',
+        borderRadius: 10,
+        height: 40,
     },
    
 })
