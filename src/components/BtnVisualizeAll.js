@@ -1,5 +1,5 @@
 import React from "react";
-import { Text, View, SafeAreaView, StyleSheet, Image} from 'react-native'
+import { Text, View, SafeAreaView, StyleSheet, Image, Dimensions} from 'react-native'
 
 import logoMonitorPet from '../assets/icons/monitor-pet.png'
 
@@ -19,15 +19,14 @@ export default props => {
 const styles = StyleSheet.create({
     container: {
         flexDirection: "column",
-        
-        flexGrow: 0.2
-        
     },
     button: {
         flexDirection: "row",
         justifyContent: "center",
         alignItems:  "center",
-        backgroundColor: '#FFFF',
-        width: '100%',
+        backgroundColor: '#FFF',
+        borderTopEndRadius: 10,
+        borderTopLeftRadius: 10,
+        width: Dimensions.get('window').width
     }
 })

@@ -55,14 +55,6 @@ export default props => {
         }
     }
 
-
-    // fetch(`${server}/user/:1`)
-    // .then((resp) => resp.json())
-    // .then(function(data){
-    //     let user = data.results;
-    //     console.log(user);
-    // }) 
-
     var _retrieveData = async () => {
         try {
           const value = await AsyncStorage.getItem('nome');

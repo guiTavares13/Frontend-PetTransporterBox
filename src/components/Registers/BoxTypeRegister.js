@@ -2,7 +2,7 @@ import React from "react";
 import { SafeAreaView, TouchableOpacity, Text, View, TextInput, StyleSheet} from 'react-native'
 import { useState } from "react";
 import global from '../../../global'
-import {server, showError} from '../../common'
+import { server, showError } from '../../common'
 import AuthInput from "../Auth/AuthInput";
 
 export default props => {
@@ -21,7 +21,7 @@ export default props => {
 
     register = () => {
         try {
-            fetch(`${server}/caixa`, {
+            fetch(`${server}/caixaModel`, {
                 method: 'POST',
                 body: JSON.stringify({
                     nome: state.nome,
@@ -33,7 +33,12 @@ export default props => {
                 },
             })
             .then((response) => response.json())
-            .then((json) => console.log(json));
+            .then((json) => console.log(json),
+                setState({...initialState})
+            )
+            .catch(json => {
+                showError(json);
+            })
            
         } catch(err){
             showError(err)
@@ -43,14 +48,14 @@ export default props => {
     return (
         <SafeAreaView style={global.container}>
             <View>
-                <Text style={styles.title}>Cadastrar Modelo de Caixa</Text>
+                <Text style={styles.title}>Cadastrar Modelo</Text>
             </View>
             <View style={styles.formContainer}>
-                <AuthInput icon='name' style={styles.input} placeholder="Nome do modelo" value={state.nome}
+                <AuthInput icon='dropbox' style={styles.input} placeholder="Nome do modelo" value={state.nome}
                 onChangeText={cName => setState(prevState =>({...prevState, nome: cName}))}/>
-                <AuthInput icon='height' style={styles.input} placeholder="Altura" value={state.altura}
+                <AuthInput icon='text-height' style={styles.input} placeholder="Altura" value={state.altura}
                 onChangeText={cAltura => setState(prevState =>({...prevState, altura: cAltura}))}/>
-                <AuthInput icon='width' style={styles.input} placeholder="Largura" value={state.largura}
+                <AuthInput icon='text-width' style={styles.input} placeholder="Largura" value={state.largura}
                 onChangeText={cLargura => setState(prevState =>({...prevState, largura: cLargura}))}/>
             </View>
 

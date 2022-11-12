@@ -1,6 +1,6 @@
 import React from "react";
 import { SafeAreaView, TouchableOpacity, Text, View, TextInput, StyleSheet} from 'react-native'
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import global from '../../../global'
 import {server, showError} from '../../common'
 import DropDownPicker from 'react-native-dropdown-picker';
@@ -8,26 +8,36 @@ import AuthInput from "../Auth/AuthInput";
 
 export default props => {
 
-    const [open, setOpen] = useState(false);
-    const [value, setValue] = useState(['italy', 'spain', 'barcelona', 'finland']);
-    const [items, setItems] = useState([
-    // {label: 'Spain', value: 'spain'},
-    // {label: 'Madrid', value: 'madrid', parent: 'spain'},
-    // {label: 'Barcelona', value: 'barcelona', parent: 'spain'},
-    // {label: 'Italy', value: 'italy'},
-    // {label: 'Rome', value: 'rome', parent: 'italy'},
-    // {label: 'Finland', value: 'finland'}
-  ]);
+    const [modelBoxOpen, setModelBoxOpen] = useState(false);
+    const [modelBoxValue, setModelBoxValue] = useState([]);
+    const [modelBoxItems, setModelBoxItems] = useState([]);
 
     var [initialState ={
         nome: '',
         modelo: ''
     }, setState] = useState()
 
-
     var [state = {
         ...initialState
     }, setState] = useState()
+
+    listBoxModel = () => {
+        console.log('1')
+        try {
+            fetch(`${server}/caixaModelAll`, {
+                method: 'GET',
+                headers: {
+                    'Content-type': 'application/json; charset=UTF-8',
+                },
+            })
+            .then((response) =>{
+                setModelBoxItems(response);
+              })
+           
+        } catch(err){
+            showError(err)
+        }
+    }
 
     register = () => {
         try {
@@ -49,28 +59,31 @@ export default props => {
         }
     }
 
+    const onModelBoxOpen = useCallback(() => {
+        setModelBoxOpen(false);
+    }, []);
+
     return (
         <SafeAreaView style={global.container}>
             <View>
                 <Text style={styles.title}>Cadastrar Caixa</Text>
             </View>
             <View style={styles.formContainer}>
-                <AuthInput icon='box'  style={styles.input} placeholder="Nome da caixa" value={state.nome}
+                <AuthInput icon='dropbox'  style={styles.input} placeholder="Nome da caixa" value={state.nome}
                 onChangeText={cName => setState(prevState =>({...prevState, nome: cName}))}/>
 
                 <View style={styles.dropDown}>
                     <DropDownPicker
-                        open={open}
-                        value={value}
-                        items={items}
-                        setOpen={setOpen}
-                        setValue={setValue}
-                        setItems={setItems}
-                        theme="DARK"
-                        multiple={true}
-                        mode="BADGE"
-                        placeholder="Modelos"
-                        badgeDotColors={["#e76f51", "#00b4d8", "#e9c46a", "#e76f51", "#8ac926", "#00b4d8", "#e9c46a"]}
+                        placeholder="Modelos de caixa"
+                        open={modelBoxOpen}
+                        value={modelBoxValue}
+                        items={modelBoxItems}
+                        setOpen={setModelBoxOpen}
+                        setValue={setModelBoxValue}
+                        setItems={setModelBoxItems}
+                        onPress={listBoxModel}
+                        onChangeValue={(value) => setState(prevState=> ({...prevState, modelo: (value.toString())}))}
+                        onOpen={onModelBoxOpen}
                     />
                 </View>
                 

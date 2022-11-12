@@ -1,6 +1,6 @@
 import React from "react";
 import { SafeAreaView, TouchableOpacity, Text, View, Image, TextInput, StyleSheet, Platform} from 'react-native'
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import global from '../../../global'
 import {server, showError} from '../../common'
 import DateTimePicker, { DateTimePickerAndroid } from '@react-native-community/datetimepicker';
@@ -15,21 +15,65 @@ export default props => {
         date: '',
     }, setState] = useState()
 
-
     var [state = {
         ...initialState
     }, setState] = useState()
 
-    const [open, setOpen] = useState(false);
-    const [value, setValue] = useState(['italy', 'spain', 'barcelona', 'finland']);
-    const [items, setItems] = useState([
-        // {label: 'Spain', value: 'spain'},
-        // {label: 'Madrid', value: 'madrid', parent: 'spain'},
-        // {label: 'Barcelona', value: 'barcelona', parent: 'spain'},
-        // {label: 'Italy', value: 'italy'},
-        // {label: 'Rome', value: 'rome', parent: 'italy'},
-        // {label: 'Finland', value: 'finland'}
-    ]);
+    // ----------------- <Pet> -------------------------------
+    const [petOpen, setPetOpen] = useState(false);
+    const [petValue, setPetValue] = useState([]);
+    const [petItems, setPetItems] = useState([]);
+
+    const onPetOpen = useCallback(() => {
+        setPetOpen(false);
+    }, []);
+
+    listPet = () => {
+        try {
+            fetch(`${server}/petAll`, {
+                method: 'GET',
+                headers: {
+                    'Content-type': 'application/json; charset=UTF-8',
+                },
+            })
+            .then((response) =>{
+                setPetItems(response);
+              })
+           
+        } catch(err){
+            showError(err)
+        }
+    }
+    //---------------------- </Pet> --------------------------
+
+
+    // ---------------------- <Box> --------------------------
+    const [boxOpen, setBoxOpen] = useState(false);
+    const [boxValue, setBoxValue] = useState([]);
+    const [boxItems, setBoxItems] = useState([]);
+
+    const onBoxOpen = useCallback(() => {
+        setBoxOpen(false);
+    }, []);
+
+    listBox = () => {
+        console.log('1')
+        try {
+            fetch(`${server}/caixaModelAll`, {
+                method: 'GET',
+                headers: {
+                    'Content-type': 'application/json; charset=UTF-8',
+                },
+            })
+            .then((response) =>{
+                setBoxItems(response);
+              })
+           
+        } catch(err){
+            showError(err)
+        }
+    }
+    //---------------------- </Box> --------------------------
 
     register = () => {
         try {
@@ -58,36 +102,34 @@ export default props => {
                 <Text style={styles.title}>Cadastrar Viagem</Text>
             </View>
             <View style={styles.formContainer}>
-            <View style={styles.dropDown}>
-                <DropDownPicker
-                    open={open}
-                    value={value}
-                    items={items}
-                    setOpen={setOpen}
-                    setValue={setValue}
-                    setItems={setItems}
-                    theme="DARK"
-                    multiple={true}
-                    mode="BADGE"
-                    placeholder="Selecione o pet"
-                    badgeDotColors={["#e76f51", "#00b4d8", "#e9c46a", "#e76f51", "#8ac926", "#00b4d8", "#e9c46a"]}
+                <View style={styles.dropDown}>
+                    <DropDownPicker
+                        placeholder="Selecione o pet"
+                        open={petOpen}
+                        value={petValue}
+                        items={petItems}
+                        setOpen={setPetOpen}
+                        setValue={setPetValue}
+                        setItems={setPetItems}
+                        onPress={listPet}
+                        onChangeValue={(value) => setState(prevState=> ({...prevState, petId: (value.toString())}))}
+                        onOpen={onPetOpen}
                     />
-            </View>
-            <View style={styles.dropDown}>
-                <DropDownPicker
-                    open={open}
-                    value={value}
-                    items={items}
-                    setOpen={setOpen}
-                    setValue={setValue}
-                    setItems={setItems}
-                    theme="DARK"
-                    multiple={true}
-                    mode="BADGE"
-                    placeholder="Selecione a caixa"
-                    badgeDotColors={["#e76f51", "#00b4d8", "#e9c46a", "#e76f51", "#8ac926", "#00b4d8", "#e9c46a"]}
+                </View>
+                <View style={styles.dropDown}>
+                    <DropDownPicker
+                        placeholder="Selecione a caixa"
+                        open={boxOpen}
+                        value={boxValue}
+                        items={boxItems}
+                        setOpen={setBoxOpen}
+                        setValue={setBoxValue}
+                        setItems={setBoxItems}
+                        onPress={listBox}
+                        onChangeValue={(value) => setState(prevState=> ({...prevState, boxId: (value.toString())}))}
+                        onOpen={onBoxOpen}
                     />
-            </View>
+                </View>
                 
                 <AuthInput icon='calendar'  style={styles.input}  placeholder="Data da viagem" value={state.date}
                     onChangeText={cNascimento => setState(prevState=>({...prevState,date:cNascimento}))}/>

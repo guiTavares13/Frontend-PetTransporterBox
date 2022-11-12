@@ -1,8 +1,6 @@
-import React, {useState, useEffect} from "react";
-import { View, Text, StyleSheet, Image, LogBox, Dimensions} from "react-native";
+import React from "react";
+import { View, Text, StyleSheet, Image, LogBox, TouchableOpacity} from "react-native";
 import logoPet from '../assets/icons/logo.png'
-
-import BtnVisualizeAll from '../components/BtnVisualizeAll'
 
 export default props => {
 
@@ -12,27 +10,33 @@ export default props => {
 
  console.log(props)
     return(
-        <>
-            <View style={styles.container}>
+        // onPress={props.navigation.navigate('FirstAccess', {...props})} 
+        <TouchableOpacity style={styles.container}>
+            <View style={styles.pet}>
                 <View>
                     <Image style={{width:50, height:50}} source={logoPet}/>
                 </View>
-                <Text>{props.name}</Text>
+                <Text style={styles.nameComponent}>{props.name}</Text>
                 <Text>{props.type}</Text>
             </View>
-        </>
+        </TouchableOpacity>
     )
 }
 
 const styles = StyleSheet.create({
     container: {
+        flexGrow: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginTop: 10,
+    },
+    pet: {
         flexDirection: 'row',
         backgroundColor: '#FFF',
         borderRadius: 10,
-        paddingHorizontal: 10,
         alignItems: "center",
         paddingVertical: 15,
-        width: Dimensions.get('window').width,
-        margin: 10,
+        width: '100%',
+        justifyContent: "space-around"
     }, 
 })
