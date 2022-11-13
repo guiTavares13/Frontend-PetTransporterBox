@@ -4,7 +4,7 @@ import { View, Text, Image, SafeAreaView, StyleSheet, Pressable, TouchableHighli
 import Monitor from '../components/Menu/Monitor'
 import Registration from "../components/Menu/Registers"
 import Historic from '../components/Menu/Historics'
-import Footer from '../components/Footer'
+import Footer from '../components/Parts/Footer'
 import { server, showError } from "../common";
 import logo from '../assets/icons/logo.png'
 

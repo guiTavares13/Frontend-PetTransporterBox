@@ -1,7 +1,7 @@
 import React from "react";
 import { Text, View, SafeAreaView, StyleSheet, Image, Dimensions} from 'react-native'
 
-import logoMonitorPet from '../assets/icons/monitor-pet.png'
+import logoMonitorPet from '../../assets/icons/monitor-pet.png'
 
 export default props => {
     return (

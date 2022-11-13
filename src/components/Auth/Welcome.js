@@ -1,8 +1,5 @@
 import { SafeAreaView, Image, TouchableOpacity, StyleSheet, Text, View, LogBox } from "react-native";
-import { useFonts } from 'expo-font';
-
 import global from "../../../global";
-
 import logo from '../../assets/icons/logo.png'
 import buttonInitial from '../../assets/icons/buttonInitial.png'
 

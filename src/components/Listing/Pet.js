@@ -1,6 +1,6 @@
 import React from "react";
 import { View, Text, StyleSheet, Image, LogBox, TouchableOpacity} from "react-native";
-import logoPet from '../assets/icons/logo.png'
+import logoPet from '../../assets/icons/logo.png'
 
 export default props => {
 

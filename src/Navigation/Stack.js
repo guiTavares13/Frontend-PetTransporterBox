@@ -6,12 +6,13 @@ import Menu from '../screens/Menu'
 import FirstAccess from "../components/Auth/FirstAccess";
 import FirstAccessConcluded from '../components/Auth/FirstAccessConcluded'
 import Welcome from "../components/Auth/Welcome";
-import PetList from '../components/PetList'
+import PetList from '../components/Listing/PetList'
 import PetRegister from '../components/Registers/PetRegister'
 import BoxRegister from '../components/Registers/BoxRegister'
 import TripRegister from '../components/Registers/TripRegister'
 import LocationPet from "../components/Monitors/LocationPet";
 import BoxType from "../components/Registers/BoxTypeRegister";
+import PetState from '../components/Monitors/PetState'
 
 const Stack = createNativeStackNavigator()
 
@@ -29,5 +30,6 @@ export default props => (
         <Stack.Screen name="TripRegister" component={TripRegister}/>
         <Stack.Screen name="LocationPet" component={LocationPet}/>
         <Stack.Screen name="BoxType" component={BoxType} />
+        <Stack.Screen name="PetState" component={PetState}/>
     </Stack.Navigator>
 )
