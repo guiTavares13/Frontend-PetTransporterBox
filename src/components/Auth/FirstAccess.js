@@ -128,7 +128,7 @@ export default (props) => {
         .then((json) => {
           var sessionstorage = require("sessionstorage");
           sessionstorage.setItem("token", JSON.stringify(json.token));
-          console.log(json.token);
+          console.log(json);
           if (sessionstorage.getItem("token")) {
             props.navigation.navigate("Menu", json.user);
           } else {

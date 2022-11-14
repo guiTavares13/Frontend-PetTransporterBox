@@ -6,15 +6,20 @@ import {
   View,
   TextInput,
   StyleSheet,
+  LogBox,
 } from "react-native";
 import { useState, useCallback } from "react";
 import global from "../../../global";
 import { server, showError } from "../../common";
 import DropDownPicker from "react-native-dropdown-picker";
 import AuthInput from "../Auth/AuthInput";
+import "sessionstorage";
 import FontAwesome5Icons from "react-native-vector-icons/FontAwesome5";
 
 export default (props) => {
+  LogBox.ignoreLogs([
+    "Non-serializable values were found in the navigation state",
+  ]);
 
   var [
     initialState = {
@@ -31,70 +36,70 @@ export default (props) => {
     },
     setState,
   ] = useState();
-  
- //--------------------------- <Listar modelos> ------------------------
+
+  //--------------------------- <Listar modelos> ------------------------
 
   const [modelBoxOpen, setModelBoxOpen] = useState(false);
   const [modelBoxValue, setModelBoxValue] = useState([]);
-  const [modelBoxItems, setModelBoxItems] = useState([]);
+  const [modelBoxItems, setModelBoxItems] = useState([
+    { label: "Pequeno", value: "3314de3d-6186-4526-a475-d21aac9f77c5" },
+    { label: "Médio", value: "3314de3d-6186-4526-a475-d21aac9f77c5" },
+    { label: "Grande", value: "3314de3d-6186-4526-a475-d21aac9f77c5" },
+  ]);
 
   const onModelBoxOpen = useCallback(() => {
-    setModelBoxOpen(false);
+    setModelBoxOpen(open);
   }, []);
 
-  listBoxModel = () => {
-    try {
-      fetch(`${server}/caixaModelAll`, {
-        method: "GET",
-        headers: {
-          "Content-type": "application/json; charset=UTF-8",
-        },
-      }).then((response) => {
-        setModelBoxItems(response);
-      });
-    } catch (err) {
-      showError(err);
+  listGetModelBox = () => {
+    var sessionstorage = require("sessionstorage");
+    var data = sessionstorage.getItem("token");
+    data = data.replace('"', "").replace('"', "");
+    if (data == null) {
+      alert("Seu login expirou!");
+    } else {
+      try {
+        fetch(`${server}/caixa`, {
+          method: "GET",
+          headers: {
+            "Content-type": "application/json",
+            Authorization: "Bearer " + data,
+          },
+        })
+        .then(response => {
+          return response.json()
+        })
+        .then(json => {
+          responseGetListPetTypes = json;
+          console.log(responseGetListPetTypes)
+          setModelBoxItems(responseGetListPetTypes)
+        })
+      } catch (err) {
+        showError(err);
+      }
     }
   };
-   //--------------------------- <Listar modelos> ------------------------
+  //--------------------------- </Listar modelos> ------------------------
 
-  //--------------------------- <Listar caixas já cadastradas> ------------------------
-
-  const [boxOpen, setBoxOpen] = useState(false);
-  const [boxValue, setBoxValue] = useState([]);
-  const [boxItems, setBoxItems] = useState([]);
-
-  const onBoxOpen = useCallback(() => {
-    setBoxOpen(false);
-  }, []);
-
-  getListBox = () => {
-    try {
-      fetch(`${server}/caixa`, {
-        method: "GET",
-        headers: {
-          "Content-type": "application/json; charset=UTF-8",
-        },
-      }).then((response) => {
-        setBoxItems(response);
-      });
-    } catch (err) {
-      showError(err);
-    }
-  };
-  //--------------------------- <Listar caixas já cadastradas> ------------------------
-
-  //--------------------------- <Cadastrar novo> --------------------------------------
+  //--------------------------- <Cadastrar novo> ----------------------------
   register = () => {
+    var sessionstorage = require("sessionstorage");
+    var data = sessionstorage.getItem("token");
+    data = data.replace('"', "").replace('"', "");
+    if (data == null) {
+      alert("Seu login expirou!");
+      return;
+    }
     try {
       fetch(`${server}/caixa`, {
         method: "POST",
         body: JSON.stringify({
           nome: state.nome,
-          modelo: state.modelo,
+          idModelo: state.modelo,
         }),
         headers: {
-          "Content-type": "application/json; charset=UTF-8",
+          "Content-type": "application/json",
+          Authorization: "Bearer " + data,
         },
       })
         .then((response) => response.json())
@@ -103,37 +108,16 @@ export default (props) => {
       showError(err);
     }
   };
-    //--------------------------- </Cadastrar novo> ------------------------
+  //--------------------------- </Cadastrar novo> ------------------------
 
   const iconUpdate = <FontAwesome5Icons name="edit" size={20} />;
 
   return (
     <>
       <SafeAreaView style={global.container}>
-      <View>
+        <View>
           <Text style={styles.title}>Cadastrar Caixa</Text>
-      </View>
-        {state.updateBox && (
-          <View style={styles.dropDown}>
-            <DropDownPicker
-              placeholder="Todas as caixas"
-              open={boxOpen}
-              value={boxValue}
-              items={boxItems}
-              setOpen={setBoxOpen}
-              setValue={setBoxValue}
-              setItems={setBoxItems}
-              onPress={getListBox}
-              // onChangeValue={(value) =>
-              //   setState((prevState) => ({
-              //     ...prevState,
-              //     modelo: value.toString(),
-              //   }))
-              // }
-              onOpen={onBoxOpen}
-            />
-          </View>
-        )}
+        </View>
         <View style={styles.formContainer}>
           <AuthInput
             icon="dropbox"
@@ -144,21 +128,19 @@ export default (props) => {
               setState((prevState) => ({ ...prevState, nome: cName }))
             }
           />
-
           <View style={styles.dropDown}>
             <DropDownPicker
-              placeholder="Modelos de caixa"
+              placeholder="Selecione o tipo"
               open={modelBoxOpen}
               value={modelBoxValue}
               items={modelBoxItems}
               setOpen={setModelBoxOpen}
               setValue={setModelBoxValue}
               setItems={setModelBoxItems}
-              onPress={listBoxModel}
               onChangeValue={(value) =>
                 setState((prevState) => ({
                   ...prevState,
-                  modelo: value.toString(),
+                  modelo: value,
                 }))
               }
               onOpen={onModelBoxOpen}
@@ -176,7 +158,7 @@ export default (props) => {
           <TouchableOpacity
             title="Editar"
             style={styles.buttonEdit}
-            onPress={(update) => setState({updateBox: !state.updateBox})}
+            onPress={(update) => setState({ updateBox: !state.updateBox })}
           >
             <Text>{iconUpdate}</Text>
           </TouchableOpacity>

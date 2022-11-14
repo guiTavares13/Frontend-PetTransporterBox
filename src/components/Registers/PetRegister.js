@@ -4,10 +4,7 @@ import {
   TouchableOpacity,
   Text,
   View,
-  Picker,
   StyleSheet,
-  Image,
-  Platform,
 } from "react-native";
 import { useState, useCallback } from "react";
 import global from "../../../global";
@@ -34,12 +31,43 @@ export default (props) => {
     setState,
   ] = useState();
 
+  //------------------<Lista tipo de pet>----------------------------
   const [typeOpen, setTypeOpen] = useState(false);
   const [typeValue, setTypeValue] = useState([]);
-  const [typeItems, setTypeItems] = useState([
-    { label: "Cachorro", value: "cachorro" },
-    { label: "Gato", value: "gato" },
-  ]);
+  const [typeItems, setTypeItems] = useState([]);
+
+  listGetTypePet = () => {
+    var responseGetTypePets;
+    var sessionstorage = require("sessionstorage");
+    var data = sessionstorage.getItem("token");
+    data = data.replace('"', "").replace('"', "");
+
+    if (data == null) {
+      alert("Seu login expirou!");
+    } else {
+      try {
+        fetch(`${server}/pet/types`, {
+          method: "GET",
+          headers: {
+            "Content-type": "application/json",
+            Authorization: "Bearer " + data,
+          },
+        })
+        .then(response => {
+          return response.json();
+        })
+        .then(json => {
+          responseGetTypePets = json.types;
+          console.log(responseGetTypePets);
+          setTypeItems(responseGetTypePets);
+        })
+      } catch (err) {
+        showError(err);
+      }
+    }
+  };
+
+  //------------------<Lista tipo de pet>----------------------------
 
   const [breedOpen, setBreedOpen] = useState(false);
   const [breedValue, setbreedValue] = useState([]);
@@ -80,15 +108,15 @@ export default (props) => {
   //retorna um objeto do tipo gato ou cachorro
   breedForType = () => {
     //se for do tipo cachorro set para itens do tipo cachorro
-    if (state.type == typeItems[0].value) {
-      setBreedItems(breedItensForDog);
-      setState((prevState) => ({ ...prevState, type: typeItems[0].value }));
-      return breedItems;
-    } else {
-      setBreedItems(breedItensForCat);
-      setState((prevState) => ({ ...prevState, type: typeItems[1].value }));
-      return breedItems;
-    }
+    // if (state.type == typeItems[0].value) {
+    //   setBreedItems(breedItensForDog);
+    //   setState((prevState) => ({ ...prevState, type: typeItems[0].value }));
+    //   return breedItems;
+    // } else {
+    //   setBreedItems(breedItensForCat);
+    //   setState((prevState) => ({ ...prevState, type: typeItems[1].value }));
+    //   return breedItems;
+    // }
   };
 
   register = () => {
@@ -159,6 +187,7 @@ export default (props) => {
             setOpen={setTypeOpen}
             setValue={setTypeValue}
             setItems={setTypeItems}
+            onPress={listGetTypePet}
             onChangeValue={(value) =>
               setState((prevState) => ({
                 ...prevState,

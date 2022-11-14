@@ -30,6 +30,7 @@ export default (props) => {
   const [petsItems, setPetsItems] = useState([]);
 
   useEffect(() => {
+    let responseGetListPets;
     var sessionstorage = require("sessionstorage");
     var data = sessionstorage.getItem("token");
     data = data.replace('"', "").replace('"', "");
@@ -44,13 +45,14 @@ export default (props) => {
             Authorization: "Bearer " + data,
           },
         })
-        .then((response) => response.json())
-        .then((json) => console.log(json), setPetsItems(response))
-       
-        //   console.log(response.json())
-        //   setPetsItems(response.json());
-        //   //console.log(petsItems);
-        // });
+        .then(response => {
+          return response.json()
+        })
+        .then(json => {
+          responseGetListPets = json.pets;
+          console.log(responseGetListPets)
+          setPetsItems(responseGetListPets)
+        })
       }
     } catch (err) {
       showError(err);

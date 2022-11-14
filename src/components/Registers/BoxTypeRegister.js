@@ -33,7 +33,7 @@ export default (props) => {
   register = () => {
     var sessionstorage = require("sessionstorage");
     var data = sessionstorage.getItem("token");
-    data = data.replace("\"","").replace("\"","")
+    data = data.replace('"', "").replace('"', "");
     console.log(data);
     if (data == null) {
       alert("Seu login expirou!");
@@ -45,7 +45,7 @@ export default (props) => {
         method: "POST",
         headers: {
           "Content-type": "application/json",
-          "Authorization": "Bearer " + data,
+          Authorization: "Bearer " + data,
         },
         body: JSON.stringify({
           nome: state.nome,
