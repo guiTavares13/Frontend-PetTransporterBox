@@ -5,16 +5,12 @@ import {
   TouchableOpacity,
   SafeAreaView,
   View,
-  Keyboard,
   Platform,
 } from "react-native";
-import DateTimePicker, {
-  DateTimePickerAndroid,
-} from "@react-native-community/datetimepicker";
-import { useState, useRef } from "react";
+import { useState } from "react";
 import global from "../../styles/global";
 import "sessionstorage";
-import AuthInput from "./AuthInput";
+import Authinputs from "./AuthInput";
 import { server, showError } from "../../common";
 
 export default (props) => {
@@ -141,15 +137,15 @@ export default (props) => {
 
   return (
     <SafeAreaView style={global.container}>
-      <Text style={styles.text}>Smart Pet Box</Text>
-      <View style={styles.formContainer}>
-        <Text style={styles.subtitle}>
+      <Text style={global.textPrimary}>Smart Pet Box</Text>
+      <View style={global.form}>
+        <Text style={global.textSecundary}>
           {state.stageNew ? "Crie sua conta" : "Informe seus dados"}
         </Text>
         {state.stageNew && (
-          <AuthInput
+          <Authinputs
             icon="user"
-            style={styles.input}
+            style={global.inputs}
             placeholder="Primeiro nome"
             value={state.name}
             onChangeText={(cName) =>
@@ -158,9 +154,9 @@ export default (props) => {
           />
         )}
         {state.stageNew && (
-          <AuthInput
+          <Authinputs
             icon="user"
-            style={styles.input}
+            style={global.inputs}
             placeholder="Último nome"
             value={state.lastName}
             onChangeText={(cLastName) =>
@@ -168,9 +164,9 @@ export default (props) => {
             }
           />
         )}
-        <AuthInput
+        <Authinputs
           icon="at"
-          style={styles.input}
+          style={global.inputs}
           placeholder="E-mail"
           value={state.email}
           onChangeText={(cEmail) =>
@@ -178,9 +174,9 @@ export default (props) => {
           }
         />
         {state.stageNew && (
-          <AuthInput
+          <Authinputs
             icon="id-card-o"
-            style={styles.input}
+            style={global.inputs}
             placeholder="CPF"
             value={state.documento}
             onChangeText={(cDocumento) =>
@@ -189,9 +185,9 @@ export default (props) => {
           />
         )}
         {state.stageNew && (
-          <AuthInput
+          <Authinputs
             icon="phone"
-            style={styles.input}
+            style={global.inputs}
             placeholder="Celular"
             value={state.phone}
             onChangeText={(cCelular) =>
@@ -199,27 +195,11 @@ export default (props) => {
             }
           />
         )}
-        {/* <View style={styles.container}>
-                    <Icon name="phone" size={20} style={styles.icon} />
-                    <TextInputMask icon='phone' type="datetime" style={styles.input} options={{maskType: 'BRL', withDDD: true, dddMask: '(99)'}}/>
-                </View> */}
 
         {state.stageNew && (
-          // <View style={styles.dateBirthBar}>
-          //     <TouchableOpacity
-          //         title="" onPress={showDatepicker}
-          //         style={styles.btnAvancar}>
-          //         <Image style={{width:30, height:30}}
-          //             source={calendarIcon}/>
-          //     </TouchableOpacity>
-          //     <Text>{state.nascimento}</Text>
-          //     {state.dateTimeShow &&
-          //         <DateTimePicker value={date} title="Show date picker!" />
-          //     }
-          // </View>
-          <AuthInput
+          <Authinputs
             icon="calendar"
-            style={styles.input}
+            style={global.inputs}
             placeholder="Data de Nascimento"
             value={state.nascimento}
             onChangeText={(cNascimento) =>
@@ -228,17 +208,12 @@ export default (props) => {
                 nascimento: cNascimento,
               }))
             }
-          >
-            {/* {dateTimeShow &
-                                <DateTimePicker returnKeyType="next" blurOnSubmit={false} onSubmitEditing={() => {senhaRef.current.focus();}}
-                                 value={date} title="Show date picker!" />
-                            } */}
-          </AuthInput>
+          ></Authinputs>
         )}
 
-        <AuthInput
+        <Authinputs
           icon="lock"
-          style={styles.input}
+          style={global.inputs}
           placeholder="Senha"
           secureTextEntry={true}
           value={state.password}
@@ -246,10 +221,6 @@ export default (props) => {
             setState((prevState) => ({ ...prevState, password: cPassword }))
           }
         />
-        {/* {state.stageNew &&
-                    <AuthInput icon='asterisk' style={styles.input}  placeholder="Confirmar senha" secureTextEntry={true}
-                    />
-                } */}
       </View>
       <TouchableOpacity
         onPress={() => setState({ stageNew: !state.stageNew })}
@@ -261,7 +232,7 @@ export default (props) => {
       </TouchableOpacity>
       <TouchableOpacity
         title="Button Access"
-        style={styles.buttonAccess}
+        style={global.button}
         onPress={signinOrSignup}
       >
         <Text style={styles.textButtonAccess}>
@@ -289,39 +260,5 @@ const styles = StyleSheet.create({
   icon: {
     color: "#333",
     marginLeft: 20,
-  },
-  formContainer: {
-    backgroundColor: "rgba(0,0,0, 0.8)",
-    padding: 20,
-    width: "90%",
-    borderRadius: 10,
-  },
-  buttonAccess: {
-    backgroundColor: "#2F80ED",
-    borderRadius: 10,
-    paddingLeft: 70,
-    paddingRight: 70,
-    paddingTop: 15,
-    paddingBottom: 15,
-  },
-  subtitle: {
-    color: "#fff",
-  },
-  text: {
-    fontStyle: "bold",
-    marginBottom: 50,
-    color: "black",
-    position: "relative",
-    fontSize: 24,
-  },
-  input: {
-    marginTop: 10,
-    backgroundColor: "#FFF",
-    borderRadius: 10,
-    height: 40,
-  },
-  dateBirthBar: {
-    flexDirection: "row",
-    alignItems: "stretch",
-  },
+  }
 });
