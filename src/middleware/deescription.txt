@@ -1,0 +1,4 @@
+aqui ficara os encripts json
+headers comuns
+Autenticação
+Validação do token
