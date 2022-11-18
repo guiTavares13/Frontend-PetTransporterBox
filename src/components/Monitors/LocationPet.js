@@ -1,6 +1,6 @@
 import React from "react";
 import { Text, View, StyleSheet, Dimensions, SafeAreaView } from "react-native";
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import DropDownPicker from "react-native-dropdown-picker";
 import MapView, { Callout, Marker } from "react-native-maps";
 import "sessionstorage";
@@ -9,16 +9,14 @@ import { showError, server } from "../../common";
 export default (props) => {
   var [
     initialState = {
-      localizacao_pet_id: "",
-      latitude: "",
-      longitude: "",
-      pet: [
+      tripId: "",
+      date: "",
+      openDoor: "",
+      petState: "",
+      location: [
         {
-          petId: "",
-          name: "",
-          age: "",
-          type: "",
-          breed: "",
+          latitude: "",
+          longitude: "",
         },
       ],
     },
@@ -33,31 +31,49 @@ export default (props) => {
   ] = useState();
 
   // -------------- <Retorna Localização e preenche o MapView> ------------//
-  const [locationTripItems, setLocationTriptems] = useState([]);
 
-  getPositionTrip = () => {
-    try {
-      fetch(`${server}/trip/:${tripId}`, {
-        method: "GET",
-        headers: {
-          "Content-type": "application/json; charset=UTF-8",
-        },
-      }).then((response) => {
-        setLocationTriptems(response);
-      });
-    } catch (err) {
-      showError(err);
-    }
-  };
+  useEffect(() => {
+    getMeasure = () => {
+      var responseGetMeasure;
+      var sessionstorage = require("sessionstorage");
+      var data = sessionstorage.getItem("token");
+      data = data.replace('"', "").replace('"', "");
+
+      if (data == null) {
+        alert("Seu login expirou!");
+        return;
+      } else {
+        try {
+          fetch(`${server}/measure/:${tripId}`, {
+            method: "GET",
+            headers: {
+              "Content-type": "application/json; charset=UTF-8",
+            },
+          })
+            .then((response) => {
+              return response.json();
+            })
+            .then((json) => {
+              responseGetMeasure = json.measure;
+              console.log(responseGetMeasure);
+              setState({responseGetMeasure});
+            });
+        } catch (err) {
+          showError(err);
+        }
+      }
+    };
+  }, [state.tripId != ""]);
+
   // -------------- </Retorna Localização e preenche o MapView> ------------//
 
   // ---------------------- <Lista Pets> --------------------------
-  const [petsOpen, setPetsOpen] = useState(false);
-  const [petsValue, setPetsValue] = useState([]);
-  const [petsItems, setPetsItems] = useState([]);
+  const [tripsOpen, setTripsOpen] = useState(false);
+  const [tripsValue, setTripsValue] = useState([]);
+  const [tripsItems, setTripsItems] = useState([]);
 
-  const onPetsOpen = useCallback(() => {
-    setPetsOpen(false);
+  const onTripsOpen = useCallback(() => {
+    setTripsOpen(false);
   }, []);
 
   getListTrips = () => {
@@ -98,34 +114,35 @@ export default (props) => {
       <View style={styles.container}>
         <View style={styles.dropDown}>
           <DropDownPicker
-            placeholder="Escolha o pet"
-            open={petsOpen}
-            value={petsValue}
-            items={petsItems}
-            setOpen={setPetsOpen}
-            setValue={setPetsValue}
-            setItems={setPetsItems}
+            placeholder="Selecione a viagem"
+            open={tripsOpen}
+            value={tripsValue}
+            items={tripsItems}
+            setOpen={setTripsOpen}
+            setValue={setTripsValue}
+            setItems={setTripsItems}
             onPress={getListTrips}
             onChangeValue={(value) =>
-              setState((prevState) => ({ ...prevState, pet: value.toString() }))
+              setState((prevState) => ({
+                ...prevState,
+                tripId: value.id.toString(),
+              }))
             }
-            onOpen={onPetsOpen}
+            onOpen={onTripsOpen}
           />
         </View>
         <View>
           <MapView
             style={styles.map}
             region={{
-              latitude: 37.78825,
-              longitude: -122.4324,
-              latitudeDelta: 0.0922,
-              longitudeDelta: 0.0421,
+              latitude: state.location.latitude,
+              longitude: state.location.longitude,
             }}
           >
             <Marker
               coordinate={{
-                latitude: 37.78825,
-                longitude: -122.4324,
+                latitude: state.location.latitude,
+                longitude: state.location.longitude,
               }}
               pinColor="black"
             />

@@ -1,6 +1,6 @@
 import React from "react";
 import { Text, View, StyleSheet, TouchableOpacity, SafeAreaView } from 'react-native'
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import DropDownPicker from 'react-native-dropdown-picker';
 import FontAwesome5Icons from "react-native-vector-icons/FontAwesome5";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
@@ -10,6 +10,8 @@ import OcticonsIcons from 'react-native-vector-icons/Octicons';
 import PetInfo from "./PetInfo";
 
 export default props => {
+
+    console.log("Entrou " + props)
 
     var [initialState ={
         pet: [{
@@ -51,6 +53,41 @@ export default props => {
         }
     }
     //---------------------- </Lista Pets> --------------------------
+
+    //---------------------- <Lista as medidas> --------------------------
+    useEffect(() => {
+        getMeasure = () => {
+          var responseGetMeasure;
+          var sessionstorage = require("sessionstorage");
+          var data = sessionstorage.getItem("token");
+          data = data.replace('"', "").replace('"', "");
+    
+          if (data == null) {
+            alert("Seu login expirou!");
+            return;
+          } else {
+            try {
+              fetch(`${server}/measure/:${tripId}`, {
+                method: "GET",
+                headers: {
+                  "Content-type": "application/json; charset=UTF-8",
+                },
+              })
+                .then((response) => {
+                  return response.json();
+                })
+                .then((json) => {
+                  responseGetMeasure = json.measure;
+                  console.log(responseGetMeasure);
+                  setState({responseGetMeasure});
+                });
+            } catch (err) {
+              showError(err);
+            }
+          }
+        };
+      }, [state.tripId != ""]);
+    //---------------------- </Lista as medidas> ----------------------
 
     //---------------------- <Icones> --------------------------------
     const petType = <MaterialIcons name='pets' size={20} />

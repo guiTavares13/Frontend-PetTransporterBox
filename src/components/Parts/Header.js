@@ -1,6 +1,6 @@
 import { View, Text, Image, StyleSheet } from "react-native";
 
-import global from "../../../global";
+import global from "../../styles/global";
 
 export default function Header() {
     return(

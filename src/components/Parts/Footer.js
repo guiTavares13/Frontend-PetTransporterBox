@@ -5,6 +5,8 @@ import newPetIcon from '../../assets/icons/plus-circle.png'
 
 export default props => {
 
+    console.log("Footer " + props)
+
     return(
         <View style={styles.container}>
             <View>

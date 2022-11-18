@@ -1,7 +1,7 @@
 
 import React from "react";
 import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
-import global from '../../../global'
+import global from '../../styles/global'
 
 import logo from '../../assets/icons/logo.png'
 

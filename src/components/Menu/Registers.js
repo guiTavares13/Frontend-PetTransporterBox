@@ -22,7 +22,7 @@ export default props => {
                 <TouchableOpacity style={styles.buttom} onPress={() => props.navigation.navigate('BoxRegister', {...props})}>
                         <Image style={{width:130, height:130}} source={petboxIcon}/>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.buttom} onPress={() => props.navigation.navigate('BoxType', {...props})}>
+                <TouchableOpacity style={styles.buttom} onPress={() => props.navigation.navigate('', {...props})}>
                         <Image style={{width:130, height:130}} source={modelBox}/>
                 </TouchableOpacity>
             </View>

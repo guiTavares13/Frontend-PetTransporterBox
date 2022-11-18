@@ -6,19 +6,20 @@ import {
   View,
   TextInput,
   StyleSheet,
-  LogBox,
+  LogBox
 } from "react-native";
 import { useState, useCallback } from "react";
-import global from "../../../global";
+import global from "../../styles/global";
 import { server, showError } from "../../common";
 import DropDownPicker from "react-native-dropdown-picker";
 import AuthInput from "../Auth/AuthInput";
-import "sessionstorage";
+import 'sessionstorage'
 import FontAwesome5Icons from "react-native-vector-icons/FontAwesome5";
 
 export default (props) => {
+
   LogBox.ignoreLogs([
-    "Non-serializable values were found in the navigation state",
+    'Non-serializable values were found in the navigation state',
   ]);
 
   var [
@@ -42,9 +43,8 @@ export default (props) => {
   const [modelBoxOpen, setModelBoxOpen] = useState(false);
   const [modelBoxValue, setModelBoxValue] = useState([]);
   const [modelBoxItems, setModelBoxItems] = useState([
-    { label: "Pequeno", value: "3314de3d-6186-4526-a475-d21aac9f77c5" },
-    { label: "Médio", value: "3314de3d-6186-4526-a475-d21aac9f77c5" },
-    { label: "Grande", value: "3314de3d-6186-4526-a475-d21aac9f77c5" },
+    { label: "Modelo 1", value: "f1d6e894-646b-11ed-81ce-0242ac120002" },
+    { label: "Modelo 2", value: "07c0bad6-646c-11ed-81ce-0242ac120002" },
   ]);
 
   const onModelBoxOpen = useCallback(() => {
@@ -52,33 +52,35 @@ export default (props) => {
   }, []);
 
   listGetModelBox = () => {
-    var sessionstorage = require("sessionstorage");
-    var data = sessionstorage.getItem("token");
-    data = data.replace('"', "").replace('"', "");
-    if (data == null) {
+    var responseGetModelBox;
+    var sessionstorage = require('sessionstorage');
+    var data = sessionstorage.getItem('token');
+    data = data.replace('"',"").replace('"',"");
+    if(data == null){
       alert("Seu login expirou!");
     } else {
-      try {
+      try{
         fetch(`${server}/caixa`, {
           method: "GET",
           headers: {
-            "Content-type": "application/json",
+            "Content-type":"application/json",
             Authorization: "Bearer " + data,
-          },
+          }
         })
         .then(response => {
-          return response.json()
+          return response.json();
         })
         .then(json => {
-          responseGetListPetTypes = json;
-          console.log(responseGetListPetTypes)
-          setModelBoxItems(responseGetListPetTypes)
+          responseGetModelBox = json.boxModel;
+          console.log(responseGetModelBox);
+          setModelBoxItems(responseGetModelBox);
         })
-      } catch (err) {
-        showError(err);
+      } catch(err){
+        showError(err)
       }
+  
     }
-  };
+  }
   //--------------------------- </Listar modelos> ------------------------
 
   //--------------------------- <Cadastrar novo> ----------------------------

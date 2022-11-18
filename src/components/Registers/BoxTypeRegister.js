@@ -8,7 +8,7 @@ import {
   StyleSheet,
 } from "react-native";
 import { useState } from "react";
-import global from "../../../global";
+import global from "../../styles/global";
 import { server, showError } from "../../common";
 import AuthInput from "../Auth/AuthInput";
 import "sessionstorage";

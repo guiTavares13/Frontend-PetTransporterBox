@@ -6,7 +6,9 @@ import "sessionstorage";
 import BtnVisualizeAll from "../Parts/BtnVisualizeAll";
 import { server, showError, showSucess } from "../../common";
 
-export default (props) => {
+export default props => {
+
+  console.log("Naviagtion" + props.navigation.navigate)
   // var [
   //   state = {
   //     pets: [
@@ -50,7 +52,7 @@ export default (props) => {
         })
         .then(json => {
           responseGetListPets = json.pets;
-          console.log(responseGetListPets)
+          //console.log(responseGetListPets)
           setPetsItems(responseGetListPets)
         })
       }

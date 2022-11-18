@@ -7,7 +7,7 @@ import {
   StyleSheet,
 } from "react-native";
 import { useState, useCallback } from "react";
-import global from "../../../global";
+import global from "../../styles/global";
 import { server, showError } from "../../common";
 import AuthInput from "../Auth/AuthInput";
 import DropDownPicker from "react-native-dropdown-picker";
@@ -18,7 +18,7 @@ export default (props) => {
     initialState = {
       name: "Tobias",
       age: "2",
-      type: "",
+      category: "",
       breed: "",
     },
     setState,
@@ -34,7 +34,10 @@ export default (props) => {
   //------------------<Lista tipo de pet>----------------------------
   const [typeOpen, setTypeOpen] = useState(false);
   const [typeValue, setTypeValue] = useState([]);
-  const [typeItems, setTypeItems] = useState([]);
+  const [typeItems, setTypeItems] = useState([
+    { label: "Cachorro", value: "7b1a6160-63b5-11ed-81ce-0242ac120002" },
+    { label: "Gato", value: "89059a10-63b5-11ed-81ce-0242ac120002" }
+  ]);
 
   listGetTypePet = () => {
     var responseGetTypePets;
@@ -57,15 +60,14 @@ export default (props) => {
           return response.json();
         })
         .then(json => {
-          responseGetTypePets = json.types;
-          console.log(responseGetTypePets);
-          setTypeItems(responseGetTypePets);
+          responseGetTypePets = json.types;          
+          //setTypeItems(responseGetTypePets);
         })
       } catch (err) {
         showError(err);
       }
     }
-  };
+  }; 
 
   //------------------<Lista tipo de pet>----------------------------
 
@@ -108,15 +110,15 @@ export default (props) => {
   //retorna um objeto do tipo gato ou cachorro
   breedForType = () => {
     //se for do tipo cachorro set para itens do tipo cachorro
-    // if (state.type == typeItems[0].value) {
-    //   setBreedItems(breedItensForDog);
-    //   setState((prevState) => ({ ...prevState, type: typeItems[0].value }));
-    //   return breedItems;
-    // } else {
-    //   setBreedItems(breedItensForCat);
-    //   setState((prevState) => ({ ...prevState, type: typeItems[1].value }));
-    //   return breedItems;
-    // }
+    if (state.type == typeItems[0].value) {
+      setBreedItems(breedItensForDog);
+      setState((prevState) => ({ ...prevState, type: typeItems[0].value }));
+      return breedItems;
+    } else {
+      setBreedItems(breedItensForCat);
+      setState((prevState) => ({ ...prevState, type: typeItems[1].value }));
+      return breedItems;
+    }
   };
 
   register = () => {
@@ -133,7 +135,7 @@ export default (props) => {
         body: JSON.stringify({
           name: state.name,
           breed: state.breed,
-          category: "1",
+          category: state.category,
           age: state.age,
         }),
         headers: {
@@ -191,7 +193,7 @@ export default (props) => {
             onChangeValue={(value) =>
               setState((prevState) => ({
                 ...prevState,
-                type: value,
+                category: value,
               }))
             }
             onOpen={onTypeOpen}

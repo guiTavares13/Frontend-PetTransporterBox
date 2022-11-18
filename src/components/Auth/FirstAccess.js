@@ -12,10 +12,9 @@ import DateTimePicker, {
   DateTimePickerAndroid,
 } from "@react-native-community/datetimepicker";
 import { useState, useRef } from "react";
-import global from "../../../global";
+import global from "../../styles/global";
 import "sessionstorage";
 import AuthInput from "./AuthInput";
-import Regex from "../regex/Regex";
 import { server, showError } from "../../common";
 
 export default (props) => {
@@ -142,7 +141,7 @@ export default (props) => {
 
   return (
     <SafeAreaView style={global.container}>
-      <Text style={styles.text}>Caixa Pet</Text>
+      <Text style={styles.text}>Smart Pet Box</Text>
       <View style={styles.formContainer}>
         <Text style={styles.subtitle}>
           {state.stageNew ? "Crie sua conta" : "Informe seus dados"}
@@ -311,7 +310,7 @@ const styles = StyleSheet.create({
   text: {
     fontStyle: "bold",
     marginBottom: 50,
-    color: "#52665A",
+    color: "black",
     position: "relative",
     fontSize: 24,
   },

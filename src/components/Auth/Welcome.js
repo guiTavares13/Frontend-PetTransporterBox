@@ -1,5 +1,5 @@
 import { SafeAreaView, Image, TouchableOpacity, StyleSheet, Text, View, LogBox } from "react-native";
-import global from "../../../global";
+import global from "../../styles/global";
 import logo from '../../assets/icons/logo.png'
 import buttonInitial from '../../assets/icons/buttonInitial.png'
 
@@ -12,7 +12,7 @@ export default props => {
         return(
             <SafeAreaView style={global.container}>
                 <Image style={{width:300, height:300}} source={logo}/>
-                <Text style={styles.title}>Caixa Pet</Text>
+                <Text style={styles.title}>Smart Pet Box</Text>
                 <View style={styles.subtitle}>
                     
                     <Text style={styles.avancar}>Monitore seu pet da forma rapida {'\n'} 
