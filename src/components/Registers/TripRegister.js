@@ -19,7 +19,7 @@ import DropDownPicker from "react-native-dropdown-picker";
 import AuthInput from "../Auth/AuthInput";
 import { useEffect } from "react";
 
-export default (props) => {
+export default props => {
   var [
     initialState = {
       petId: "",
@@ -39,8 +39,7 @@ export default (props) => {
   // ----------------- <Pet> -------------------------------
   const [petOpen, setPetOpen] = useState(false);
   const [petValue, setPetValue] = useState([]);
-  const [petItems, setPetItems] = useState([
-  ]);
+  const [petItems, setPetItems] = useState([]);
 
   // const onPetOpen = useCallback(() => {
   //   setPetOpen(false);
@@ -48,12 +47,12 @@ export default (props) => {
 
   useEffect(() => {
     listPet();
-    listPet();
-  }, [])
+    listBox();
+  }, []);
 
   useEffect(() => {
-    console.log(petItems)
-  }, [petItems])
+    console.log(petItems);
+  }, [petItems]);
 
   listPet = () => {
     var responseGetPets;
@@ -78,12 +77,12 @@ export default (props) => {
           .then((json) => {
             responseGetPets = json.pets;
             console.log("RECEBEU VALORES PET");
-            console.log(responseGetPets)
+            console.log(responseGetPets);
 
             const aux = [];
 
-            responseGetPets.forEach(element => {
-              aux.push({ value: element.pet_id, label: element.pet_nome })
+            responseGetPets.forEach((element) => {
+              aux.push({ value: element.pet_id, label: element.pet_nome });
             });
 
             setPetItems(aux);
@@ -112,21 +111,26 @@ export default (props) => {
         fetch(`${server}/caixa`, {
           method: "GET",
           headers: {
-            "Content-type": "application/json; charset=UTF-8",
+            "Content-type": "application/json",
+            Authorization: "Bearer " + data,
           },
-        }).then((response) => {
-          responseListBox = json.caixa;
+        })
+          .then((response) => {
+            return response.json();
+          })
+          .then((json) => {
+            responseListBox = json.boxes;
+            console.log("RECEBEU VALORES CAIXA");
+            console.log(json);
 
-          console.log("RECEBEU VALORES CAIXA");
-          console.log(responseListBox);
+            const aux = [];
 
-          const aux = [];
+            responseListBox.forEach(element => {
+              aux.push({ value: element.caixa_id, label: element.caixa_nome })
+            });
 
-          responseListBox.forEach(element => {
-            aux.push({value: element.id, label: element.nome})
+            setBoxItems(aux);
           });
-          setBoxItems(response);
-        });
       } catch (err) {
         showError(err);
       }
@@ -135,7 +139,6 @@ export default (props) => {
   //---------------------- </Box> --------------------------
 
   register = () => {
-    var responseGetPets;
     var sessionstorage = require("sessionstorage");
     var data = sessionstorage.getItem("token");
     data = data.replace('"', "").replace('"', "");
@@ -144,15 +147,16 @@ export default (props) => {
       return;
     } else {
       try {
-        fetch(`${server}/pet`, {
+        fetch(`${server}/trip`, {
           method: "POST",
           body: JSON.stringify({
             petId: state.petId,
-            caixaId: state.name,
+            caixaId: state.boxId,
             date: state.date,
           }),
           headers: {
-            "Content-type": "application/json; charset=UTF-8",
+            "Content-type": "application/json;",
+            Authorization: "Bearer " + data,
           },
         })
           .then((response) => response.json())
@@ -182,7 +186,7 @@ export default (props) => {
               onChangeValue={(value) =>
                 setState((prevState) => ({
                   ...prevState,
-                  petId: value.toString(),
+                  petId: value,
                 }))
               }
             />
@@ -200,7 +204,7 @@ export default (props) => {
             onChangeValue={(value) =>
               setState((prevState) => ({
                 ...prevState,
-                boxId: value.toString(),
+                boxId: value,
               }))
             }
           />
