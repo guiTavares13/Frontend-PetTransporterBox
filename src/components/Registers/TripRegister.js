@@ -17,6 +17,7 @@ import DateTimePicker, {
 } from "@react-native-community/datetimepicker";
 import DropDownPicker from "react-native-dropdown-picker";
 import AuthInput from "../Auth/AuthInput";
+import { useEffect } from "react";
 
 export default (props) => {
   var [
@@ -41,9 +42,18 @@ export default (props) => {
   const [petItems, setPetItems] = useState([
   ]);
 
-  const onPetOpen = useCallback(() => {
-    setPetOpen(false);
-  }, []);
+  // const onPetOpen = useCallback(() => {
+  //   setPetOpen(false);
+  // }, []);
+
+  useEffect(() => {
+    listPet();
+    listPet();
+  }, [])
+
+  useEffect(() => {
+    console.log(petItems)
+  }, [petItems])
 
   listPet = () => {
     var responseGetPets;
@@ -52,6 +62,7 @@ export default (props) => {
     data = data.replace('"', "").replace('"', "");
     if (data == null) {
       alert("Seu login expirou!");
+      return;
     } else {
       try {
         fetch(`${server}/pet`, {
@@ -65,9 +76,17 @@ export default (props) => {
             return response.json();
           })
           .then((json) => {
-            responseGetPets = json.pets; 
-              setPetItems(responseGetPets => ({
-               value: responseGetPets.pet_id}))
+            responseGetPets = json.pets;
+            console.log("RECEBEU VALORES PET");
+            console.log(responseGetPets)
+
+            const aux = [];
+
+            responseGetPets.forEach(element => {
+              aux.push({ value: element.pet_id, label: element.pet_nome })
+            });
+
+            setPetItems(aux);
           });
       } catch (err) {
         showError(err);
@@ -75,50 +94,72 @@ export default (props) => {
     }
   };
   //---------------------- </Pet> --------------------------
-
   // ---------------------- <Box> --------------------------
   const [boxOpen, setBoxOpen] = useState(false);
   const [boxValue, setBoxValue] = useState([]);
   const [boxItems, setBoxItems] = useState([]);
 
-  const onBoxOpen = useCallback(() => {
-    setBoxOpen(false);
-  }, []);
-
   listBox = () => {
-    console.log("1");
-    try {
-      fetch(`${server}/caixaModelAll`, {
-        method: "GET",
-        headers: {
-          "Content-type": "application/json; charset=UTF-8",
-        },
-      }).then((response) => {
-        setBoxItems(response);
-      });
-    } catch (err) {
-      showError(err);
+    var responseListBox;
+    var sessionstorage = require("sessionstorage");
+    var data = sessionstorage.getItem("token");
+    data = data.replace('"', "").replace('"', "");
+    if (data == null) {
+      alert("Seu login expirou!");
+      return;
+    } else {
+      try {
+        fetch(`${server}/caixa`, {
+          method: "GET",
+          headers: {
+            "Content-type": "application/json; charset=UTF-8",
+          },
+        }).then((response) => {
+          responseListBox = json.caixa;
+
+          console.log("RECEBEU VALORES CAIXA");
+          console.log(responseListBox);
+
+          const aux = [];
+
+          responseListBox.forEach(element => {
+            aux.push({value: element.id, label: element.nome})
+          });
+          setBoxItems(response);
+        });
+      } catch (err) {
+        showError(err);
+      }
     }
   };
   //---------------------- </Box> --------------------------
 
   register = () => {
-    try {
-      fetch(`${server}/pet`, {
-        method: "POST",
-        body: JSON.stringify({
-          petId: state.petId,
-          caixaID: state.name,
-          date: state.date,
-        }),
-        headers: {
-          "Content-type": "application/json; charset=UTF-8",
-        },
-      })
-        .then((response) => response.json())
-        .then((json) => console.log(json));
-    } catch (err) {
-      showError(err);
+    var responseGetPets;
+    var sessionstorage = require("sessionstorage");
+    var data = sessionstorage.getItem("token");
+    data = data.replace('"', "").replace('"', "");
+    if (data == null) {
+      alert("Seu login expirou!");
+      return;
+    } else {
+      try {
+        fetch(`${server}/pet`, {
+          method: "POST",
+          body: JSON.stringify({
+            petId: state.petId,
+            caixaId: state.name,
+            date: state.date,
+          }),
+          headers: {
+            "Content-type": "application/json; charset=UTF-8",
+          },
+        })
+          .then((response) => response.json())
+          .then((json) => console.log(json));
+      } catch (err) {
+        showError(err);
+      }
     }
   };
 
@@ -128,25 +169,25 @@ export default (props) => {
         <Text style={styles.title}>Cadastrar Viagem</Text>
       </View>
       <View style={styles.formContainer}>
-        <View style={styles.dropDown}>
-          <DropDownPicker
-            placeholder="Selecione o pet"
-            open={petOpen}
-            value={petValue}
-            items={petItems}
-            setOpen={setPetOpen}
-            setValue={setPetValue}
-            setItems={setPetItems}
-            onPress={listPet}
-            onChangeValue={(value) =>
-              setState((prevState) => ({
-                ...prevState,
-                petId: value.toString(),
-              }))
-            }
-            onOpen={onPetOpen}
-          />
-        </View>
+        {petItems.length > 0 && (
+          <View style={styles.dropDown}>
+            <DropDownPicker
+              placeholder="Selecione o pet"
+              open={petOpen}
+              value={petValue}
+              items={petItems}
+              setOpen={setPetOpen}
+              setValue={setPetValue}
+              setItems={setPetItems}
+              onChangeValue={(value) =>
+                setState((prevState) => ({
+                  ...prevState,
+                  petId: value.toString(),
+                }))
+              }
+            />
+          </View>
+        )}
         <View style={styles.dropDown}>
           <DropDownPicker
             placeholder="Selecione a caixa"
@@ -156,14 +197,12 @@ export default (props) => {
             setOpen={setBoxOpen}
             setValue={setBoxValue}
             setItems={setBoxItems}
-            onPress={listBox}
             onChangeValue={(value) =>
               setState((prevState) => ({
                 ...prevState,
                 boxId: value.toString(),
               }))
             }
-            onOpen={onBoxOpen}
           />
         </View>
 
