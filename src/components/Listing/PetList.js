@@ -1,14 +1,15 @@
 import React from "react";
-import { StyleSheet, Text, SafeAreaView, FlatList } from "react-native";
+import { StyleSheet, Text, SafeAreaView, FlatList, LogBox } from "react-native";
 import { useState, useEffect } from "react";
 import Pet from "./Pet";
 import "sessionstorage";
 import BtnVisualizeAll from "../Parts/BtnVisualizeAll";
 import { server, showError, showSucess } from "../../common";
 
-export default props => {
-
-  console.log("Naviagtion" + props.navigation.navigate)
+export default (props) => {
+  LogBox.ignoreLogs([
+    "Non-serializable values were found in the navigation state",
+  ]);
   // var [
   //   state = {
   //     pets: [
@@ -47,19 +48,18 @@ export default props => {
             Authorization: "Bearer " + data,
           },
         })
-        .then(response => {
-          return response.json()
-        })
-        .then(json => {
-          responseGetListPets = json.pets;
-          //console.log(responseGetListPets)
-          setPetsItems(responseGetListPets)
-        })
+          .then((response) => {
+            return response.json();
+          })
+          .then((json) => {
+            responseGetListPets = json.pets;
+
+            setPetsItems(responseGetListPets);
+          });
       }
     } catch (err) {
       showError(err);
     }
-    
   }, []);
 
   // ------------------------- Listagem dos pets --------------

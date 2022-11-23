@@ -7,7 +7,7 @@ import {
   Picker,
   TextInput,
   StyleSheet,
-  Platform,
+  LogBox,
 } from "react-native";
 import { useState, useCallback } from "react";
 import global from "../../styles/global";
@@ -20,10 +20,13 @@ import AuthInput from "../Auth/AuthInput";
 import { useEffect } from "react";
 
 export default props => {
+  LogBox.ignoreLogs([
+    "Non-serializable values were found in the navigation state",
+  ]);
   var [
     initialState = {
-      petId: "",
-      boxId: "",
+      pet_Id: "",
+      box_Id: "",
       date: "",
     },
     setState,
@@ -145,25 +148,26 @@ export default props => {
     if (data == null) {
       alert("Seu login expirou!");
       return;
-    } else {
-      try {
-        fetch(`${server}/trip`, {
-          method: "POST",
-          body: JSON.stringify({
-            petId: state.petId,
-            caixaId: state.boxId,
-            date: state.date,
-          }),
-          headers: {
-            "Content-type": "application/json;",
-            Authorization: "Bearer " + data,
-          },
-        })
-          .then((response) => response.json())
-          .then((json) => console.log(json));
-      } catch (err) {
-        showError(err);
-      }
+    }
+    try {
+      fetch(`${server}/trip`, {
+        method: "POST",
+        body: JSON.stringify({
+          petId: state.pet_Id,
+          caixaId: state.box_Id,
+          date: state.date
+        }),
+        headers: {
+          "Content-type": "application/json",
+          Authorization: "Bearer " + data,
+        },
+      })
+        .then((response) => response.json())
+        .then((json) => console.log(json),
+        alert("Cadastrado com sucesso!"),
+        setState({ ...initialState }))
+    } catch (err) {
+      showError(err);
     }
   };
 
@@ -173,7 +177,7 @@ export default props => {
         <Text style={styles.title}>Cadastrar Viagem</Text>
       </View>
       <View style={styles.formContainer}>
-        {petItems.length > 0 && (
+        {petItems.length > 0 && 
           <View style={styles.dropDown}>
             <DropDownPicker
               placeholder="Selecione o pet"
@@ -186,12 +190,12 @@ export default props => {
               onChangeValue={(value) =>
                 setState((prevState) => ({
                   ...prevState,
-                  petId: value,
+                  pet_Id: value,
                 }))
               }
             />
           </View>
-        )}
+        }
         <View style={styles.dropDown}>
           <DropDownPicker
             placeholder="Selecione a caixa"
@@ -204,7 +208,7 @@ export default props => {
             onChangeValue={(value) =>
               setState((prevState) => ({
                 ...prevState,
-                boxId: value,
+                box_Id: value,
               }))
             }
           />

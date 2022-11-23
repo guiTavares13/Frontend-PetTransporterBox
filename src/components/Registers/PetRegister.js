@@ -4,6 +4,7 @@ import {
   TouchableOpacity,
   Text,
   View,
+  LogBox,
   StyleSheet,
 } from "react-native";
 import { useState, useCallback } from "react";
@@ -14,10 +15,14 @@ import DropDownPicker from "react-native-dropdown-picker";
 import "sessionstorage";
 
 export default (props) => {
+
+  LogBox.ignoreLogs([
+    "Non-serializable values were found in the navigation state",
+  ]);
   var [
     initialState = {
-      name: "Tobias",
-      age: "2",
+      name: "",
+      age: "",
       category: "",
       breed: "",
     },
@@ -32,42 +37,37 @@ export default (props) => {
   ] = useState();
 
   //------------------<Lista tipo de pet>----------------------------
-  const [typeOpen, setTypeOpen] = useState(false);
-  const [typeValue, setTypeValue] = useState([]);
-  const [typeItems, setTypeItems] = useState([
-    { label: "Cachorro", value: "7b1a6160-63b5-11ed-81ce-0242ac120002" },
-    { label: "Gato", value: "89059a10-63b5-11ed-81ce-0242ac120002" }
-  ]);
+  
 
-  listGetTypePet = () => {
-    var responseGetTypePets;
-    var sessionstorage = require("sessionstorage");
-    var data = sessionstorage.getItem("token");
-    data = data.replace('"', "").replace('"', "");
+  // listGetTypePet = () => {
+  //   var responseGetTypePets;
+  //   var sessionstorage = require("sessionstorage");
+  //   var data = sessionstorage.getItem("token");
+  //   data = data.replace('"', "").replace('"', "");
 
-    if (data == null) {
-      alert("Seu login expirou!");
-    } else {
-      try {
-        fetch(`${server}/pet/types`, {
-          method: "GET",
-          headers: {
-            "Content-type": "application/json",
-            Authorization: "Bearer " + data,
-          },
-        })
-        .then(response => {
-          return response.json();
-        })
-        .then(json => {
-          responseGetTypePets = json.types;          
-          //setTypeItems(responseGetTypePets);
-        })
-      } catch (err) {
-        showError(err);
-      }
-    }
-  }; 
+  //   if (data == null) {
+  //     alert("Seu login expirou!");
+  //   } else {
+  //     try {
+  //       fetch(`${server}/pet/types`, {
+  //         method: "GET",
+  //         headers: {
+  //           "Content-type": "application/json",
+  //           Authorization: "Bearer " + data,
+  //         },
+  //       })
+  //       .then(response => {
+  //         return response.json();
+  //       })
+  //       .then(json => {
+  //         responseGetTypePets = json.types;          
+  //         //setTypeItems(responseGetTypePets);
+  //       })
+  //     } catch (err) {
+  //       showError(err);
+  //     }
+  //   }
+  // }; 
 
   //------------------<Lista tipo de pet>----------------------------
 
@@ -106,15 +106,24 @@ export default (props) => {
     setTypeOpen(false);
   }, []);
 
+  const [typeOpen, setTypeOpen] = useState(false);
+  const [typeValue, setTypeValue] = useState([]);
+  const [typeItems, setTypeItems] = useState([
+    { label: "Cachorro", value: "7b1a6160-63b5-11ed-81ce-0242ac120002" },
+    { label: "Gato", value: "89059a10-63b5-11ed-81ce-0242ac120002" }
+  ]);
+
   //valida qual tipo de pet o usuário selecionou e
   //retorna um objeto do tipo gato ou cachorro
   breedForType = () => {
     //se for do tipo cachorro set para itens do tipo cachorro
-    if (state.type == typeItems[0].value) {
+    if (state.category == typeItems[0].value) {
+      console.log(typeItems[0].value);
       setBreedItems(breedItensForDog);
       setState((prevState) => ({ ...prevState, type: typeItems[0].value }));
       return breedItems;
     } else {
+      console.log(typeItems[1].value)
       setBreedItems(breedItensForCat);
       setState((prevState) => ({ ...prevState, type: typeItems[1].value }));
       return breedItems;
@@ -135,21 +144,18 @@ export default (props) => {
         body: JSON.stringify({
           name: state.name,
           breed: state.breed,
-          category: state.category,
           age: state.age,
+          category: state.category
         }),
         headers: {
           "Content-type": "application/json",
           Authorization: "Bearer " + data,
         },
       })
-        .then((response) => {
-          console.log("response", response);
-          setState({ ...initialState });
-        })
-        .catch((response) => {
-          showError(response);
-        });
+        .then((response) => response.json())
+        .then((json) => console.log(json),
+        alert("Cadastrado com sucesso!"),
+        setState({ ...initialState }))
     } catch (err) {
       showError(err);
     }
@@ -189,7 +195,7 @@ export default (props) => {
             setOpen={setTypeOpen}
             setValue={setTypeValue}
             setItems={setTypeItems}
-            onPress={listGetTypePet}
+            //onPress={listGetTypePet}
             onChangeValue={(value) =>
               setState((prevState) => ({
                 ...prevState,

@@ -1,8 +1,11 @@
 import React from "react";
-import { View, TextInput, StyleSheet } from "react-native";
+import { View, TextInput, StyleSheet, LogBox } from "react-native";
 import  Icon  from "react-native-vector-icons/FontAwesome";
 
 export default props => {
+    LogBox.ignoreLogs([
+        "Non-serializable values were found in the navigation state",
+      ]);
     return(
         <View style={[styles.container, props.style]}>
             <Icon name={props.icon} size={20} style={styles.icon} />

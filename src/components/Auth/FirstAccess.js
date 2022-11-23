@@ -5,6 +5,7 @@ import {
   TouchableOpacity,
   SafeAreaView,
   View,
+  LogBox,
   Platform,
 } from "react-native";
 import { useState } from "react";
@@ -14,6 +15,9 @@ import Authinputs from "./AuthInput";
 import { server, showError } from "../../common";
 
 export default (props) => {
+  LogBox.ignoreLogs([
+    "Non-serializable values were found in the navigation state",
+  ]);
   //const [mode, setMode] = useState('date');
   const [date, setDate] = useState(new Date());
   const [show, setShow] = useState(false);
@@ -23,11 +27,11 @@ export default (props) => {
     initialState = {
       name: "",
       lastName: "",
-      email: "gui@teste.com",
+      email: "",
       documento: "",
       phone: "",
       nascimento: "",
-      password: "123",
+      password: "",
       stageNew: false,
     },
     setState,
@@ -98,7 +102,11 @@ export default (props) => {
         },
       })
         .then((response) => response.json())
-        .then((json) => console.log(json), setState({ ...initialState }))
+        .then(
+          (json) => console.log(json),
+          alert("Cadastrado com sucesso!"),
+          setState({ ...initialState })
+        )
         .catch((json) => {
           showError(json);
         });
@@ -260,5 +268,5 @@ const styles = StyleSheet.create({
   icon: {
     color: "#333",
     marginLeft: 20,
-  }
+  },
 });

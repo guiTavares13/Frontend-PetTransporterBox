@@ -58,6 +58,7 @@ export default (props) => {
     data = data.replace('"',"").replace('"',"");
     if(data == null){
       alert("Seu login expirou!");
+      return;
     } else {
       try{
         fetch(`${server}/caixa`, {
@@ -106,6 +107,8 @@ export default (props) => {
       })
         .then((response) => response.json())
         .then((json) => console.log(json));
+        setState({ ...initialState })
+        alert("Cadastrado com sucesso!")
     } catch (err) {
       showError(err);
     }
@@ -156,15 +159,6 @@ export default (props) => {
         >
           <Text style={styles.textButton}>Cadastrar</Text>
         </TouchableOpacity>
-        <View style={styles.editContainer}>
-          <TouchableOpacity
-            title="Editar"
-            style={styles.buttonEdit}
-            onPress={(update) => setState({ updateBox: !state.updateBox })}
-          >
-            <Text>{iconUpdate}</Text>
-          </TouchableOpacity>
-        </View>
       </SafeAreaView>
     </>
   );

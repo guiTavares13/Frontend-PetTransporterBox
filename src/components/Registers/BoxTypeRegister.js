@@ -4,7 +4,7 @@ import {
   TouchableOpacity,
   Text,
   View,
-  TextInput,
+  LogBox,
   StyleSheet,
 } from "react-native";
 import { useState } from "react";
@@ -14,6 +14,10 @@ import AuthInput from "../Auth/AuthInput";
 import "sessionstorage";
 
 export default (props) => {
+
+  LogBox.ignoreLogs([
+    "Non-serializable values were found in the navigation state",
+  ]);
   var [
     initialState = {
       nome: "Modelo 1",

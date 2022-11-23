@@ -14,6 +14,8 @@ export default props => {
     "Non-serializable values were found in the navigation state",
   ]);
 
+  console.log(props)
+
   defineType = (param) => {
     if (param == "1") {
       return "Cachorro";
@@ -24,7 +26,7 @@ export default props => {
 
   return (
   
-    <TouchableOpacity onPress={() => props.navigation.navigate('PetState', {...props})} style={styles.container}>
+    <TouchableOpacity style={styles.container}>
       <View style={styles.pet}>
         <View style={styles.column}>
           <Image style={{ width: 50, height: 50 }} source={logoPet} />
