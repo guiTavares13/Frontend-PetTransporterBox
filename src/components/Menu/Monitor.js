@@ -1,9 +1,10 @@
 import React from "react";
 import { SafeAreaView, StyleSheet, TouchableOpacity, Image, View, Text } from "react-native";
 
-import petLocation from '../assets/icons/location.png'
-import petMonitor from '../assets/icons/petMonitor.png'
-import mapHeat from '../assets/icons/mapHeat.png'
+import petLocation from '../../assets/icons/location.png'
+import stateIconPet from '../../assets/icons/state-icon.png'
+import mapHeat from '../../assets/icons/mapHeat.png'
+import photoIconPet from '../../assets/icons/photo-icon.png'
 
 export default props => {
     return(
@@ -12,13 +13,16 @@ export default props => {
                 <TouchableOpacity style={styles.buttom} onPress={() => props.navigation.navigate('LocationPet', {...props})}>
                     <Image style={{width:110, height:111}} source={petLocation}/>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.buttom}>
-                    <Image style={{width:110, height:110}} source={petMonitor}/>
+                <TouchableOpacity style={styles.buttom} onPress={() => props.navigation.navigate('PetState', {...props})}>
+                    <Image style={{width:110, height:110}} source={stateIconPet}/>
                 </TouchableOpacity>
             </View>
             <View style={styles.buttons}>
                 <TouchableOpacity style={styles.buttom}>
                     <Image style={{width:110, height:110}} source={mapHeat}/>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.buttom}>
+                    <Image style={{width:110, height:110}} source={photoIconPet}/>
                 </TouchableOpacity>
             </View>
         </SafeAreaView>

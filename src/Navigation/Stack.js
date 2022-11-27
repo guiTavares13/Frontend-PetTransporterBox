@@ -3,14 +3,18 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
 import Initial from '../screens/Initial'
 import Menu from '../screens/Menu'
-import FirstAccess from "../components/FirstAccess";
-import FirstAccessConcluded from '../components/FirstAccessConcluded'
-import Welcome from "../components/Welcome";
-import PetList from '../components/PetList'
-import PetRegister from '../components/PetRegister'
-import BoxRegister from '../components/BoxRegister'
-import TripRegister from '../components/TripRegister'
-import LocationPet from "../components/LocationPet";
+import FirstAccess from "../components/Auth/FirstAccess";
+import FirstAccessConcluded from '../components/Auth/FirstAccessConcluded'
+import Welcome from "../components/Auth/Welcome";
+import PetList from '../components/Listing/PetList'
+import PetRegister from '../components/Registers/PetRegister'
+import BoxRegister from '../components/Registers/BoxRegister'
+import TripRegister from '../components/Registers/TripRegister'
+import LocationPet from "../components/Monitors/LocationPet";
+import BoxType from "../components/Registers/BoxTypeRegister";
+import PetState from '../components/Monitors/PetState'
+import Footer from "../components/Parts/Footer";
+import Pet from "../components/Listing/Pet";
 
 const Stack = createNativeStackNavigator()
 
@@ -27,5 +31,9 @@ export default props => (
         <Stack.Screen name="BoxRegister" component={BoxRegister}/>
         <Stack.Screen name="TripRegister" component={TripRegister}/>
         <Stack.Screen name="LocationPet" component={LocationPet}/>
+        <Stack.Screen name="BoxType" component={BoxType} />
+        <Stack.Screen name="PetState" component={PetState}/>
+        <Stack.Screen name="Pet" component={Pet}/>
+        <Stack.Screen name="Footer" component={Footer} />
     </Stack.Navigator>
 )

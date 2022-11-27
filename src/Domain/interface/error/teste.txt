@@ -1,0 +1,8 @@
+aqui ficara as interfaces dominios de erros
+
+export interface AuthenticationDataErrorInterface {
+    code: any,
+    message?: string,
+    errors: string[],
+    error?: any
+}

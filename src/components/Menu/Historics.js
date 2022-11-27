@@ -1,8 +1,8 @@
 import React from "react";
 import { SafeAreaView, StyleSheet, TouchableOpacity, Image, View, Text } from "react-native";
 
-import travel from '../assets/icons/travel.png'
-import historic from '../assets/icons/historic.png'
+import travel from '../../assets/icons/travel.png'
+import historic from '../../assets/icons/historic.png'
 
 export default function Historics() {
     return(

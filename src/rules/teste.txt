@@ -1,0 +1,66 @@
+aqui ficara todas as regras do front
+
+exemplo
+import { RuleErrorInterface } from '@afe/validation-engine';
+import { GenericValidator, BancoBrasilValidator, BradescoValidator, CaixaValidator, ItauValidator, SantanderValidator } from 'sim-bank-validator'
+
+export const RuleBank = async function (bank: string, accountNumber: string, accountVerify: string, agencyNumber?: string, operationNumber?: string) {
+    switch (bank) {
+        case '1':
+            BancoBrasilValidator.accountCheckNumberMatch(accountNumber, accountVerify);
+            break;
+        case '33':
+            SantanderValidator.accountCheckNumberMatch(agencyNumber, accountVerify, agencyNumber)
+            break;
+
+        case '104':
+            CaixaValidator.accountCheckNumberMatch(accountNumber, accountVerify, agencyNumber, operationNumber);
+            break;
+
+        case '237':
+            BradescoValidator.accountCheckNumberMatch(accountNumber, accountVerify);
+            break;
+        case '341':
+            ItauValidator.accountCheckNumberMatch(accountNumber, accountVerify, agencyNumber);
+            break;
+
+ou 
+
+import { ViewErrorCodes } from '@/views/ViewBase/view-error-codes.constant';
+import { any } from '@tensorflow/tfjs-core';
+export const lengthCnpj = 17;
+
+export const RuleCNPJ: any = async function (strCNPJ: string) {
+
+    let cnpj: any = strCNPJ.replace(/[^\d]+/g,'');
+    let tamanho, numeros, digitos, soma, pos, resultado, i: any = undefined;
+ 
+    if(cnpj == '') throw ViewErrorCodes.INVALID_CNPJ;
+     
+    if (cnpj.length != 14)
+        throw ViewErrorCodes.INVALID_CNPJ;
+ 
+    // Elimina CNPJs invalidos conhecidos
+    if (cnpj == '00000000000000' || 
+        cnpj == '11111111111111' || 
+        cnpj == '22222222222222' || 
+        cnpj == '33333333333333' || 
+        cnpj == '44444444444444' || 
+        cnpj == '55555555555555' || 
+        cnpj == '66666666666666' || 
+        cnpj == '77777777777777' || 
+        cnpj == '88888888888888' || 
+        cnpj == '99999999999999')
+        throw ViewErrorCodes.INVALID_CNPJ;
+         
+    // Valida DVs
+
+    import { ViewErrorCodes } from '@/views/ViewBase/view-error-codes.constant';
+
+export const RuleComplexPassword: any = async function (value: string) {
+   const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[\]\[@$#!%&/+<>:;.,*()-_=^~´`¨°ªº|?"'¢¬§{}]).{8,}/g;
+   let valid = regex.test(value);
+    if (!valid) {
+        throw ViewErrorCodes.INPUT_PASSWORD_COMPLEX ;
+    };
+}

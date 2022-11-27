@@ -1,0 +1,23 @@
+
+enumeradores podem ser constantes que se repetem dentro de um dominio. por exemplo
+
+import { InputSelectOptioInterface } from '@/common/domain/interface/domain/InputSelectOptionInterface';
+
+export const BankDataNumbers = {
+    BrazilBank: '1',
+    CaixaBank: '104',
+    SicoobBank: '756',
+    SicrediBank: '748',
+    InterBank: '77',
+    BanrisulBank: '41',
+    SantanderBank: '33',
+    ItauBank: '341',
+    BradescoBank: '237',
+    OriginalBank: '212',
+    PickPayBank: '380'
+};
+
+export const BankAccountType = {
+    CheckingAccount: { id: 1, description: 'Conta Corrente' },
+    SavingsAccount: { id: 2, description: 'Conta Poupança' }
+};

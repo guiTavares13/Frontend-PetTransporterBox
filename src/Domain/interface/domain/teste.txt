@@ -1,0 +1,5 @@
+domain é como as models por exemplo
+export interface MaritalStatus{
+    id:number;
+    description:string;
+}
